@@ -15,7 +15,7 @@ You can use the component's service without IFTTT as well to call the commands h
 ## Important note
 This is just a side project made to fill the absence of native Google Assistant support in Plex. Also, the Phlex/FlexTV projects aren't in working order for me at the moment (is it just me?).
 
-I do not intend to put a large amount of work into this as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will slowly be adding features and fixing issues until that time. I just don't want any expectations of quick fixes or feature implimentations. Right now, as long as it works for me I'm happy. As always, I both welcome and greatly appreciate pull requests.
+I do not intend to put too much work into this as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will slowly be adding features and fixing issues until then. I just don't want any expectations of quick fixes or feature implementations. As always, I both welcome and greatly appreciate pull requests.
 
 Thank you for understanding.
 
@@ -26,9 +26,9 @@ Thank you for understanding.
 Add to your configuration.yaml ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
 ```
 plex_assistant:
-  url: 'http://192.168.1.3:32400' # URL to your Plex instance
-  token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
-  default_cast: 'Downstairs TV'   # Cast device to use if none is specified in command.
+  url: 'http://192.168.1.3:32400' # URL to your Plex instance
+  token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
+  default_cast: 'Downstairs TV'   # Cast device to use if none is specified in command.
 ```
 
 ## IFTTT Setup
@@ -55,19 +55,19 @@ Finally add the following automation to your Home Assistant configuration.yaml:
 
 ```
 automation:
-  - alias: Plex Assistant Automation
-    trigger:
-    - event_data:
-        action: call_service
-      event_type: ifttt_webhook_received
-      platform: event
-    condition:
-      condition: template
-      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-    action:
-    - data_template:
-        command: "{{ trigger.event.data.command }}"
-      service_template: '{{ trigger.event.data.service }}'
+  - alias: Plex Assistant Automation
+    trigger:
+    - event_data:
+        action: call_service
+      event_type: ifttt_webhook_received
+      platform: event
+    condition:
+      condition: template
+      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
+    action:
+    - data_template:
+        command: "{{ trigger.event.data.command }}"
+      service_template: '{{ trigger.event.data.service }}'
 ```
 
 ## Commands
@@ -77,7 +77,7 @@ The show/movie title and chromecast device used in your phrase are processed usi
 
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`
-* `"play unwatched breaking bad"`  ( will use default chromecast from config )
+* `"play unwatched breaking bad"`  ( will use default chromecast from config )
 * `"play Breaking Bad"`
 * `"play Pets 2 on the Kitchen Chromecast"` ( Should automatically match "Secret Life of Pets 2" )
 

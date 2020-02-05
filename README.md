@@ -1,7 +1,7 @@
 # Plex Assistant
 [Installation](https://github.com/maykar/plex_assistant/blob/master/README.md#installation) | [Configuration](https://github.com/maykar/plex_assistant/blob/master/README.md#config) | [IFTTT Setup](https://github.com/maykar/plex_assistant/blob/master/README.md#ifttt-setup) | [Commands](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)
 <hr>
-Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from IFTTT.
+Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from [IFTTT](https://ifttt.com/).
 
 This component adds a service to Home Assistant that when called with IFTTT on a Google Assistant will take commands to cast Plex to a Chromecast/Google Home/Google Nest device.
 
@@ -27,7 +27,7 @@ If you haven't set up IFTTT with HA yet, go to the integrations page in the conf
 
 This will provide you with a webhook URL to use in your IFTTT applet. Make sure to copy this or save it.
 
-* Go to IFTTT.com and click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
+* Go to [ifttt.com](https://ifttt.com/) and click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
 * Press the plus sign next to "If" and search for "Google Assistant" then select it
 * Select "Say phrase with text ingredient"
 

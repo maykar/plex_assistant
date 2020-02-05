@@ -15,7 +15,7 @@ Add to your configuration.yaml ([find your Plex token](https://support.plex.tv/a
 ```
 plex_assistant:
   url: 'http://192.168.1.3:32400' # URL to your Plex instance
-  token: '##############'         # Your Plex token
+  token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
   default_cast: 'Downstairs TV'   # Default name of cast device, used if not specified in command
 ```
 

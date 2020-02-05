@@ -8,6 +8,7 @@ Example: "Hey Google, tell Plex to play The Walking Dead on the Downstairs TV"
 You can use the components service without IFTTT as well to call the commands however you'd like.
 
 ## Installation
+...
 
 ## IFTTT Setup
 
@@ -47,3 +48,6 @@ Finally add this automation to your Home Assistant configuration.yaml:
       command: "{{ trigger.event.data.command }}"
     service_template: '{{ trigger.event.data.service }}'
 ```
+
+## Commands
+...

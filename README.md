@@ -16,7 +16,7 @@ Add to your configuration.yaml ([find your Plex token](https://support.plex.tv/a
 plex_assistant:
   url: 'http://192.168.1.3:32400' # URL to your Plex instance
   token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
-  default_cast: 'Downstairs TV'   # Default name of cast device, used if not specified in command
+  default_cast: 'Downstairs TV'   # Cast device to use if none is specified in command.
 ```
 
 ## IFTTT Setup
@@ -25,8 +25,8 @@ If you haven't set up IFTTT with HA yet, go to the integrations page in the conf
 
 This will provide you with a webhook URL to use in your IFTTT applet. Make sure to copy this or save it.
 
-* Go to IFTTT.com and click "Explore" in the top right, then the plus sign to make your own applet from scratch
-* Press the plus sign next to "If" then search for "Google Assistant" and select it
+* Go to IFTTT.com and click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
+* Press the plus sign next to "If" and search for "Google Assistant" then select it
 * Select "Say phrase with text ingredient"
 
 Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $`.
@@ -34,7 +34,7 @@ The dollar sign will be the phrase sent to this component. You can also set a re
 
 * Hit "Create Trigger", the press the plus sign next to "Then"
 * Search for "Webhooks" and select it, then select "Make a web request"
-* In the URL field enter the webhook URL HA provided us.
+* In the URL field enter the webhook URL HA provided you.
 * Select method "Post" and content type "application/json"
 * Then copy and paste the code below into the body field
 
@@ -59,4 +59,14 @@ Finally add this automation to your Home Assistant configuration.yaml:
 ```
 
 ## Commands
-...
+
+#### Fuzzy Matching
+The show/movie title and chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `play walk in deed on dawn tee` and it will select the closest match `play The Walking Dead on Downstairs TV`.
+
+#### You can say things like:
+* `play the latest episode of Breaking Bad on the Living Room TV`
+* `play unwatched breaking bad` # will use default chromecast setting
+* `play Breaking Bad`
+* `play Pets 2 on the Kitchen Chromecast` # Should automatically match "Secret Life of Pets 2"
+
+Season and Episode selection aren't built in yet.

@@ -77,4 +77,4 @@ The show/movie title and chromecast device used in your phrase are processed usi
 Season and Episode selection aren't built in yet.
 
 #### Cast Device
-A cast device will only be found if proceeded with the phrase `on the`.
+A cast device will only be found if at the end of the command and proceeded with the phrase `on the`.

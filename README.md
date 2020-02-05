@@ -8,7 +8,7 @@ Plex Assistant is a Home Assistant Component to allow Google Assistant to cast P
 
 This component adds a service to Home Assistant that when called with IFTTT on a Google Assistant will take commands to cast Plex to a Chromecast/Google Home/Google Nest device.
 
-Example: `Hey Google, tell Plex to play The Walking Dead on the Downstairs TV`
+Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
 You can use the component's service without IFTTT as well to call the commands however you'd like.
 
@@ -66,15 +66,15 @@ automation:
 ## Commands
 
 #### Fuzzy Matching
-The show/movie title and chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `play walk in deed on the dawn tee` and it will select the closest match `play The Walking Dead on the Downstairs TV`.
+The show/movie title and chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `"play walk in deed on the dawn tee"` and it will select the closest match `"Play The Walking Dead on the Downstairs TV."`.
 
 #### You can say things like:
-* `play the latest episode of Breaking Bad on the Living Room TV`
-* `play unwatched breaking bad`  ( will use default chromecast from config )
-* `play Breaking Bad`
-* `play Pets 2 on the Kitchen Chromecast` ( Should automatically match "Secret Life of Pets 2" )
+* `"play the latest episode of Breaking Bad on the Living Room TV"`
+* `"play unwatched breaking bad"`  ( will use default chromecast from config )
+* `"play Breaking Bad"`
+* `"play Pets 2 on the Kitchen Chromecast"` ( Should automatically match "Secret Life of Pets 2" )
 
 Season and Episode selection aren't built in yet.
 
 #### Cast Device
-A cast device will only be found if at the end of the command and proceeded with the phrase `on the`.
+A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.

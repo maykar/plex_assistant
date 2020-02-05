@@ -10,6 +10,15 @@ You can use the components service without IFTTT as well to call the commands ho
 ## Installation
 ...
 
+## Config
+Add to your configuration.yaml:
+```
+plex_assistant:
+  url: 'http://192.168.1.3:32400' # URL to your Plex instance
+  token: 'ZYvwCaPgE6-xCqzJkv46'   # Your Plex token
+  default_cast: 'Downstairs TV'   # Default name of cast device, used if not specified in command
+```
+
 ## IFTTT Setup
 
 If you haven't set up IFTTT with HA yet, go to the integrations page in the configuration screen and find IFTTT. Click on configure. Follow the instructions on the screen to configure IFTTT.

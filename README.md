@@ -51,7 +51,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 ```{ "action": "call_service", "service": "plex_assistant.command", "command": " {{TextField}}" }```
 
-Finally add the following automation to your Home Assistant configuration.yaml:
+Finally, add the following automation to your Home Assistant configuration.yaml:
 
 ```
 automation:

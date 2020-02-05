@@ -75,3 +75,6 @@ The show/movie title and chromecast device used in your phrase are processed usi
 * `play Pets 2 on the Kitchen Chromecast` ( Should automatically match "Secret Life of Pets 2" )
 
 Season and Episode selection aren't built in yet.
+
+#### Cast Device
+A cast device will only be found if proceeded with the phrase `on the`.

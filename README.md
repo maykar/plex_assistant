@@ -13,11 +13,11 @@ Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."
 You can use the component's service without IFTTT as well to call the commands however you'd like.
 
 ## Important note
-This is just a pet project of mine and was made to fill the absence of native Google Assistant support in Plex and the Phlex/FlexTV projects aren't in working order for me at the moment (is it just me?). I do not intend to put a large amount of work into this as Plex could add Google Assistant support and FlexTV will become viable again at any time.
+This is just a pet project of mine and was made to fill the absence of native Google Assistant support in Plex and the Phlex/FlexTV projects aren't in working order for me at the moment (is it just me?). I do not intend to put a large amount of work into this as Plex could add Google Assistant support or FlexTV will become viable again at any time.
 
-That being said, I will still be working on adding features and fixing issues. I just don't want expectations of quick fixes or implimentations. As always, I both welcome and greatly appreciate pull requests.
+That being said, I will still be working on adding features and fixing issues. I just don't want any expectations of quick fixes or feature implimentations. As always, I both welcome and greatly appreciate pull requests.
 
-Thank you.
+Thank you for understanding.
 
 ## Installation
 ...

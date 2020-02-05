@@ -1,0 +1,6 @@
+command:
+  description: Send command to Plex
+  fields:
+    command:
+      description: Command to send
+      example: Play Evil Dead on the Downstairs TV

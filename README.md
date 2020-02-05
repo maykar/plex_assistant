@@ -36,7 +36,7 @@ This will provide you with a webhook URL to use in your IFTTT applet. Make sure 
 
 Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name (see more about [commands below](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)). You can also set a response from the Google Assistant if you'd like.
 
-* Hit "Create Trigger", the press the plus sign next to "Then"
+* Hit "Create Trigger" and press the plus sign next to "Then"
 * Search for "Webhooks" and select it, then select "Make a web request"
 * In the URL field enter the webhook URL HA provided you.
 * Select method "Post" and content type "application/json"
@@ -44,7 +44,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 ```{ "action": "call_service", "service": "plex_assistant.command", "command": " {{TextField}}" }```
 
-Finally add this automation to your Home Assistant configuration.yaml:
+Finally add the following automation to your Home Assistant configuration.yaml:
 
 ```
 automation:

@@ -65,8 +65,8 @@ The show/movie title and chromecast device used in your phrase are processed usi
 
 #### You can say things like:
 * `play the latest episode of Breaking Bad on the Living Room TV`
-* `play unwatched breaking bad` # will use default chromecast setting
+* `play unwatched breaking bad`  ( will use default chromecast from config )
 * `play Breaking Bad`
-* `play Pets 2 on the Kitchen Chromecast` # Should automatically match "Secret Life of Pets 2"
+* `play Pets 2 on the Kitchen Chromecast` ( Should automatically match "Secret Life of Pets 2" )
 
 Season and Episode selection aren't built in yet.

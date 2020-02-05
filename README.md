@@ -73,7 +73,7 @@ automation:
 ## Commands
 
 #### Fuzzy Matching
-The show/movie title and chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `"play walk in deed on the dawn tee"` and it will select the closest match `"Play The Walking Dead on the Downstairs TV."`.
+A show's or movie's title and the chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `"play walk in deed on the dawn tee"` and it will select the closest match `"Play The Walking Dead on the Downstairs TV."`.
 
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`

@@ -26,6 +26,8 @@ The dollar sign will be the phrase sent to this component. You can also set a re
 * Select method "Post" and content type "application/json"
 * Then copy and paste the code below into the body field
 
+```{ "action": "call_service", "service": "plex_assistant.command", "command": " {{TextField}}" }```
+
 Finally add this automation to your Home Assistant configuration.yaml:
 
 ```
@@ -43,5 +45,3 @@ Finally add this automation to your Home Assistant configuration.yaml:
       command: "{{ trigger.event.data.command }}"
     service_template: '{{ trigger.event.data.service }}'
 ```
-
-{ "action": "call_service", "service": "plex_assistant.command", "command": " {{TextField}}" }

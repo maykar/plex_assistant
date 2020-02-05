@@ -42,19 +42,20 @@ Now you can select how you want to trigger this service, you can select up to 3 
 Finally add this automation to your Home Assistant configuration.yaml:
 
 ```
-- alias: Plex Assistant Automation
-  trigger:
-  - event_data:
-      action: call_service
-    event_type: ifttt_webhook_received
-    platform: event
-  condition:
-    condition: template
-    value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-  action:
-  - data_template:
-      command: "{{ trigger.event.data.command }}"
-    service_template: '{{ trigger.event.data.service }}'
+automation:
+  - alias: Plex Assistant Automation
+    trigger:
+    - event_data:
+        action: call_service
+      event_type: ifttt_webhook_received
+      platform: event
+    condition:
+      condition: template
+      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
+    action:
+    - data_template:
+        command: "{{ trigger.event.data.command }}"
+      service_template: '{{ trigger.event.data.service }}'
 ```
 
 ## Commands

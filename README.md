@@ -11,7 +11,7 @@ You can use the components service without IFTTT as well to call the commands ho
 ...
 
 ## Config
-Add to your configuration.yaml:
+Add to your configuration.yaml ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
 ```
 plex_assistant:
   url: 'http://192.168.1.3:32400' # URL to your Plex instance

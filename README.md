@@ -21,7 +21,7 @@ plex_assistant:
 
 ## IFTTT Setup
 
-If you haven't set up IFTTT with HA yet, go to the integrations page in the configuration screen and find IFTTT. Click on configure. Follow the instructions on the screen to configure IFTTT.
+If you haven't set up IFTTT with HA yet, go to the integrations page in the configuration screen and find IFTTT. Click on configure, then follow the instructions on the screen.
 
 This will provide you with a webhook URL to use in your IFTTT applet. Make sure to copy this or save it.
 
@@ -29,8 +29,7 @@ This will provide you with a webhook URL to use in your IFTTT applet. Make sure 
 * Press the plus sign next to "If" and search for "Google Assistant" then select it
 * Select "Say phrase with text ingredient"
 
-Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $`.
-The dollar sign will be the phrase sent to this component. You can also set a response from the Google Assistant if you'd like.
+Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name (see more about commands below). You can also set a response from the Google Assistant if you'd like.
 
 * Hit "Create Trigger", the press the plus sign next to "Then"
 * Search for "Webhooks" and select it, then select "Make a web request"

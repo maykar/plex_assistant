@@ -1,9 +1,11 @@
 # Plex Assistant
 Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from IFTTT.
 
-This component adds a service to Home Assistant that when called will take commands to cast Plex to a Chromecast/Google Home/Google Nest device.
+This component adds a service to Home Assistant that when called with IFTTT on a Google Assistant will take commands to cast Plex to a Chromecast/Google Home/Google Nest device.
 
-This can be used with the HA IFTTT integration to allow you to speak these commands to Google Assistant.
+Example: "Hey Google, tell Plex to play The Walking Dead on the Downstairs TV"
+
+You can use the components service without IFTTT as well to call the commands however you'd like.
 
 ## Installation
 

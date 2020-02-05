@@ -1,4 +1,6 @@
 # Plex Assistant
+[Installation](https://github.com/maykar/plex_assistant/blob/master/README.md#installation) | [Configuration](https://github.com/maykar/plex_assistant/blob/master/README.md#config) | [IFTTT Setup](https://github.com/maykar/plex_assistant/blob/master/README.md#ifttt-setup) | [Commands](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)
+<hr>
 Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from IFTTT.
 
 This component adds a service to Home Assistant that when called with IFTTT on a Google Assistant will take commands to cast Plex to a Chromecast/Google Home/Google Nest device.
@@ -29,7 +31,7 @@ This will provide you with a webhook URL to use in your IFTTT applet. Make sure 
 * Press the plus sign next to "If" and search for "Google Assistant" then select it
 * Select "Say phrase with text ingredient"
 
-Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name (see more about commands below). You can also set a response from the Google Assistant if you'd like.
+Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name (see more about [commands below](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)). You can also set a response from the Google Assistant if you'd like.
 
 * Hit "Create Trigger", the press the plus sign next to "Then"
 * Search for "Webhooks" and select it, then select "Make a web request"

@@ -15,7 +15,7 @@ You can use the component's service without IFTTT as well to call the commands h
 ## Important note
 This is just a pet project of mine and was made to fill the absence of native Google Assistant support in Plex and the Phlex/FlexTV projects aren't in working order for me at the moment (is it just me?). I do not intend to put a large amount of work into this as Plex could add Google Assistant support or FlexTV will become viable again at any time.
 
-That being said, I will still be working on adding features and fixing issues. I just don't want any expectations of quick fixes or feature implimentations. As always, I both welcome and greatly appreciate pull requests.
+That being said, I will still be working on adding features and fixing issues until that time. I just don't want any expectations of quick fixes or feature implimentations. As always, I both welcome and greatly appreciate pull requests.
 
 Thank you for understanding.
 

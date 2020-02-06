@@ -19,16 +19,24 @@ I do not intend to put too much work into this as Plex could add Google Assistan
 Thank you for understanding.
 
 ## Installation
-...
+Install by using one of the methods below: manually or with HACS.
 
-## Config
-Add to your configuration.yaml ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
+#### Install with [HACS](https://hacs.xyz/)
+Search integrations for "Plex Assistant", select it, and hit install.
+
+#### Install Manually
+Install this component by copying [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to /custom_components/plex_assistant/.
+
+#### Configuration
+Add the following code your configuration.yaml file ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
 ```
 plex_assistant:
   url: 'http://192.168.1.3:32400' # URL to your Plex instance
   token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
   default_cast: 'Downstairs TV'   # Cast device to use if none is specified in command.
 ```
+
+***You must restart after installation and configuration. You might want to add IFTTT config below before doing so.*** 
 
 ## IFTTT Setup
 
@@ -68,6 +76,8 @@ automation:
         command: "{{ trigger.event.data.command }}"
       service_template: '{{ trigger.event.data.service }}'
 ```
+
+***Either refresh your automations or restart after adding the automation.*** 
 
 ## Commands
 

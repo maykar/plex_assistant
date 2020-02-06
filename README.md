@@ -1,8 +1,7 @@
 # ❱ Plex Assistant
-<hr>
-
-[Installation](https://github.com/maykar/plex_assistant/blob/master/README.md#installation) | [Configuration](https://github.com/maykar/plex_assistant/blob/master/README.md#config) | [IFTTT Setup](https://github.com/maykar/plex_assistant/blob/master/README.md#ifttt-setup) | [Commands](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)
-<hr>
+⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽<br>
+[Installation](https://github.com/maykar/plex_assistant/blob/master/README.md#installation) ｜ [Configuration](https://github.com/maykar/plex_assistant/blob/master/README.md#config) ｜ [IFTTT Setup](https://github.com/maykar/plex_assistant/blob/master/README.md#ifttt-setup) ｜ [Commands](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)<br>
+￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣<br>
 
 Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from [IFTTT](https://ifttt.com/).
 

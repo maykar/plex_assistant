@@ -88,7 +88,7 @@ A show's or movie's title and the chromecast device used in your phrase are proc
 * `"play Breaking Bad"`
 * `"play Pets 2 on the Kitchen Chromecast"` ( Should automatically match "Secret Life of Pets 2" )
 
-Season and Episode selection aren't built in yet.
+Season/Episode selection and Music/Photos aren't built in yet.
 
 #### Cast Device
 A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.

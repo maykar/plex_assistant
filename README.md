@@ -1,5 +1,5 @@
 # ❱ Plex Assistant
-⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽⎽<br>
+
 [Installation](#installation) ｜ [Configuration](#config) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands)<br>
 ￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣<br>
 

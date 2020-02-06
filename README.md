@@ -21,13 +21,11 @@ Thank you for understanding.
 ## Installation
 Install by using one of the methods below: manually or with HACS.
 
-#### Install with [HACS](https://hacs.xyz/)
-Search integrations for "Plex Assistant", select it, and hit install.
+* **Install with [HACS](https://hacs.xyz/):** Search integrations for "Plex Assistant", select it, and hit install.
 
-#### Install Manually
-Install this component by copying [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to /custom_components/plex_assistant/.
+* **Install Manually:** Install this component by copying [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to /custom_components/plex_assistant/.
 
-#### Configuration
+## Configuration
 Add the following code your configuration.yaml file ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
 ```
 plex_assistant:

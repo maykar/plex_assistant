@@ -19,7 +19,7 @@ I do not intend to put too much work into this as Plex could add Google Assistan
 Thank you for understanding.
 
 ## Installation
-Install by using one of the methods below: manually or with HACS.
+Install by using one of the methods below:
 
 * **Install with [HACS](https://hacs.xyz/):** Search integrations for "Plex Assistant", select it, and hit install.
 

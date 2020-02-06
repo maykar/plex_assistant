@@ -1,4 +1,4 @@
-# Plex Assistant
+# ❱ Plex Assistant
 <hr>
 
 [Installation](https://github.com/maykar/plex_assistant/blob/master/README.md#installation) | [Configuration](https://github.com/maykar/plex_assistant/blob/master/README.md#config) | [IFTTT Setup](https://github.com/maykar/plex_assistant/blob/master/README.md#ifttt-setup) | [Commands](https://github.com/maykar/plex_assistant/blob/master/README.md#commands)

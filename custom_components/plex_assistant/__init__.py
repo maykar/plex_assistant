@@ -6,11 +6,13 @@ and cast device name.
 import time
 import logging
 from plexapi.server import PlexServer
-from pychromecast import get_chromecasts
+import pychromecast
 from pychromecast.controllers.plex import PlexController
 from .plex_assistant import *
+from .process_speech import process_speech
 
 _LOGGER = logging.getLogger(__name__)
+pychromecast.IGNORE_CEC.append('*')
 
 DOMAIN = "plex_assistant"
 CONF_URL = "url"
@@ -27,22 +29,27 @@ def setup(hass, config):
     PlexCast.setup(PlexCast.plex, PlexCast)
 
     def handle_input(call):
-        COMMAND = call.data.get("command")
+        INPUT = process_speech(call.data.get("command").lower(), PlexCast.lib)
 
         PLEX = PlexCast.plex
         if PlexCast.lib["updated"] < PLEX.search(sort="addedAt:desc")[0].addedAt:
             PlexCast.lib = get_libraries(PLEX)
 
-        INPUT = process_speech(COMMAND.lower(), PlexCast.lib)
-        CAST_NAME = INPUT["chromecast"] or DEFAULT_CAST
         MEDIA = INPUT["media"]
-        RESULT = find_media(INPUT, MEDIA, PlexCast.lib)
-        VIDEO_ID = PLEX.section(RESULT["library"].title).get(RESULT["media"])
-        DEVICES = PlexCast.devices
+        if not INPUT["ondeck"]:
+            RESULT = find_media(INPUT, MEDIA, PlexCast.lib)
+            VIDEO_ID = PLEX.section(RESULT["library"].title).get(RESULT["media"])
+            VIDEO_ID = video_selection(INPUT, VIDEO_ID)
+        else:
+            if INPUT["library"]:
+                VIDEO_ID = PLEX.section(INPUT["library"].title).onDeck()[0]
+            else:
+                VIDEO_ID = PLEX.onDeck()[0]
 
+        DEVICES = PlexCast.devices
+        CAST_NAME = INPUT["chromecast"] or DEFAULT_CAST
         NAME = fuzzy(CAST_NAME, PlexCast.device_names)[0]
         CAST = next(CC for CC in DEVICES if CC.device.friendly_name == NAME)
-        VIDEO_ID = video_selection(PLEX, INPUT, RESULT["library"], RESULT["media"])
 
         PC = PlexController()
         CAST.wait()

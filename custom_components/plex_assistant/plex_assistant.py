@@ -22,53 +22,6 @@ class PlexCast:
         self.lib = get_libraries(plex)
         get_chromecasts(blocking=False, callback=cc_callback)
 
-
-def process_speech(command, lib):
-    latest = False
-    unwatched = False
-    library = False
-    media = ""
-    chromecast = ""
-
-    if "latest episode" in command or "latest" in command:
-        latest = True
-        library = lib["shows"]
-        command = (
-            command.replace("the latest episode of", "")
-            .replace("the latest episode", "")
-            .replace("latest episode of", "")
-            .replace("latest episode", "")
-            .replace("latest", "")
-        )
-    if "episode" in command:
-        library = lib["shows"]
-        command = command.replace("episode", "")
-    if "play movie" in command or "the movie" in command:
-        library = lib["movies"]
-        command = command.replace("movie", "").replace("the movie", "")
-    if "play show" in command or "play tv" in command:
-        library = lib["shows"]
-        command = command.replace("show", "")
-        command = command.replace("tv", "")
-    if "unwatched" in command:
-        unwatched = True
-        command = command.replace("unwatched", "")
-
-    if "play" in command and "on the" in command:
-        command = command.split("on the")
-        media = command[0].replace("play", "")
-        chromecast = command[1]
-    elif "play" in command:
-        media = command.replace("play", "")
-
-    return {
-        "media": media.strip(),
-        "chromecast": chromecast.strip(),
-        "latest": latest,
-        "unwatched": unwatched,
-        "library": library,
-    }
-
 def get_libraries(PLEX):
     PLEX.reload()
     for section in PLEX.sections():
@@ -87,13 +40,17 @@ def get_libraries(PLEX):
 def fuzzy(media, lib, scorer = fuzz.QRatio):
     return fw.extractOne(media, lib, scorer=scorer)
 
-def video_selection(PLEX, input, library, result):
-    if input["unwatched"]:
-        return PLEX.section(library.title).get(result).unwatched()[0]
+def video_selection(INPUT, VIDEO_ID):
+    if INPUT["season"] and INPUT["episode"]:
+        VIDEO_ID = VIDEO_ID.episode(season=int(INPUT["season"]), episode=int(INPUT["episode"]))
+    elif INPUT["season"]:
+        VIDEO_ID = VIDEO_ID.season(title=int(INPUT["season"]))
+    elif input["unwatched"]:
+        return VIDEO_ID.unwatched()[0]
     elif input["latest"]:
-        return PLEX.section(library.title).get(result).episodes()[-1]
+        return VIDEO_ID.episodes()[-1]
     else:
-        return PLEX.section(library.title).get(result)
+        return VIDEO_ID
 
 def find_media(selected, media, lib):
     if selected["library"]:

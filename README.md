@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#config) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands)<br>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands)<br>
 ￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣<br>
 
 Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from [IFTTT](https://ifttt.com/).
@@ -23,7 +23,7 @@ Install by using one of the methods below:
 
 * **Install with [HACS](https://hacs.xyz/):** Search integrations for "Plex Assistant", select it, and hit install.
 
-* **Install Manually:** Install this component by copying [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to /custom_components/plex_assistant/.
+* **Install Manually:** Install this component by copying all of [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to /custom_components/plex_assistant/.
 
 ## Configuration
 Add the following code your configuration.yaml file ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
@@ -34,7 +34,7 @@ plex_assistant:
   default_cast: 'Downstairs TV'   # Cast device to use if none is specified in command.
 ```
 
-***You must restart after installation and configuration. You might want to add IFTTT config below before doing so.*** 
+***You must restart after installation and configuration. You might also want to add IFTTT config below before doing so.*** 
 
 ## IFTTT Setup
 
@@ -80,15 +80,21 @@ automation:
 ## Commands
 
 #### Fuzzy Matching
-A show's or movie's title and the chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `"play walk in deed on the dawn tee"` and it will select the closest match `"Play The Walking Dead on the Downstairs TV."`.
+A show's or movie's title and the Chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `"play walk in deed on the dawn tee"` and it will select the closest match `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches like `play Pets 2` will match `The Secret Life of Pets 2`.
 
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`
-* `"play unwatched breaking bad"`  ( will use default chromecast from config )
+* `"play unwatched breaking bad"`
 * `"play Breaking Bad"`
-* `"play Pets 2 on the Kitchen Chromecast"` ( Should automatically match "Secret Life of Pets 2" )
+* `"play Pets 2 on the Kitchen Chromecast"`
+* `"play ondeck"`
+* `"play ondeck movies"`
+* `"play season 1 episode 3 of The Simpsons"`
+* `"play season 8 of Taskmaster on the Theater System"`
 
-Season/Episode selection and Music/Photos aren't built in yet.
+I've tried to take into account different ways that these things can be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
+
+***Music and Photos aren't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.

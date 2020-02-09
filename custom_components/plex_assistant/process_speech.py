@@ -1,13 +1,34 @@
 import re
+import logging
+_LOGGER = logging.getLogger(__name__)
 
 
-def get_season_episode_num(str, sea_ep):
-    match = re.search(r"(?x)(?:"+sea_ep+r"|^)\s*(\d+)", str)
+def get_season_episode_num(command, sea_ep):
+    match = re.search(r"(?:" + sea_ep + r"|^)\s*(\d+)", command)
     if match:
-        return match.group(1)
+        command = command.replace(match.group(0), "")
+        return {"match": match.group(1), "command": command}
 
 
-def process_speech(command, lib):
+def find(item, command):
+    return any(keyword in command for keyword in item["keywords"])
+
+
+def replace(item, command):
+    for keyword in item["keywords"]:
+        if item["pre"]:
+            for pre in item["pre"]:
+                command = command.replace("%s %s" % (
+                    pre, keyword), keyword)
+        if item["post"]:
+            for post in item["post"]:
+                command = command.replace("%s %s" % (
+                    keyword, post), keyword)
+        command = command.replace(keyword, "")
+    return command
+
+
+def process_speech(command, lib, localize):
     latest = False
     unwatched = False
     ondeck = False
@@ -18,100 +39,63 @@ def process_speech(command, lib):
     chromecast = ""
     season = ""
 
-    if "latest episode" in command or "latest" in command:
-        latest = True
-        library = lib["shows"]
-        command = (
-            command.replace("the latest episode of", "")
-            .replace("the latest episode", "")
-            .replace("latest episode of", "")
-            .replace("latest episode", "")
-            .replace("latest", "")
-        )
-    if "unwatched" in command:
-        unwatched = True
-        command = (
-            command.replace("unwatched episode of", "")
-            .replace("unwatched episodes of", "")
-            .replace("unwatched", "")
-        )
-    if "on deck" or "ondeck" in command:
+    if not localize["play"] in command:
+        _LOGGER.warning("Commands should start with %s" % (localize["play"]))
+
+    start_tv = [localize["tv"], localize["show"], localize["shows"]]
+    start_movie = [localize["movie"], localize["movies"]]
+
+    for start in localize["play_start"]:
+        if command.startswith(start):
+            if any(word in start for word in start_movie):
+                library = lib["movies"]
+            if any(word in start for word in start_tv):
+                library = lib["shows"]
+            command = command.replace(start, "")
+
+    if find(localize["ondeck"], command):
         ondeck = True
         if "tv" or "show" in command:
             library = lib["shows"]
         if "movie" in command:
             library = lib["movies"]
-        command = (
-            command.replace("ondeck movies", "")
-            .replace("on deck movies", "")
-            .replace("ondeck movie", "")
-            .replace("on deck movie", "")
-            .replace("ondeck tv shows", "")
-            .replace("on deck tv shows", "")
-            .replace("ondeck tv show", "")
-            .replace("on deck tv show", "")
-            .replace("ondeck show", "")
-            .replace("on deck show", "")
-            .replace("ondeck shows", "")
-            .replace("on deck shows", "")
-            .replace("ondeck tv", "")
-            .replace("on deck tv", "")
-            .replace("ondeck", "")
-            .replace("on deck", "")
-        )
+        command = replace(localize["ondeck"], command)
 
-    if "season number" in command:
+    if find(localize["latest"], command):
+        latest = True
         library = lib["shows"]
-        season = get_season_episode_num(command, "season number")
-        command = (
-            command.replace("season number " + season + " of", "")
-            .replace("season number " + season, "")
-        )
-    if "season" in command:
-        library = lib["shows"]
-        season = get_season_episode_num(command, "season")
-        command = (
-            command.replace("season " + season + " of", "")
-            .replace("season " + season, "")
-            .replace("season", "")
-        )
-    if "episode number" in command:
-        library = lib["shows"]
-        episode = get_season_episode_num(command, "episode number")
-        command = (
-            command.replace("episode number " + episode + " of", "")
-            .replace("episode number " + episode, "")
-        )
-    if "episode" in command:
-        library = lib["shows"]
-        episode = get_season_episode_num(command, "episode")
-        command = (
-            command.replace("episode " + episode + " of", "")
-            .replace("episode " + episode, "")
-            .replace("episode of", "")
-            .replace("episode", "")
-        )
+        command = replace(localize["latest"], command)
+    if find(localize["unwatched"], command):
+        unwatched = True
+        command = replace(localize["unwatched"], command)
 
-    if "play movie" in command or "the movie" in command:
-        library = lib["movies"]
-        command = (
-            command.replace("the movie", "")
-            .replace("movie", "")
-        )
-    if "play show" in command or "play tv" in command:
+    if localize["season number"] in command:
         library = lib["shows"]
-        command = (
-            command.replace("tv show", "")
-            .replace("show", "")
-            .replace("tv", "")
-        )
+        result = get_season_episode_num(command, localize["season number"])
+        season = result["match"]
+        command = result["command"]
+    if localize["season"] in command:
+        library = lib["shows"]
+        result = get_season_episode_num(command, localize["season"])
+        season = result["match"]
+        command = result["command"]
+    if localize["episode number"] in command:
+        library = lib["shows"]
+        result = get_season_episode_num(command, localize["episode number"])
+        episode = result["match"]
+        command = result["command"]
+    if localize["episode"] in command:
+        library = lib["shows"]
+        result = get_season_episode_num(command, localize["episode"])
+        episode = result["match"]
+        command = result["command"]
 
-    if "play" in command and "on the" in command:
-        command = command.split("on the")
-        media = command[0].replace("play", "")
+    if localize["on_the"] in command:
+        command = command.split(localize["on_the"])
+        media = command[0]
         chromecast = command[1]
-    elif "play" in command:
-        media = command.replace("play", "")
+    else:
+        media = command
 
     return {
         "media": media.strip(),

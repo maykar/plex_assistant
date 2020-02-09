@@ -9,6 +9,7 @@ from plexapi.server import PlexServer
 from pychromecast.controllers.plex import PlexController
 from .plex_assistant import *
 from .process_speech import process_speech
+from .localize import *
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -16,18 +17,23 @@ DOMAIN = "plex_assistant"
 CONF_URL = "url"
 CONF_TOKEN = "token"
 CONF_DEFAULT_CAST = "default_cast"
+CONF_LANG = "lang"
 
 
 def setup(hass, config):
     BASEURL = config[DOMAIN].get(CONF_URL)
     TOKEN = config[DOMAIN].get(CONF_TOKEN)
     DEFAULT_CAST = config[DOMAIN].get(CONF_DEFAULT_CAST)
+    LANGUAGE = config[DOMAIN].get(CONF_LANG)
 
     PlexAssistant.setup(PlexAssistant, PlexServer(BASEURL, TOKEN).library)
 
     def handle_input(call):
-        INPUT = process_speech(call.data.get(
-            "command").lower(), PlexAssistant.lib)
+        INPUT = process_speech(
+            call.data.get("command").lower(),
+            PlexAssistant.lib,
+            localize[LANGUAGE] or localize["en"]
+        )
 
         PLEX = PlexAssistant.plex
         if PlexAssistant.lib["updated"] < PLEX.search(sort="addedAt:desc")[0].addedAt:
@@ -51,13 +57,13 @@ def setup(hass, config):
 
         PC = PlexController()
         CAST.wait()
+        CAST.register_handler(PC)
 
         if CAST.status.status_text:
             CAST.quit_app()
         while CAST.status.status_text:
             time.sleep(0.001)
 
-        CAST.register_handler(PC)
         PC.play_media(VIDEO_ID)
         while PC.status.player_state != 'PLAYING':
             time.sleep(0.001)

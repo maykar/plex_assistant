@@ -60,7 +60,10 @@ def video_selection(INPUT, VIDEO_ID):
 
 def find_media(selected, media, lib):
     if selected["library"]:
-        SECTION = "show_titles" if selected["library"].type == 'show' else "movie_titles"
+        if selected["library"].type == 'show':
+            SECTION = "show_titles"
+        else:
+            SECTION = "movie_titles"
         RESULT = fuzzy(media, lib[SECTION], fuzz.WRatio)[0]
         LIBRARY = selected["library"]
     else:

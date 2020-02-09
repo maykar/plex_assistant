@@ -1,5 +1,4 @@
 import logging
-import time
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
 from datetime import datetime

@@ -6,7 +6,6 @@ and cast device name.
 import time
 import logging
 from plexapi.server import PlexServer
-import pychromecast
 from pychromecast.controllers.plex import PlexController
 from .plex_assistant import *
 from .process_speech import process_speech

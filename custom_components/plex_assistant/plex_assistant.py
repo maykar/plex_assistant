@@ -7,20 +7,23 @@ from pychromecast import get_chromecasts
 
 _LOGGER = logging.getLogger(__name__)
 
-def cc_callback(chromecast):
-    PlexCast.device_names.append(chromecast.device.friendly_name)
-    PlexCast.devices.append(chromecast)
 
-class PlexCast:
+def cc_callback(chromecast):
+    PlexAssistant.device_names.append(chromecast.device.friendly_name)
+    PlexAssistant.devices.append(chromecast)
+
+
+class PlexAssistant:
     plex = None
-    lib = None
+    lib = {}
     devices = []
     device_names = []
 
-    def setup(plex, self):
+    def setup(self, plex):
         self.plex = plex
         self.lib = get_libraries(plex)
         get_chromecasts(blocking=False, callback=cc_callback)
+
 
 def get_libraries(PLEX):
     PLEX.reload()
@@ -35,22 +38,26 @@ def get_libraries(PLEX):
         "shows": shows,
         "show_titles": [show.title for show in PLEX.sectionByID(shows.key).all()],
         "updated": datetime.now(),
-        }
+    }
 
-def fuzzy(media, lib, scorer = fuzz.QRatio):
+
+def fuzzy(media, lib, scorer=fuzz.QRatio):
     return fw.extractOne(media, lib, scorer=scorer)
+
 
 def video_selection(INPUT, VIDEO_ID):
     if INPUT["season"] and INPUT["episode"]:
-        VIDEO_ID = VIDEO_ID.episode(season=int(INPUT["season"]), episode=int(INPUT["episode"]))
+        VIDEO_ID = VIDEO_ID.episode(season=int(
+            INPUT["season"]), episode=int(INPUT["episode"]))
     elif INPUT["season"]:
         VIDEO_ID = VIDEO_ID.season(title=int(INPUT["season"]))
-    elif input["unwatched"]:
+    elif INPUT["unwatched"]:
         return VIDEO_ID.unwatched()[0]
-    elif input["latest"]:
+    elif INPUT["latest"]:
         return VIDEO_ID.episodes()[-1]
     else:
         return VIDEO_ID
+
 
 def find_media(selected, media, lib):
     if selected["library"]:

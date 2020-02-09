@@ -3,7 +3,9 @@ import re
 
 def get_season_episode_num(str, sea_ep):
     match = re.search(r"(?x)(?:"+sea_ep+r"|^)\s*(\d+)", str)
-    if match: return match.group(1)
+    if match:
+        return match.group(1)
+
 
 def process_speech(command, lib):
     latest = False
@@ -35,8 +37,10 @@ def process_speech(command, lib):
         )
     if "on deck" or "ondeck" in command:
         ondeck = True
-        if "tv" or "show" in command: library = lib["shows"]
-        if "movie" in command: library = lib["movies"]
+        if "tv" or "show" in command:
+            library = lib["shows"]
+        if "movie" in command:
+            library = lib["movies"]
         command = (
             command.replace("ondeck movies", "")
             .replace("on deck movies", "")

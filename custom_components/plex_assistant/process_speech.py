@@ -117,4 +117,5 @@ def process_speech(command, lib):
         "latest": latest,
         "unwatched": unwatched,
         "library": library,
+        "ondeck": ondeck,
     }

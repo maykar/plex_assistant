@@ -42,22 +42,22 @@ def process_speech(command, lib, localize):
     if not localize["play"] in command:
         _LOGGER.warning("Commands should start with %s" % (localize["play"]))
 
-    start_tv = [localize["tv"], localize["show"], localize["shows"]]
-    start_movie = [localize["movie"], localize["movies"]]
+    tv_strings = [localize["tv"], localize["show"], localize["shows"]]
+    movie_strings = [localize["movie"], localize["movies"]]
 
     for start in localize["play_start"]:
         if command.startswith(start):
-            if any(word in start for word in start_movie):
+            if any(word in start for word in movie_strings):
                 library = lib["movies"]
-            if any(word in start for word in start_tv):
+            if any(word in start for word in tv_strings):
                 library = lib["shows"]
             command = command.replace(start, "")
 
     if find(localize["ondeck"], command):
         ondeck = True
-        if "tv" or "show" in command:
+        if any(word in command for word in tv_strings):
             library = lib["shows"]
-        if "movie" in command:
+        if any(word in command for word in movie_strings):
             library = lib["movies"]
         command = replace(localize["ondeck"], command)
 

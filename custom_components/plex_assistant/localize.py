@@ -1,5 +1,6 @@
 localize = {
     "en": {
+        # Generic Terms
         "play": "play",
         "movie": "movie",
         "movies": "movies",
@@ -8,6 +9,7 @@ localize = {
         "shows": "shows",
         "on_the": "on the",
 
+        # Invoke Command
         "play_start": [
             "play the movie",
             "play movie",
@@ -19,6 +21,7 @@ localize = {
             "play"
         ],
 
+        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "season",
@@ -80,6 +83,7 @@ localize = {
         },
     },
     # "template": {
+    #     # Generic Terms
     #     "play": "",
     #     "movie": "",
     #     "movies": "",
@@ -88,8 +92,10 @@ localize = {
     #     "shows": "",
     #     "on_the": "",
 
+    #     # Invoke Command
     #     "play_start": [],
 
+    #     # Keywords, Pre, and Post
     #     "season": {
     #         "keywords": [],
     #         "pre": [],

@@ -1,7 +1,6 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands)<br>
-￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣<br>
+[Install](#installation) ｜ [Config](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands) ｜ [Translation/Localization](#translation)<br>
 
 Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from [IFTTT](https://ifttt.com/).
 
@@ -98,3 +97,6 @@ I've tried to take into account different ways that these things can be phrased.
 
 #### Cast Device
 If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.
+
+## Translation
+You can help with the translation/localization of this componet by using the [translation guide](translation.md).

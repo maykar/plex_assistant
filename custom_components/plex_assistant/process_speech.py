@@ -80,12 +80,12 @@ def process_speech(command, lib, localize):
         unwatched = True
         command = replace(localize["unwatched"], command)
 
-    if localize["season"] in command:
+    if find(localize["season"], command):
         library = lib["shows"]
         result = get_season_episode_num(command, localize["season"])
         season = result["match"]
         command = result["command"]
-    if localize["episode"] in command:
+    if find(localize["episode"], command):
         library = lib["shows"]
         result = get_season_episode_num(command, localize["episode"])
         episode = result["match"]

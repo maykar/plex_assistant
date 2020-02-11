@@ -4,8 +4,6 @@
 
 Translations are located in the [localize.py](https://github.com/maykar/plex_assistant/blob/master/custom_components/plex_assistant/localize.py) file.
 
-### How it Works
-
 Translations are held in a dictionary with the language code as the key (in this case "en"):
 
 ```

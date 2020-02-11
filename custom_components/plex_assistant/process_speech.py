@@ -3,8 +3,19 @@ import logging
 _LOGGER = logging.getLogger(__name__)
 
 
-def get_season_episode_num(command, sea_ep):
-    match = re.search(r"(?:" + sea_ep + r"|^)\s*(\d+)", command)
+def get_season_episode_num(command, item):
+    phrase = ""
+    for keyword in item["keywords"]:
+        if keyword in command:
+            phrase = keyword
+            for pre in item["pre"]:
+                if "%s %s" % (pre, phrase) in command:
+                    phrase = "%s %s" % (pre, phrase)
+            for post in item["post"]:
+                if "%s %s" % (phrase, post) in command:
+                    phrase = "%s %s" % (phrase, post)
+
+    match = re.search(r"(?:" + phrase + r"|^)\s*(\d+)", command)
     if match:
         command = command.replace(match.group(0), "")
         return {"match": match.group(1), "command": command}
@@ -69,20 +80,10 @@ def process_speech(command, lib, localize):
         unwatched = True
         command = replace(localize["unwatched"], command)
 
-    if localize["season number"] in command:
-        library = lib["shows"]
-        result = get_season_episode_num(command, localize["season number"])
-        season = result["match"]
-        command = result["command"]
     if localize["season"] in command:
         library = lib["shows"]
         result = get_season_episode_num(command, localize["season"])
         season = result["match"]
-        command = result["command"]
-    if localize["episode number"] in command:
-        library = lib["shows"]
-        result = get_season_episode_num(command, localize["episode number"])
-        episode = result["match"]
         command = result["command"]
     if localize["episode"] in command:
         library = lib["shows"]

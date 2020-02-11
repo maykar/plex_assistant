@@ -7,10 +7,6 @@ localize = {
         "show": "show",
         "shows": "shows",
         "on_the": "on the",
-        "season number": "season number",
-        "season": "season",
-        "episode number": "episode number",
-        "episode": "episode",
 
         "play_start": [
             "play the movie",
@@ -23,6 +19,26 @@ localize = {
             "play"
         ],
 
+        "season": {
+            "keywords": [
+                "season",
+            ],
+            "pre": [],
+            "post": [
+                "number",
+                "of",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episode",
+            ],
+            "pre": [],
+            "post": [
+                "number",
+                "of",
+            ],
+        },
         "latest": {
             "keywords": [
                 "latest",
@@ -62,5 +78,42 @@ localize = {
                 "tv",
             ],
         },
-    }
+    },
+    # "template": {
+    #     "play": "",
+    #     "movie": "",
+    #     "movies": "",
+    #     "tv": "",
+    #     "show": "",
+    #     "shows": "",
+    #     "on_the": "",
+
+    #     "play_start": [],
+
+    #     "season": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "episode": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "latest": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "unwatched": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "ondeck": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    # },
 }

@@ -99,4 +99,4 @@ I've tried to take into account different ways that these things can be phrased.
 If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.
 
 ## Translation
-You can help with the translation/localization of this componet by using the [translation guide](translation.md).
+You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

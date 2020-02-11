@@ -74,3 +74,5 @@ This will allow the user to say something like `play the latest episode of Frien
 and the options for latest and media type are set, then our command in each case becomes `play Friends`.
 
 There is a commented out template at the end of the file that you may copy and paste from.
+
+Please, also consider translating the `README.md` file to a new file with the language code added to the file name. Example: `README_EN.md`

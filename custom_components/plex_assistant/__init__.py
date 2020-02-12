@@ -17,7 +17,7 @@ DOMAIN = "plex_assistant"
 CONF_URL = "url"
 CONF_TOKEN = "token"
 CONF_DEFAULT_CAST = "default_cast"
-CONF_LANG = "lang"
+CONF_LANG = "language"
 
 
 def setup(hass, config):

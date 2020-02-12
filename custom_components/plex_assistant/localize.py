@@ -21,12 +21,35 @@ localize = {
             "play"
         ],
 
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            "first": "1",
+            "second": "2",
+            "third": "3",
+            "fourth": "4",
+            "fifth": "5",
+            "sixth": "6",
+            "seventh": "7",
+            "eighth": "8",
+            "ninth": "9",
+            "tenth": "10",
+            "pre": [
+                "the",
+            ],
+            "post": [],
+        },
+
         # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "season",
             ],
-            "pre": [],
+            "pre": [
+                'st',
+                'nd',
+                'rd',
+                'th',
+            ],
             "post": [
                 "number",
                 "of",
@@ -36,10 +59,16 @@ localize = {
             "keywords": [
                 "episode",
             ],
-            "pre": [],
+            "pre": [
+                'st',
+                'nd',
+                'rd',
+                'th',
+            ],
             "post": [
                 "number",
                 "of",
+                "the",
             ],
         },
         "latest": {
@@ -94,6 +123,24 @@ localize = {
 
     #     # Invoke Command
     #     "play_start": [],
+
+    #     # Ordinal Numbers to Integers
+    #     "ordinals": {
+    #         # Edit the keys for translation, not the integers.
+    #         "first": "1",
+    #         "second": "2",
+    #         "third": "3",
+    #         "fourth": "4",
+    #         "fifth": "5",
+    #         "sixth": "6",
+    #         "seventh": "7",
+    #         "eighth": "8",
+    #         "ninth": "9",
+    #         "tenth": "10",
+    #         # Do not edit the keys of pre and post
+    #         "pre": [],
+    #         "post": [],
+    #     },
 
     #     # Keywords, Pre, and Post
     #     "season": {

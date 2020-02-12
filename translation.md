@@ -71,6 +71,49 @@ For example, the english version for latest episode selection looks like this:
 This will allow the user to say something like `play the latest episode of Friends`, `play latest of Friends`, `play latest Friends`, or `play the latest Friends`
 and the options for latest and media type are set, then our command in each case becomes `play Friends`.
 
+The ordinals section is for converting ordinal numbers (`first, second, third...`) into their corrisponding integers (`1, 2, 3...`). I'm not entirely sure how other languages handle ordinals, but this is the only section where you would edit the keys for translation and leave the integers alone. This section also includes "pre" and "post" as above, do not change their keys.
+
+```
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            "first": "1",
+            "second": "2",
+            "third": "3",
+            "fourth": "4",
+            "fifth": "5",
+            "sixth": "6",
+            "seventh": "7",
+            "eighth": "8",
+            "ninth": "9",
+            "tenth": "10",
+            "pre": [
+                "the",
+            ],
+            "post": [],
+        },
+```
+
+Ordinal numbers between 1 and 10 (first and tenth) are often represented as words by Google Assistant, but anything past that is returned as an integer followed by "st", "nd", "rd" or "th" (`31st, 42nd, 23rd, 11th`). The way we would handle those in english would be using the "pre" key like in the "episode" example below.
+
+```
+        "episode": {
+            "keywords": [
+                "episode",
+            ],
+            "pre": [
+                'st',
+                'nd',
+                'rd',
+                'th',
+            ],
+            "post": [
+                "number",
+                "of",
+                "the",
+            ],
+        },
+```
+
 There is a commented out template at the end of the file that you may copy and paste from.
 
 Please, also consider translating the `README.md` file to a new file with the language code added to the file name. Example: `README_EN.md`

@@ -15,10 +15,38 @@ def get_season_episode_num(command, item):
                 if "%s %s" % (phrase, post) in command:
                     phrase = "%s %s" % (phrase, post)
 
-    match = re.search(r"(?:" + phrase + r"|^)\s*(\d+)", command)
+    match = re.search(
+        r"(\d+)\s*(?:" + phrase + r"|^)|(?:" + phrase + r"|^)\s*(\d+)",
+        command
+    )
     if match:
+        matched = match.group(1) or match.group(2)
         command = command.replace(match.group(0), "")
-        return {"match": match.group(1), "command": command}
+        return {"number": matched, "command": command}
+
+
+def convert_ordinals(command, item, ordinals):
+    for word in item["keywords"]:
+        for o in ordinals.keys():
+            if o not in ('pre', 'post'):
+                match = re.search(
+                    r"(" + o + r")\s*(?:" + word +
+                    r"|^)|(?:" + word + r"|^)\s*(" + o + r")",
+                    command
+                )
+                if match:
+                    matched = match.group(1) or match.group(2)
+                    replacement = match.group(0).replace(
+                        matched, ordinals[matched])
+                    for pre in ordinals["pre"]:
+                        if "%s %s" % (pre, match.group(0)) in command:
+                            command = command.replace("%s %s" % (
+                                pre, match.group(0)), replacement)
+                    for post in ordinals["post"]:
+                        if "%s %s" % (match.group(0), post) in command:
+                            command = command.replace("%s %s" % (
+                                match.group(0), post), replacement)
+    return command
 
 
 def find(item, command):
@@ -82,13 +110,17 @@ def process_speech(command, lib, localize):
 
     if find(localize["season"], command):
         library = lib["shows"]
+        command = convert_ordinals(
+            command, localize["season"], localize["ordinals"])
         result = get_season_episode_num(command, localize["season"])
-        season = result["match"]
+        season = result["number"]
         command = result["command"]
     if find(localize["episode"], command):
         library = lib["shows"]
+        command = convert_ordinals(
+            command, localize["episode"], localize["ordinals"])
         result = get_season_episode_num(command, localize["episode"])
-        episode = result["match"]
+        episode = result["number"]
         command = result["command"]
 
     if localize["on_the"] in command:

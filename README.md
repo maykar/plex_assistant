@@ -98,7 +98,7 @@ I've tried to take into account different ways that these things can be phrased.
 ***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`. Example: `"play friends ON THE downstairs tv"`
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`. Example: *"play friends **ON THE** downstairs tv"*
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

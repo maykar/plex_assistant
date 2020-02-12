@@ -11,9 +11,9 @@ Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."
 You can use the component's service without IFTTT as well to call the commands however you'd like.
 
 ## Author's note
-This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order for me at the moment (is it just me?).
+This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment (is it just me?).
 
-I do not intend to put too much work into this as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will slowly be adding features and fixing issues until then. I just don't want any expectations of quick fixes, support, or feature implementations. As always, I both welcome and greatly appreciate pull requests.
+This project is not a priority as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will be adding features and fixing issues until that time. As always, I both welcome and greatly appreciate pull requests.
 
 Thank you for understanding.
 
@@ -30,26 +30,28 @@ Add the following code your configuration.yaml file ([find your Plex token](http
 plex_assistant:
   url: 'http://192.168.1.3:32400' # URL to your Plex instance
   token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
-  default_cast: 'Downstairs TV'   # Cast device to use if none is specified in command.
+  default_cast: 'Downstairs TV'   # Cast device to use if none is specified in the command
+  language: "en"                  # English is currently the only available language
 ```
 
 ***You must restart after installation and configuration. You might also want to add IFTTT config below before doing so.*** 
 
 ## IFTTT Setup
 
-If you haven't set up IFTTT with HA yet, go to the integrations page in the configuration screen and find IFTTT. Click on configure, then follow the instructions on the screen.
+If you haven't set up IFTTT with HA yet, go to configuration and then integrations, add a new integration and search for IFTTT. Click on configure, then follow the instructions on the screen.
 
-This will provide you with a webhook URL to use in your IFTTT applet. Make sure to copy this or save it.
+This will provide you with a webhook URL to use in your IFTTT applet. Make sure to copy this, leave the window open, or save it in some way for later use.
 
-* Go to [ifttt.com](https://ifttt.com/) and click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
-* Press the plus sign next to "If" and search for "Google Assistant" then select it
+* Go to [ifttt.com](https://ifttt.com/) and login or create an account.
+* Click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
+* Press the plus sign next to "If". Search for and select "Google Assistant".
 * Select "Say phrase with text ingredient"
 
-Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name or "ondeck" (see more about [commands below](#commands)). You can also set a response from the Google Assistant if you'd like.
+Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name, "ondeck", or similar (see more about [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Hit "Create Trigger" to continue.
 
-* Hit "Create Trigger" and press the plus sign next to "Then"
-* Search for "Webhooks" and select it, then select "Make a web request"
-* In the URL field enter the webhook URL HA provided you.
+* Press the plus sign next to "Then"
+* Search for and select "Webhooks", then select "Make a web request"
+* In the URL field enter the webhook URL HA provided you earlier.
 * Select method "Post" and content type "application/json"
 * Then copy and paste the code below into the body field
 
@@ -79,7 +81,7 @@ automation:
 ## Commands
 
 #### Fuzzy Matching
-A show's or movie's title and the Chromecast device used in your phrase are processed using a fuzzy search. Meaning you can say something like `"play walk in deed on the dawn tee"` and it will select the closest match `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches like `play Pets 2` will match `The Secret Life of Pets 2`.
+A show or movie's title and the Chromecast device used in your phrase are processed using a fuzzy search. Meaning it will select the closest match using your Plex media titles and available cast device names. `"play walk in deed on the dawn tee"` would become `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches. `play Pets 2` will match `The Secret Life of Pets 2`.
 
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`
@@ -93,10 +95,10 @@ A show's or movie's title and the Chromecast device used in your phrase are proc
 
 I've tried to take into account different ways that these things can be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
 
-***Music and Photos aren't built in yet, only shows and movies at the moment.***
+***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`.
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`. Example: `"play friends ON THE downstairs tv"`
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

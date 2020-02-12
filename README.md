@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands) ｜ [Translation](#translation)<br><hr>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands) ｜ [Translations](#translation)<br><hr>
 
 Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from [IFTTT](https://ifttt.com/).
 

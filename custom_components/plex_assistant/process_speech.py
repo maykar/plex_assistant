@@ -30,8 +30,8 @@ def convert_ordinals(command, item, ordinals):
         for o in ordinals.keys():
             if o not in ('pre', 'post'):
                 match = re.search(
-                    r"(" + o + r")\s*(?:" + word +
-                    r"|^)|(?:" + word + r"|^)\s*(" + o + r")",
+                    r"(" + o + r")\s*(?:" + word + r"|^)|" +
+                    r"(?:" + word + r"|^)\s*(" + o + r")",
                     command
                 )
                 if match:
@@ -104,6 +104,7 @@ def process_speech(command, lib, localize):
         latest = True
         library = lib["shows"]
         command = replace(localize["latest"], command)
+
     if find(localize["unwatched"], command):
         unwatched = True
         command = replace(localize["unwatched"], command)
@@ -115,6 +116,7 @@ def process_speech(command, lib, localize):
         result = get_season_episode_num(command, localize["season"])
         season = result["number"]
         command = result["command"]
+
     if find(localize["episode"], command):
         library = lib["shows"]
         command = convert_ordinals(

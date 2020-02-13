@@ -18,6 +18,7 @@ localize = {
             "play the show",
             "play tv",
             "play show",
+            "play the"
             "play"
         ],
 
@@ -68,7 +69,6 @@ localize = {
             "post": [
                 "number",
                 "of",
-                "the",
             ],
         },
         "latest": {

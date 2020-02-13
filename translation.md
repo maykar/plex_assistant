@@ -50,6 +50,8 @@ The rest of the dictionary uses keywords, pre, and post.
 * "pre" are words that might preceed the keywords.
 * "post" are words that might proceed the keywords.
 
+Pre and post should in order of the word that would be closest to the keyword first. For for the example with a keyword "latest" `"play the very latest episode of"` the pre list should be in this order `"very", "the"` and the post list should be in this order `"episode", "of"` (the word "very" isn't actually handled, but just used as an example).
+
 This is done so that the entire phrase can be removed from the command after the options are found, leaving no other words to confuse
 the rest of the commands.
 

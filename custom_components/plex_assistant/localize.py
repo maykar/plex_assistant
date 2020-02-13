@@ -18,8 +18,8 @@ localize = {
             "play the show",
             "play tv",
             "play show",
-            "play the"
-            "play"
+            "play the",
+            "play",
         ],
 
         # Ordinal Numbers to Integers

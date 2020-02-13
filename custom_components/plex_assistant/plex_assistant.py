@@ -12,18 +12,6 @@ def cc_callback(chromecast):
     PlexAssistant.devices.append(chromecast)
 
 
-class PlexAssistant:
-    plex = None
-    lib = {}
-    devices = []
-    device_names = []
-
-    def setup(self, plex):
-        self.plex = plex
-        self.lib = get_libraries(plex)
-        get_chromecasts(blocking=False, callback=cc_callback)
-
-
 def get_libraries(PLEX):
     PLEX.reload()
     for section in PLEX.sections():
@@ -81,3 +69,15 @@ def find_media(selected, media, lib):
             RESULT = movie_test[0]
             LIBRARY = lib["movies"]
     return {"media": RESULT, "library": LIBRARY}
+
+
+class PlexAssistant:
+    plex = None
+    lib = {}
+    devices = []
+    device_names = []
+
+    def setup(self, plex):
+        self.plex = plex
+        self.lib = get_libraries(plex)
+        get_chromecasts(blocking=False, callback=cc_callback)

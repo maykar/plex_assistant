@@ -17,14 +17,14 @@ DOMAIN = "plex_assistant"
 CONF_URL = "url"
 CONF_TOKEN = "token"
 CONF_DEFAULT_CAST = "default_cast"
-CONF_LANG = "language"
+# CONF_LANG = "language"
 
 
 def setup(hass, config):
     BASEURL = config[DOMAIN].get(CONF_URL)
     TOKEN = config[DOMAIN].get(CONF_TOKEN)
     DEFAULT_CAST = config[DOMAIN].get(CONF_DEFAULT_CAST)
-    LANGUAGE = config[DOMAIN].get(CONF_LANG)
+    # LANGUAGE = config[DOMAIN].get(CONF_LANG)
 
     PlexAssistant.setup(PlexAssistant, PlexServer(BASEURL, TOKEN).library)
 
@@ -32,7 +32,7 @@ def setup(hass, config):
         INPUT = process_speech(
             call.data.get("command").lower(),
             PlexAssistant.lib,
-            localize[LANGUAGE] or localize["en"]
+            localize["en"]  # localize[LANGUAGE] or localize["en"]
         )
 
         PLEX = PlexAssistant.plex

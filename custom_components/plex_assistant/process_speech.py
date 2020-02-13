@@ -1,5 +1,6 @@
 import re
 import logging
+from .plex_assistant import PlexAssistant, fuzzy
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -47,6 +48,13 @@ def convert_ordinals(command, item, ordinals):
                             command = command.replace("%s %s" % (
                                 match.group(0), post), replacement)
     return command
+
+
+def media_or_device(lib, command, media_list):
+    combined = [media_list] + [PlexAssistant.device_names]
+    test_array = [item for sublist in combined for item in sublist]
+    media_test = fuzzy(command, test_array)[0]
+    return not media_test in media_list
 
 
 def find(item, command):
@@ -126,9 +134,26 @@ def process_speech(command, lib, localize):
         command = result["command"]
 
     if localize["on_the"] in command:
-        command = command.split(localize["on_the"])
-        media = command[0]
-        chromecast = command[1]
+        if len(command.split(localize["on_the"])) > 2:
+            chromecast = command.split(localize["on_the"])[-1]
+            command = command.replace("%s %s" % (
+                localize["on_the"], chromecast.strip()), "")
+            media = command
+        else:
+            is_cast = False
+            if library == lib["shows"]:
+                is_cast = media_or_device(lib, command, lib["show_titles"])
+            elif library == lib["movies"]:
+                is_cast = media_or_device(lib, command, lib["movie_titles"])
+            else:
+                is_cast = media_or_device(
+                    lib, command, lib["movie_titles"] + lib["show_titles"])
+            if is_cast:
+                command = command.split(localize["on_the"])
+                media = command[0]
+                chromecast = command[1]
+            else:
+                media = command
     else:
         media = command
 

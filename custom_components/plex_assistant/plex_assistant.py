@@ -1,7 +1,8 @@
 import logging
+from datetime import datetime
+
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
-from datetime import datetime
 from pychromecast import get_chromecasts
 
 _LOGGER = logging.getLogger(__name__)
@@ -21,9 +22,13 @@ def get_libraries(PLEX):
             shows = section
     return {
         "movies": movies,
-        "movie_titles": [movie.title for movie in PLEX.sectionByID(movies.key).all()],
+        "movie_titles": [
+            movie.title for movie in PLEX.sectionByID(movies.key).all()
+        ],
         "shows": shows,
-        "show_titles": [show.title for show in PLEX.sectionByID(shows.key).all()],
+        "show_titles": [
+            show.title for show in PLEX.sectionByID(shows.key).all()
+        ],
         "updated": datetime.now(),
     }
 

@@ -1,6 +1,8 @@
-import re
 import logging
+import re
+
 from .plex_assistant import PlexAssistant, fuzzy
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -21,9 +23,9 @@ def get_season_episode_num(command, item):
         command
     )
     if match:
-        matched = match.group(1) or match.group(2)
+        number = match.group(1) or match.group(2)
         command = command.replace(match.group(0), "")
-        return {"number": matched, "command": command}
+        return {"number": number, "command": command}
 
 
 def convert_ordinals(command, item, ordinals):
@@ -54,7 +56,7 @@ def media_or_device(lib, command, media_list):
     combined = [media_list] + [PlexAssistant.device_names]
     test_array = [item for sublist in combined for item in sublist]
     media_test = fuzzy(command, test_array)[0]
-    return not media_test in media_list
+    return media_test not in media_list
 
 
 def find(item, command):

@@ -3,7 +3,9 @@
   "name": "Plex Assistant",
   "documentation": "https://github.com/maykar/plex_assistant",
   "dependencies": [],
-  "codeowners": ["@maykar"],
+  "codeowners": [
+    "@maykar"
+  ],
   "requirements": [
     "plexapi==3.3.0",
     "pychromecast==4.1.1",

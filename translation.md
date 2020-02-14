@@ -111,7 +111,6 @@ Ordinal numbers between 1 and 10 (first and tenth) are often represented as word
             "post": [
                 "number",
                 "of",
-                "the",
             ],
         },
 ```

@@ -3,13 +3,16 @@ Plex Assistant is a component for Home Assistant to add control of Plex to
 Google Assistant. Play to chromecast from Plex using fuzzy searches for media
 and cast device name.
 """
-import time
 import logging
+import time
+
 from plexapi.server import PlexServer
 from pychromecast.controllers.plex import PlexController
-from .plex_assistant import *
+
+from .localize import localize
+from .plex_assistant import PlexAssistant as PA
+from .plex_assistant import find_media, fuzzy, get_libraries, video_selection
 from .process_speech import process_speech
-from .localize import *
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -26,33 +29,32 @@ def setup(hass, config):
     DEFAULT_CAST = config[DOMAIN].get(CONF_DEFAULT_CAST)
     # LANGUAGE = config[DOMAIN].get(CONF_LANG)
 
-    PlexAssistant.setup(PlexAssistant, PlexServer(BASEURL, TOKEN).library)
+    PA.setup(PA, PlexServer(BASEURL, TOKEN).library)
 
     def handle_input(call):
         INPUT = process_speech(
             call.data.get("command").lower(),
-            PlexAssistant.lib,
+            PA.lib,
             localize["en"]  # localize[LANGUAGE] or localize["en"]
         )
 
-        PLEX = PlexAssistant.plex
-        if PlexAssistant.lib["updated"] < PLEX.search(sort="addedAt:desc")[0].addedAt:
-            PlexAssistant.lib = get_libraries(PLEX)
+        if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc")[0].addedAt:
+            PA.lib = get_libraries(PA.plex)
 
         MEDIA = INPUT["media"]
         if not INPUT["ondeck"]:
-            RESULT = find_media(INPUT, MEDIA, PlexAssistant.lib)
-            VIDEO_ID = PLEX.section(
+            RESULT = find_media(INPUT, MEDIA, PA.lib)
+            VIDEO_ID = PA.plex.section(
                 RESULT["library"].title).get(RESULT["media"])
             VIDEO_ID = video_selection(INPUT, VIDEO_ID)
         elif INPUT["library"]:
-            VIDEO_ID = PLEX.section(INPUT["library"].title).onDeck()[0]
+            VIDEO_ID = PA.plex.section(INPUT["library"].title).onDeck()[0]
         else:
-            VIDEO_ID = PLEX.onDeck()[0]
+            VIDEO_ID = PA.plex.onDeck()[0]
 
-        DEVICES = PlexAssistant.devices
+        DEVICES = PA.devices
         CAST_NAME = INPUT["chromecast"] or DEFAULT_CAST
-        NAME = fuzzy(CAST_NAME, PlexAssistant.device_names)[0]
+        NAME = fuzzy(CAST_NAME, PA.device_names)[0]
         CAST = next(CC for CC in DEVICES if CC.device.friendly_name == NAME)
 
         PC = PlexController()

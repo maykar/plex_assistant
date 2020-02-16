@@ -39,12 +39,14 @@ def fuzzy(media, lib, scorer=fuzz.QRatio):
 
 def video_selection(INPUT, VIDEO_ID):
     if INPUT["season"] and INPUT["episode"]:
-        VIDEO_ID = VIDEO_ID.episode(season=int(
+        return VIDEO_ID.episode(season=int(
             INPUT["season"]), episode=int(INPUT["episode"]))
     elif INPUT["season"]:
         VIDEO_ID = VIDEO_ID.season(title=int(INPUT["season"]))
 
     if INPUT["unwatched"]:
+        if VIDEO_ID.type == "season":
+            return list(filter(lambda x: not x.isWatched, VIDEO_ID))[0]
         return VIDEO_ID.unwatched()[0]
     elif INPUT["latest"]:
         return VIDEO_ID.episodes()[-1]

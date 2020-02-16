@@ -2,12 +2,16 @@ LOCALIZE = {
     "en": {
         # Generic Terms
         "play": "play",
-        "movie": "movie",
-        "movies": "movies",
-        "tv": "tv",
-        "show": "show",
-        "shows": "shows",
         "on_the": "on the",
+        "movies": [
+            "movie",
+            "film",
+        ],
+        "shows": [
+            "episode",
+            "tv",
+            "show"
+        ],
 
         # Invoke Command
         "play_start": [
@@ -76,6 +80,7 @@ LOCALIZE = {
         "latest": {
             "keywords": [
                 "latest",
+                "recent",
             ],
             "pre": [
                 "the",
@@ -116,12 +121,9 @@ LOCALIZE = {
     # "template": {
     #     # Generic Terms
     #     "play": "",
-    #     "movie": "",
-    #     "movies": "",
-    #     "tv": "",
-    #     "show": "",
-    #     "shows": "",
     #     "on_the": "",
+    #     "movies": [],
+    #     "shows": [],
 
     #     # Invoke Command
     #     "play_start": [],

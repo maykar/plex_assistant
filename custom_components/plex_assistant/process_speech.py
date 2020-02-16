@@ -112,6 +112,14 @@ def replace(item, command):
     return command
 
 
+def get_library(phrase, lib, localize):
+    if any(word in phrase for word in localize["shows"]):
+        return lib["shows"]
+    elif any(word in phrase for word in localize["movies"]):
+        return lib["movies"]
+    return None
+
+
 def process_speech(command, lib, localize):
     latest = False
     unwatched = False
@@ -131,18 +139,12 @@ def process_speech(command, lib, localize):
 
     for start in localize["play_start"]:
         if command.startswith(start):
-            if any(word in start for word in movie_strings):
-                library = lib["movies"]
-            if any(word in start for word in tv_strings):
-                library = lib["shows"]
+            library = get_library(start, lib, localize)
             command = command.replace(start, "")
 
     if find(localize["ondeck"], command):
         ondeck = True
-        if any(word in command for word in tv_strings):
-            library = lib["shows"]
-        if any(word in command for word in movie_strings):
-            library = lib["movies"]
+        library = get_library(command, lib, localize)
         command = replace(localize["ondeck"], command)
 
     if find(localize["latest"], command):

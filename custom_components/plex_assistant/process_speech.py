@@ -134,9 +134,6 @@ def process_speech(command, lib, localize):
     if not localize["play"] in command:
         _LOGGER.warning("Commands should start with %s", localize["play"])
 
-    tv_strings = [localize["tv"], localize["show"], localize["shows"]]
-    movie_strings = [localize["movie"], localize["movies"]]
-
     for start in localize["play_start"]:
         if command.startswith(start):
             library = get_library(start, lib, localize)

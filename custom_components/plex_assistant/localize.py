@@ -1,4 +1,4 @@
-localize = {
+LOCALIZE = {
     "en": {
         # Generic Terms
         "play": "play",
@@ -50,6 +50,7 @@ localize = {
                 'nd',
                 'rd',
                 'th',
+                'the',
             ],
             "post": [
                 "number",
@@ -65,6 +66,7 @@ localize = {
                 'nd',
                 'rd',
                 'th',
+                'the',
             ],
             "post": [
                 "number",
@@ -89,8 +91,8 @@ localize = {
             ],
             "pre": [],
             "post": [
-                "episode",
                 "episodes",
+                "episode",
                 "of",
             ],
         },
@@ -105,8 +107,8 @@ localize = {
                 "movie",
                 "tv shows",
                 "tv show",
-                "show",
                 "shows",
+                "show",
                 "tv",
             ],
         },

@@ -7,52 +7,87 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def get_season_episode_num(command, item):
+    command = command.strip()
     phrase = ""
     for keyword in item["keywords"]:
         if keyword in command:
             phrase = keyword
             for pre in item["pre"]:
-                if "%s %s" % (pre, phrase) in command:
-                    phrase = "%s %s" % (pre, phrase)
+                if pre in command:
+                    regex = r'(\d+\s+)(' + pre + r'\s+)(' + phrase + r'\s+)'
+                    if re.search(regex, command):
+                        command = re.sub(regex,
+                                         "%s %s " % (phrase, r'\1'), command)
+                    else:
+                        command = re.sub(
+                            r'(' + pre + r'\s+)(' + phrase + r'\s+)(\d+\s+)',
+                            "%s %s" % (phrase, r'\3'),
+                            command
+                        )
+                        command = re.sub(
+                            r'(' + phrase + r'\s+)(\d+\s+)(' + pre + r'\s+)',
+                            "%s %s" % (phrase, r'\2'),
+                            command
+                        )
             for post in item["post"]:
-                if "%s %s" % (phrase, post) in command:
-                    phrase = "%s %s" % (phrase, post)
+                if post in command:
+                    regex = r'(' + phrase + r'\s+)(' + post + r'\s+)(\d+\s+)'
+                    if re.search(regex, command):
+                        command = re.sub(regex,
+                                         "%s %s" % (phrase, r'\3'), command)
+                    else:
+                        command = re.sub(
+                            r'(\d+\s+)(' + phrase + r'\s+)(' + post + r'\s+)',
+                            "%s %s" % (phrase, r'\1'),
+                            command
+                        )
+                        command = re.sub(
+                            r'(' + phrase + r'\s+)(\d+\s+)(' + post + r'\s+)',
+                            "%s %s" % (phrase, r'\2'), command
+                        )
 
     match = re.search(
-        r"(\d+)\s*(?:" + phrase + r"|^)|(?:" + phrase + r"|^)\s*(\d+)",
+        r"(\d+)\s*(" + phrase + r"|^)|(" + phrase + r"|^)\s*(\d+)",
         command
     )
     if match:
-        number = match.group(1) or match.group(2)
-        command = command.replace(match.group(0), "")
+        number = match.group(1) or match.group(4)
+        command = command.replace(match.group(0), "").strip()
         return {"number": number, "command": command}
 
 
 def convert_ordinals(command, item, ordinals):
+    match = ""
+    replacement = ""
     for word in item["keywords"]:
-        for o in ordinals.keys():
-            if o not in ('pre', 'post'):
-                match = re.search(
-                    r"(" + o + r")\s*(?:" + word + r"|^)|" +
-                    r"(?:" + word + r"|^)\s*(" + o + r")",
-                    command
-                )
+        for ordinal in ordinals.keys():
+            if ordinal not in ('pre', 'post') and ordinal in command:
+                match_before = re.search(
+                    r"(" + ordinal + r")\s*(" + word + r")", command)
+                match_after = re.search(
+                    r"(" + word + r")\s*(" + ordinal + r")", command)
+                if match_before:
+                    match = match_before
+                    matched = match.group(1)
+                if match_after:
+                    match = match_after
+                    matched = match.group(2)
                 if match:
-                    matched = match.group(1) or match.group(2)
                     replacement = match.group(0).replace(
                         matched, ordinals[matched])
+                    command = command.replace(match.group(0), replacement)
                     for pre in ordinals["pre"]:
                         if "%s %s" % (pre, match.group(0)) in command:
                             command = command.replace("%s %s" % (
-                                pre, match.group(0)), replacement)
+                                match.group(0), pre), replacement)
                     for post in ordinals["post"]:
                         if "%s %s" % (match.group(0), post) in command:
                             command = command.replace("%s %s" % (
                                 match.group(0), post), replacement)
-    return command
+    return command.strip()
 
 
-def media_or_device(lib, command, media_list):
+def media_or_device(command, media_list):
     combined = [media_list] + [PlexAssistant.device_names]
     test_array = [item for sublist in combined for item in sublist]
     media_test = fuzzy(command, test_array)[0]
@@ -89,7 +124,7 @@ def process_speech(command, lib, localize):
     season = ""
 
     if not localize["play"] in command:
-        _LOGGER.warning("Commands should start with %s" % (localize["play"]))
+        _LOGGER.warning("Commands should start with %s", localize["play"])
 
     tv_strings = [localize["tv"], localize["show"], localize["shows"]]
     movie_strings = [localize["movie"], localize["movies"]]
@@ -144,12 +179,12 @@ def process_speech(command, lib, localize):
         else:
             is_cast = False
             if library == lib["shows"]:
-                is_cast = media_or_device(lib, command, lib["show_titles"])
+                is_cast = media_or_device(command, lib["show_titles"])
             elif library == lib["movies"]:
-                is_cast = media_or_device(lib, command, lib["movie_titles"])
+                is_cast = media_or_device(command, lib["movie_titles"])
             else:
                 is_cast = media_or_device(
-                    lib, command, lib["movie_titles"] + lib["show_titles"])
+                    command, lib["movie_titles"] + lib["show_titles"])
             if is_cast:
                 command = command.split(localize["on_the"])
                 media = command[0]

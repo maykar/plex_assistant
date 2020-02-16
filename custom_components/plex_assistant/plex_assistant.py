@@ -43,7 +43,8 @@ def video_selection(INPUT, VIDEO_ID):
             INPUT["season"]), episode=int(INPUT["episode"]))
     elif INPUT["season"]:
         VIDEO_ID = VIDEO_ID.season(title=int(INPUT["season"]))
-    elif INPUT["unwatched"]:
+
+    if INPUT["unwatched"]:
         return VIDEO_ID.unwatched()[0]
     elif INPUT["latest"]:
         return VIDEO_ID.episodes()[-1]
@@ -54,26 +55,26 @@ def video_selection(INPUT, VIDEO_ID):
 def find_media(selected, media, lib):
     if selected["library"]:
         if selected["library"].type == 'show':
-            SECTION = "show_titles"
+            section = "show_titles"
         else:
-            SECTION = "movie_titles"
-        RESULT = fuzzy(media, lib[SECTION], fuzz.WRatio)[0]
-        LIBRARY = selected["library"]
+            section = "movie_titles"
+        result = fuzzy(media, lib[section], fuzz.WRatio)[0]
+        library = selected["library"]
     else:
         show_test = fuzzy(media, lib["show_titles"], fuzz.WRatio)
         movie_test = fuzzy(media, lib["movie_titles"], fuzz.WRatio)
-        LIBRARY = lib["shows"]
+        library = lib["shows"]
         if show_test and not movie_test:
-            RESULT = show_test[0]
+            result = show_test[0]
         elif movie_test and not show_test:
-            RESULT = movie_test[0]
-            LIBRARY = lib["movies"]
+            result = movie_test[0]
+            library = lib["movies"]
         elif show_test[1] > movie_test[1]:
-            RESULT = show_test[0]
+            result = show_test[0]
         else:
-            RESULT = movie_test[0]
-            LIBRARY = lib["movies"]
-    return {"media": RESULT, "library": LIBRARY}
+            result = movie_test[0]
+            library = lib["movies"]
+    return {"media": result, "library": library}
 
 
 class PlexAssistant:

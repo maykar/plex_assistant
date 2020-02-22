@@ -8,10 +8,10 @@ This component adds a service to Home Assistant that when called with IFTTT on a
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
-You can use the component's service without IFTTT as well to call the commands however you'd like.
+You can use the component's service without IFTTT as well to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
 
 ## Author's note
-This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment (is it just me?).
+This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment (is it just me?). It has only been tested on my setup with first generation Chromecasts.
 
 This project is not a priority as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will be adding features and fixing issues until that time. As always, I both welcome and greatly appreciate pull requests.
 
@@ -25,16 +25,29 @@ Install by using one of the methods below:
 * **Install Manually:** Install this component by copying all of [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to `/custom_components/plex_assistant/`. Add the configuration (see below) to your configuration.yaml file.
 
 ## Configuration
-Add the following code your configuration.yaml file ([find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)):
+Add config to your configuration.yaml file.
+
+| Key          | Default | Necessity | Description
+| :--          | :------ | :-------- | :----------
+| url          |         | **Required** | The full url to your Plex instance including port.
+| token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
+| default_cast |         | Optional     | The name of the cast device to use if none is specified.
+| language     | 'en'    | Optional     | Language code. Currently only 'en' (english) is supported.
+| tts_errors   | true    | Optional     | Will speak errors on the selected cast device. Error's like specified media wasn't found.
+
+<hr>
+
+**Sample Config**
 ```
 plex_assistant:
-  url: 'http://192.168.1.3:32400' # URL to your Plex instance
-  token: 'tH1s1Sy0uRT0k3n'        # Your Plex token
-  default_cast: 'Downstairs TV'   # Cast device to use if none is specified in the command
-  language: "en"                  # English is currently the only available language
+  url: 'http://192.168.1.3:32400'
+  token: 'tH1s1Sy0uRT0k3n'
+  default_cast: 'Downstairs TV'
+  language: 'en'
+  tts_errors: true
 ```
 
-***You must restart after installation and configuration. You might also want to add IFTTT config below before doing so.*** 
+***You must restart after installation and configuration, you may want to add IFTTT config below before doing so.*** 
 
 ## IFTTT Setup
 
@@ -91,7 +104,7 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 * `"play ondeck"`
 * `"play ondeck movies"`
 * `"play season 1 episode 3 of The Simpsons"`
-* `"play season 8 of Taskmaster on the Theater System"`
+* `"play first season second episode of Taskmaster on the Theater System"`
 
 I've tried to take into account different ways that these things can be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
 

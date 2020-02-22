@@ -14,6 +14,8 @@ Translations are held in a dictionary with the language code as the key (in this
         ...
 ```
 
+### Generic Terms
+
 The first grouping of "Generic Terms" are translations of generic words that would be used throughout.
 For example in `"play": "play"` the first "play" is the key and should not be changed and the second "play" is the translation of the word.
 "on_the" is used to inform us that the user is trying to play the media on a specific device, for example: `play Friends on the Downstairs TV`.
@@ -23,6 +25,8 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
         # Generic Terms
         "play": "play",
         "on_the": "on the",
+        "not_found": "not found",
+        "cast_device": "cast device",
         "movies": [
             "movie",
             "film",
@@ -34,8 +38,12 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
         ],
 ```
 
+### Invoke Commands
+
 The next part is an array with the key "play_start". These are phrases of how someone could start the command.
 Each of these is tested against "movies" and "shows" from above to decide if the user is looking for a show or a movie.
+Once any of the play_start phrases are found they are removed from the command so that they don't add to other options like
+the media title, so it is important to have as many ways that it could be phrased included.
 ```
         # Invoke Command
         "play_start": [
@@ -46,9 +54,12 @@ Each of these is tested against "movies" and "shows" from above to decide if the
             "play the show",
             "play tv",
             "play show",
+            "play the",
             "play"
         ],
 ```
+
+### Keywords, Pre, and Post
 
 The rest of the dictionary uses keywords, pre, and post.
 * "keywords" are the different ways that someone might say what they are looking for.
@@ -57,14 +68,13 @@ The rest of the dictionary uses keywords, pre, and post.
 
 Pre and post should be ordered by proximity to the keyword. For for the example with a keyword "latest" and a command of `"play the very latest episode of"` the pre list should be in this order `"very", "the"` and the post list should be in this order `"episode", "of"` (the word "very" isn't actually handled, but just used as an example).
 
-This is done so that the entire phrase can be removed from the command after the options are found, leaving no other words to confuse
-the rest of the commands.
-
 For example, the english version for latest episode selection looks like this:
 ```
         "latest": {
             "keywords": [
                 "latest",
+                "recent",
+                "new",
             ],
             "pre": [
                 "the",
@@ -77,6 +87,9 @@ For example, the english version for latest episode selection looks like this:
 ```
 This will allow the user to say something like `play the latest episode of Friends`, `play latest of Friends`, `play latest Friends`, or `play the latest Friends`
 and the options for latest and media type are set, then our command in each case becomes `play Friends`.
+
+
+### Ordinal Numbers
 
 The ordinals section is for converting ordinal numbers (`first, second, third...`) into their corrisponding integers (`1, 2, 3...`). I'm not entirely sure how other languages handle ordinals, but this is the only section where you would edit the keys for translation and leave the integers alone. This section also includes "pre" and "post" as above, do not change their keys.
 
@@ -119,6 +132,8 @@ Ordinal numbers between 1 and 10 (first and tenth) are often represented as word
             ],
         },
 ```
+
+### Additional Info
 
 There is a commented out template at the end of the file that you may copy and paste from.
 

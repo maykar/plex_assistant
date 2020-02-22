@@ -1,11 +1,12 @@
 """
 Plex Assistant is a component for Home Assistant to add control of Plex to
-Google Assistant. Play to chromecast from Plex using fuzzy searches for media
-and cast device name.
+Google Assistant with a little help from IFTTT. Play to chromecast from
+Plex using fuzzy searches for media and cast device name.
+
+https://github.com/maykar/plex_assistant
 """
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-
 
 DOMAIN = "plex_assistant"
 CONF_URL = "url"
@@ -81,6 +82,7 @@ def setup(hass, config):
 
         _LOGGER.debug(command)
 
+        """ Update lib if last added item was after the last lib update. """
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc")[0].addedAt:
             PA.lib = get_libraries(PA.plex)
 

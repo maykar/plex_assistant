@@ -1,12 +1,14 @@
 import re
 from datetime import datetime
-from . import PA
+
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
 
+from . import PA
+
 
 def cc_callback(chromecast):
-    """ Callback for pychromecast's non-blocking get_chromecasts.
+    """ Callback for pychromecast's non-blocking get_chromecasts function.
     Adds all cast devices and their friendly names to PA.
     """
     PA.device_names.append(chromecast.device.friendly_name)

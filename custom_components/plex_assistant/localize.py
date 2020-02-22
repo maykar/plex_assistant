@@ -1,8 +1,10 @@
-LOCALIZE = {
+localize = {
     "en": {
         # Generic Terms
         "play": "play",
         "on_the": "on the",
+        "not_found": "not found",
+        "cast_device": "cast device",
         "movies": [
             "movie",
             "film",
@@ -81,6 +83,7 @@ LOCALIZE = {
             "keywords": [
                 "latest",
                 "recent",
+                "new",
             ],
             "pre": [
                 "the",
@@ -122,6 +125,7 @@ LOCALIZE = {
     #     # Generic Terms
     #     "play": "",
     #     "on_the": "",
+    #     "not_found": "not found",
     #     "movies": [],
     #     "shows": [],
 

@@ -17,7 +17,7 @@ Translations are held in a dictionary with the language code as the key (in this
 The first grouping of "Generic Terms" are translations of generic words that would be used throughout.
 For example in `"play": "play"` the first "play" is the key and should not be changed and the second "play" is the translation of the word.
 "on_the" is used to inform us that the user is trying to play the media on a specific device, for example: `play Friends on the Downstairs TV`.
-"movies" and "shows" contain a list of keywords that would inform us of the media type the user is looking for.
+The keys "movies" and "shows" contain a list of keywords that would inform us of the media type the user is looking for.
 
 ```
         # Generic Terms

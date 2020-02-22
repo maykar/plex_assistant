@@ -33,7 +33,7 @@ Add config to your configuration.yaml file.
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
 | language     | 'en'    | Optional     | Language code. Currently only 'en' (english) is supported.
-| tts_errors   | true    | Optional     | Will speak errors on the selected cast device. Error's like specified media wasn't found.
+| tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 
 <hr>
 
@@ -106,12 +106,12 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 * `"play season 1 episode 3 of The Simpsons"`
 * `"play first season second episode of Taskmaster on the Theater System"`
 
-I've tried to take into account different ways that these things can be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
+I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
 
 ***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and proceeded with the phrase `"on the"`. Example: *"play friends **ON THE** downstairs tv"*
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when proceeded with the phrase `"on the"`. Example: *"play friends **ON THE** downstairs tv"*
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

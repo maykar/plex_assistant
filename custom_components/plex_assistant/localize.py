@@ -125,7 +125,8 @@ localize = {
     #     # Generic Terms
     #     "play": "",
     #     "on_the": "",
-    #     "not_found": "not found",
+    #     "not_found": "",
+    #     "cast_device": "",
     #     "movies": [],
     #     "shows": [],
 

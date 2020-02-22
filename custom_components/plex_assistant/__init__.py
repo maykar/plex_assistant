@@ -3,22 +3,24 @@ Plex Assistant is a component for Home Assistant to add control of Plex to
 Google Assistant. Play to chromecast from Plex using fuzzy searches for media
 and cast device name.
 """
-import logging
-import time
-import os
-from gtts import gTTS
-from plexapi.server import PlexServer
-from pychromecast import get_chromecasts
-from pychromecast.controllers.plex import PlexController
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
 
-_LOGGER = logging.getLogger(__name__)
 
 DOMAIN = "plex_assistant"
 CONF_URL = "url"
 CONF_TOKEN = "token"
 CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
-CONF_TTS_ERROR = "tts_error"
+CONF_TTS_ERROR = "tts_errors"
+
+CONFIG_SCHEMA = vol.Schema({DOMAIN: {
+    vol.Required(CONF_URL): cv.url,
+    vol.Required(CONF_TOKEN): cv.string,
+    vol.Optional(CONF_DEFAULT_CAST): cv.string,
+    vol.Optional(CONF_LANG, default='en'): cv.string,
+    vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
+}}, extra=vol.ALLOW_EXTRA)
 
 
 class PA:
@@ -31,42 +33,42 @@ class PA:
 
 def setup(hass, config):
     """Called when Home Assistant is loading our component."""
-    from .localize import localize
-    from .process_speech import process_speech
+    import logging
+    import os
+    import time
+
+    from gtts import gTTS
+    from plexapi.server import PlexServer
+    from pychromecast import get_chromecasts
+    from pychromecast.controllers.plex import PlexController
+
     from .helpers import (cc_callback, find_media, fuzzy, get_libraries,
                           media_error, video_selection)
+    from .localize import localize
+    from .process_speech import process_speech
 
-    base_url = config[DOMAIN].get(CONF_URL) or None
-    token = config[DOMAIN].get(CONF_TOKEN) or None
-    default_cast = config[DOMAIN].get(CONF_DEFAULT_CAST) or ""
-    language = config[DOMAIN].get(CONF_LANG) or 'en'
-    tts_error = config[DOMAIN].get(CONF_TTS_ERROR) or True
-
-    directory = hass.config.path() + '/www/plex_assist_tts/'
-    cast = None
-    conf_error = ""
+    conf = config[DOMAIN]
+    base_url = conf.get(CONF_URL)
+    token = conf.get(CONF_TOKEN)
+    default_cast = conf.get(CONF_DEFAULT_CAST)
+    language = conf.get(CONF_LANG)
+    tts_error = conf.get(CONF_TTS_ERROR)
 
     if language in localize.keys():
         localize = localize[language]
     else:
         localize = localize['en']
 
-    if not base_url and not token:
-        conf_error = "url & token required."
-    elif not base_url:
-        conf_error = "url required."
-    elif not token:
-        conf_error = "token required."
-    if conf_error:
-        _LOGGER.warning("Plex Assistant Config Error: %s" % conf_error)
-        return
-
-    if not os.path.exists(directory):
-        os.makedirs(directory, mode=0o777)
+    directory = hass.config.path() + '/www/plex_assist_tts/'
+    if tts_error:
+        if not os.path.exists(directory):
+            os.makedirs(directory, mode=0o777)
 
     PA.plex = PlexServer(base_url, token).library
     PA.lib = get_libraries(PA.plex)
     get_chromecasts(blocking=False, callback=cc_callback)
+
+    _LOGGER = logging.getLogger(__name__)
 
     def handle_input(call):
         """Handle the service call."""
@@ -93,7 +95,7 @@ def setup(hass, config):
                 media = PA.plex.section(command["library"].title).onDeck()[0]
             else:
                 media = PA.plex.onDeck()[0]
-        except:
+        except Exception:
             error = media_error(command, localize)
             if tts_error:
                 tts = gTTS(error, lang=language)
@@ -101,13 +103,14 @@ def setup(hass, config):
                 speech_error = True
             _LOGGER.warning(error)
 
+        cast = None
         try:
             name = fuzzy(command["chromecast"] or default_cast,
                          PA.device_names)[0]
             cast = next(
                 CC for CC in PA.devices if CC.device.friendly_name == name
             )
-        except:
+        except Exception:
             _LOGGER.warning("%s %s.") % (localize["cast_device"].capitalize(),
                                          localize["not_found"])
             return

@@ -10,8 +10,6 @@ def process_speech(command, lib, localize, default_cast):
     library = None
     episode = ""
     season = ""
-    media = ""
-    chromecast = ""
 
     for start in localize["play_start"]:
         if command.startswith(start):

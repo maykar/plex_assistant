@@ -232,7 +232,10 @@ def get_media_and_device(localize, command, lib, library, default_cast):
                 device = is_device(command, lib["movie_titles"], localize)
             else:
                 device = is_device(
-                    command, lib["movie_titles"] + lib["show_titles"], localize)
+                    command,
+                    lib["movie_titles"] + lib["show_titles"],
+                    localize
+                )
 
             if device:
                 command = command.split(localize["on_the"])

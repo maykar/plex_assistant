@@ -36,7 +36,6 @@ def setup(hass, config):
     """Called when Home Assistant is loading our component."""
     import logging
     import os
-    import time
 
     from gtts import gTTS
     from plexapi.server import PlexServer
@@ -44,7 +43,7 @@ def setup(hass, config):
     from pychromecast.controllers.plex import PlexController
 
     from .helpers import (cc_callback, find_media, fuzzy, get_libraries,
-                          media_error, video_selection)
+                          media_error, play_media, video_selection)
     from .localize import localize
     from .process_speech import process_speech
 
@@ -131,17 +130,7 @@ def setup(hass, config):
         plex_c = PlexController()
         cast.wait()
         cast.register_handler(plex_c)
-
-        if cast.status.status_text:
-            cast.quit_app()
-        while cast.status.status_text:
-            time.sleep(0.001)
-
-        plex_c.play_media(media)
-        while plex_c.status.player_state != 'PLAYING':
-            time.sleep(0.001)
-        plex_c.play_media(media)
-        plex_c.play()
+        play_media(cast, plex_c, media)
 
     hass.services.register(DOMAIN, "command", handle_input)
     return True

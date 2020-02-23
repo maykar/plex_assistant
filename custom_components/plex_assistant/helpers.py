@@ -1,4 +1,5 @@
 import re
+import time
 from datetime import datetime
 
 from fuzzywuzzy import fuzz
@@ -247,6 +248,31 @@ def get_media_and_device(localize, command, lib, library, default_cast):
     media = media if media else command
 
     return {"media": media, "chromecast": chromecast}
+
+
+def play_media(cast, plex_c, media):
+    """ Play plex media on cast device,
+    with a good bit of crazyness to avoid grey screen bug.
+    """
+    if cast.status.status_text:
+        cast.quit_app()
+
+    timeout = time.time() + 7
+    while cast.status.status_text:
+        time.sleep(0.5)
+        if time.time() > timeout:
+            break
+
+    plex_c.play_media(media)
+
+    timeout = time.time() + 7
+    while plex_c.status.player_state != 'PLAYING':
+        time.sleep(0.5)
+        if time.time() > timeout:
+            break
+
+    plex_c.play_media(media)
+    plex_c.play()
 
 
 def media_error(command, localize):

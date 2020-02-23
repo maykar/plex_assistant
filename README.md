@@ -2,14 +2,11 @@
 
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands) ｜ [Translations](#translation)<br><hr>
 
-Plex Assistant is a Home Assistant Component to allow Google Assistant to cast Plex to Chromecasts with a bit of help from [IFTTT](https://ifttt.com/).
-
-This component adds a service to Home Assistant that when called with IFTTT on a Google Assistant will take commands to cast Plex to a Chromecast/Google Home/Google Nest device.
+Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast devices with a bit of help from [IFTTT](https://ifttt.com/).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
 You can use the component's service without IFTTT as well to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
-
 
 #### Support Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
@@ -57,20 +54,20 @@ plex_assistant:
 
 ## IFTTT Setup
 
-If you haven't set up IFTTT with HA yet, go to configuration and then integrations, add a new integration and search for IFTTT. Click on configure, then follow the instructions on the screen.
+If you haven't set up IFTTT with HA yet, go to "Configuration" in your sidebar and then "Integrations", add a new integration and search for IFTTT. Click on configure, then follow the instructions on the screen.
 
 This will provide you with a webhook URL to use in your IFTTT applet. Make sure to copy this, leave the window open, or save it in some way for later use.
 
-* Go to [ifttt.com](https://ifttt.com/) and login or create an account.
+* Go to [ifttt.com](https://ifttt.com/) and login or create an account
 * Click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
-* Press the plus sign next to "If". Search for and select "Google Assistant".
+* Press the plus sign next to "If". Search for and select "Google Assistant"
 * Select "Say phrase with text ingredient"
 
 Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name, "ondeck", or similar (see more about [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Hit "Create Trigger" to continue.
 
 * Press the plus sign next to "Then"
 * Search for and select "Webhooks", then select "Make a web request"
-* In the URL field enter the webhook URL HA provided you earlier.
+* In the URL field enter the webhook URL HA provided you earlier
 * Select method "Post" and content type "application/json"
 * Then copy and paste the code below into the body field
 
@@ -117,7 +114,7 @@ I've tried to take into account many different ways that commands could be phras
 ***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when proceeded with the phrase `"on the"`. Example: *"play friends **ON THE** downstairs tv"*
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceeded with the phrase `"on the"`. Example: *"play friends **ON THE** downstairs tv"*
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

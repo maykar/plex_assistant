@@ -252,7 +252,7 @@ def get_media_and_device(localize, command, lib, library, default_cast):
 
 def play_media(cast, plex_c, media):
     """ Play plex media on cast device,
-    with a good bit of crazyness to avoid grey screen bug.
+    with a good bit of craziness to avoid grey screen bug.
     """
     if cast.status.status_text:
         cast.quit_app()

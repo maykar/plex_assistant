@@ -121,6 +121,123 @@ localize = {
             ],
         },
     },
+    
+    
+localize = {
+    "sv": {
+        # Generic Terms
+        "play": "spela",
+        "on_the": "på",
+        "not_found": "not found",
+        "cast_device": "cast enhet",
+        "movies": [
+            "film"
+        ],
+        "shows": [
+            "avsnitt",
+            "tv",
+            "serie"
+        ],
+
+        # Invoke Command
+        "play_start": [
+            "spela filmen",
+            "spela film",
+            "spela tv programmet",
+            "spela serie",
+            "spela serien",
+            "spela tv",
+            "spela",
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            "första": "1",
+            "andra": "2",
+            "tredje": "3",
+            "fjärde": "4",
+            "femte": "5",
+            "sjätte": "6",
+            "sjunde": "7",
+            "åttonde": "8",
+            "nionde": "9",
+            "tionde": "10",
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "season",
+            ],
+            "pre": [
+                'a',
+                'a,
+                'e',
+                'e',
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episod",
+            ],
+            "pre": [
+                'a',
+                'a',
+                'e',
+                'e',
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "senaste",
+                "nyligen",
+                "ny",
+            ],
+            "pre": [
+                "the",
+            ],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "osedda",
+            ],
+            "pre": [],
+            "post": [
+                "avsnitt",
+                "avsnitt",
+                "av",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "on deck",
+                "ondeck",
+            ],
+            "pre": [],
+            "post": [
+                "filmer",
+                "film",
+                "TV program",
+                "TV program",
+                "program",
+                "program",
+                "tv",
+            ],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",

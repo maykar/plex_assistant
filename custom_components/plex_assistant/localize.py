@@ -124,7 +124,7 @@ localize = {
     "sv": {
         "play": "spela",
         "on_the": "på",
-        "not_found": "not found",
+        "not_found": "finns ej",
         "cast_device": "cast enhet",
         "movies": [
             "film",

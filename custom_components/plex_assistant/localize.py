@@ -121,36 +121,30 @@ localize = {
             ],
         },
     },
-    
-    
-localize = {
     "sv": {
-        # Generic Terms
         "play": "spela",
         "on_the": "på",
         "not_found": "not found",
         "cast_device": "cast enhet",
         "movies": [
-            "film"
+            "film",
         ],
         "shows": [
             "avsnitt",
             "tv",
-            "serie"
+            "serie",
         ],
 
-        # Invoke Command
         "play_start": [
             "spela filmen",
             "spela film",
             "spela tv programmet",
-            "spela serie",
             "spela serien",
+            "spela serie",
             "spela tv",
             "spela",
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
             "första": "1",
             "andra": "2",
@@ -162,19 +156,17 @@ localize = {
             "åttonde": "8",
             "nionde": "9",
             "tionde": "10",
+            "pre": [],
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "season",
             ],
             "pre": [
-                'a',
-                'a,
-                'e',
-                'e',
+                "a",
+                "e",
             ],
             "post": [
                 "nummer",
@@ -186,10 +178,8 @@ localize = {
                 "episod",
             ],
             "pre": [
-                'a',
-                'a',
-                'e',
-                'e',
+                "a",
+                "e",
             ],
             "post": [
                 "nummer",
@@ -217,7 +207,6 @@ localize = {
             "pre": [],
             "post": [
                 "avsnitt",
-                "avsnitt",
                 "av",
             ],
         },
@@ -231,8 +220,6 @@ localize = {
                 "filmer",
                 "film",
                 "TV program",
-                "TV program",
-                "program",
                 "program",
                 "tv",
             ],

@@ -71,7 +71,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 * Select method "Post" and content type "application/json"
 * Then copy and paste the code below into the body field
 
-```{ "action": "call_service", "service": "plex_assistant.command", "command": " {{TextField}}" }```
+`{ "action": "call_service", "service": "plex_assistant.command", "command": "{{TextField}}" }`
 
 Finally, add the following automation to your Home Assistant configuration.yaml:
 

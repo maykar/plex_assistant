@@ -236,11 +236,9 @@ localize = {
     #     "cast_device": "",
     #     "movies": [],
     #     "shows": [],
-
-    #     # Invoke Command
+    #
     #     "play_start": [],
-
-    #     # Ordinal Numbers to Integers
+    #
     #     "ordinals": {
     #         # Edit the keys for translation, not the integers.
     #         "first": "1",
@@ -257,8 +255,7 @@ localize = {
     #         "pre": [],
     #         "post": [],
     #     },
-
-    #     # Keywords, Pre, and Post
+    #
     #     "season": {
     #         "keywords": [],
     #         "pre": [],

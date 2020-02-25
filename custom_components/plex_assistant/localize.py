@@ -193,7 +193,7 @@ localize = {
                 "ny",
             ],
             "pre": [
-                "the",
+                "det",
             ],
             "post": [
                 "avsnitt",

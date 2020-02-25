@@ -127,11 +127,14 @@ localize = {
         "not_found": "finns ej",
         "cast_device": "cast enhet",
         "movies": [
+            "filmen",
             "film",
         ],
         "shows": [
             "avsnitt",
+            "tv programmet",
             "tv",
+            "serien",
             "serie",
         ],
 

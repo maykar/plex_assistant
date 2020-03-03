@@ -106,8 +106,7 @@ localize = {
         },
         "ondeck": {
             "keywords": [
-                "on deck",
-                "ondeck",
+                "uppkommande",
             ],
             "pre": [],
             "post": [

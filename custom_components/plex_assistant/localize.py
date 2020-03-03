@@ -106,7 +106,7 @@ localize = {
         },
         "ondeck": {
             "keywords": [
-                "uppkommande",
+                "kommande",
             ],
             "pre": [],
             "post": [

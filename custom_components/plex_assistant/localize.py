@@ -106,8 +106,7 @@ localize = {
         },
         "ondeck": {
             "keywords": [
-                "on deck",
-                "ondeck",
+                "kommande",
             ],
             "pre": [],
             "post": [
@@ -121,6 +120,113 @@ localize = {
             ],
         },
     },
+    "sv": {
+        "play": "spela",
+        "on_the": "på",
+        "not_found": "finns ej",
+        "cast_device": "cast enhet",
+        "movies": [
+            "filmen",
+            "film",
+        ],
+        "shows": [
+            "avsnitt",
+            "tv programmet",
+            "tv",
+            "serien",
+            "serie",
+        ],
+
+        "play_start": [
+            "spela filmen",
+            "spela film",
+            "spela tv programmet",
+            "spela serien",
+            "spela serie",
+            "spela tv",
+            "spela",
+        ],
+
+        "ordinals": {
+            "första": "1",
+            "andra": "2",
+            "tredje": "3",
+            "fjärde": "4",
+            "femte": "5",
+            "sjätte": "6",
+            "sjunde": "7",
+            "åttonde": "8",
+            "nionde": "9",
+            "tionde": "10",
+            "pre": [],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "season",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episod",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "senaste",
+                "nyligen",
+                "ny",
+            ],
+            "pre": [
+                "det",
+            ],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "osedda",
+            ],
+            "pre": [],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "on deck",
+                "ondeck",
+            ],
+            "pre": [],
+            "post": [
+                "filmer",
+                "film",
+                "TV program",
+                "program",
+                "tv",
+            ],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",
@@ -129,11 +235,9 @@ localize = {
     #     "cast_device": "",
     #     "movies": [],
     #     "shows": [],
-
-    #     # Invoke Command
+    #
     #     "play_start": [],
-
-    #     # Ordinal Numbers to Integers
+    #
     #     "ordinals": {
     #         # Edit the keys for translation, not the integers.
     #         "first": "1",
@@ -150,8 +254,7 @@ localize = {
     #         "pre": [],
     #         "post": [],
     #     },
-
-    #     # Keywords, Pre, and Post
+    #
     #     "season": {
     #         "keywords": [],
     #         "pre": [],

@@ -96,6 +96,7 @@ localize = {
         "unwatched": {
             "keywords": [
                 "unwatched",
+                "next",
             ],
             "pre": [],
             "post": [

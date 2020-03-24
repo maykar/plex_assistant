@@ -37,6 +37,7 @@ Add config to your configuration.yaml file.
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
 | language     | 'en'    | Optional     | Language code. Currently only 'en' (english) is supported.
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
+| aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name.
 
 <hr>
 
@@ -48,6 +49,9 @@ plex_assistant:
   default_cast: 'Downstairs TV'
   language: 'en'
   tts_errors: true
+  aliases:
+    Downstairs TV: TV0565124
+    Upstairs TV: Samsung_66585
 ```
 
 ***You must restart after installation and configuration, you may want to add IFTTT config below before doing so.*** 
@@ -109,12 +113,19 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 * `"play season 1 episode 3 of The Simpsons"`
 * `"play first season second episode of Taskmaster on the Theater System"`
 
+### Control Commands:
+* `play`
+* `pause`
+* `stop`
+* `jump forward`
+* `jump back`
+
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
 
 ***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceeded with the phrase `"on the"`. Example: *"play friends **ON THE** downstairs tv"*
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceeded with the phrase `"on"` or `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

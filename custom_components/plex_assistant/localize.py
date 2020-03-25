@@ -1,10 +1,7 @@
-localize = {
+LOCALIZE = {
     "en": {
         # Generic Terms
         "play": "play",
-        "on_the": "on the",
-        "not_found": "not found",
-        "cast_device": "cast device",
         "movies": [
             "movie",
             "film",
@@ -14,6 +11,20 @@ localize = {
             "tv",
             "show"
         ],
+
+        # Controls
+        "controls": {
+            "play": "play",
+            "pause": "pause",
+            "stop": "stop",
+            "jump_forward": "jump forward",
+            "jump_back": "jump back",
+        },
+
+        # Text for errors
+        "not_found": "not found",
+        "cast_device": "cast device",
+        "no_call": "No command was received.",
 
         # Invoke Command
         "play_start": [
@@ -30,6 +41,7 @@ localize = {
 
         # Ordinal Numbers to Integers
         "ordinals": {
+            # Edit the keys for translation, not the integers.
             "first": "1",
             "second": "2",
             "third": "3",
@@ -40,6 +52,7 @@ localize = {
             "eighth": "8",
             "ninth": "9",
             "tenth": "10",
+            # Do not edit the keys of pre and post
             "pre": [
                 "the",
             ],
@@ -65,6 +78,7 @@ localize = {
         },
         "episode": {
             "keywords": [
+                "episodes",
                 "episode",
             ],
             "pre": [
@@ -89,7 +103,13 @@ localize = {
                 "the",
             ],
             "post": [
+                "movies",
+                "movie",
+                "episodes",
                 "episode",
+                "tv",
+                "shows",
+                "show",
                 "of",
             ],
         },
@@ -100,30 +120,49 @@ localize = {
             ],
             "pre": [],
             "post": [
+                "movies",
+                "movie",
                 "episodes",
                 "episode",
+                "tv",
+                "shows",
+                "show",
                 "of",
             ],
         },
         "ondeck": {
             "keywords": [
-                "kommande",
+                "on deck",
+                "ondeck",
             ],
             "pre": [],
             "post": [
                 "movies",
                 "movie",
-                "tv shows",
-                "tv show",
+                "episodes",
+                "episode",
+                "tv",
                 "shows",
                 "show",
-                "tv",
+                "of",
+            ],
+        },
+        # This is the seperator word used at the end of the command
+        # To let us know it is a cast device.
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
+        "seperator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "on",
+            ],
+            "pre": [],
+            "post": [
+                "the",
             ],
         },
     },
     "sv": {
         "play": "spela",
-        "on_the": "på",
         "not_found": "finns ej",
         "cast_device": "cast enhet",
         "movies": [
@@ -137,6 +176,18 @@ localize = {
             "serien",
             "serie",
         ],
+
+        "controls": {
+            "play": "spela",
+            "pause": "paus",
+            "stop": "sluta",
+            "jump_forward": "hoppa framåt",
+            "jump_back": "hoppa tillbaka",
+        },
+
+        "not_found": "finns ej",
+        "cast_device": "cast enhet",
+        "no_call": "Inget kommando mottogs.",
 
         "play_start": [
             "spela filmen",
@@ -215,8 +266,7 @@ localize = {
         },
         "ondeck": {
             "keywords": [
-                "on deck",
-                "ondeck",
+                "kommande",
             ],
             "pre": [],
             "post": [
@@ -227,18 +277,39 @@ localize = {
                 "tv",
             ],
         },
+        "seperator": {
+            "keywords": [
+                "på",
+            ],
+            "pre": [],
+            "post": [],
+        },
     },
     # "template": {
     #     # Generic Terms
     #     "play": "",
-    #     "on_the": "",
-    #     "not_found": "",
-    #     "cast_device": "",
     #     "movies": [],
     #     "shows": [],
-    #
+
+    #     # Controls
+    #     "controls": {
+    #         "play": "",
+    #         "pause": "",
+    #         "stop": "",
+    #         "jump_forward": "",
+    #         "jump_back": "",
+    #     },
+
+    #     # Text for errors
+    #     "not_found": "",
+    #     "cast_device": "",
+    #     # no_call error is for when no command was recieved
+    #     "no_call": "",
+
+    #     # Invoke Command
     #     "play_start": [],
-    #
+
+    #     # Ordinal Numbers to Integers
     #     "ordinals": {
     #         # Edit the keys for translation, not the integers.
     #         "first": "1",
@@ -255,7 +326,8 @@ localize = {
     #         "pre": [],
     #         "post": [],
     #     },
-    #
+
+    #     # Keywords, Pre, and Post
     #     "season": {
     #         "keywords": [],
     #         "pre": [],
@@ -277,6 +349,15 @@ localize = {
     #         "post": [],
     #     },
     #     "ondeck": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     # This is the seperator word used at the end of the command
+    #     # to let us know it is a cast device.
+    #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
+    #     "seperator": {
+    #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],
     #         "post": [],

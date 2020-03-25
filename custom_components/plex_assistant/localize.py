@@ -1,10 +1,7 @@
-localize = {
+LOCALIZE = {
     "en": {
         # Generic Terms
         "play": "play",
-        "on_the": "on the",
-        "not_found": "not found",
-        "cast_device": "cast device",
         "movies": [
             "movie",
             "film",
@@ -14,6 +11,20 @@ localize = {
             "tv",
             "show"
         ],
+
+        # Controls
+        "controls": {
+            "play": "play",
+            "pause": "pause",
+            "stop": "stop",
+            "jump_forward": "jump forward",
+            "jump_back": "jump back",
+        },
+
+        # Text for errors
+        "not_found": "not found",
+        "cast_device": "cast device",
+        "no_call": "No command was received.",
 
         # Invoke Command
         "play_start": [
@@ -30,6 +41,7 @@ localize = {
 
         # Ordinal Numbers to Integers
         "ordinals": {
+            # Edit the keys for translation, not the integers.
             "first": "1",
             "second": "2",
             "third": "3",
@@ -40,6 +52,7 @@ localize = {
             "eighth": "8",
             "ninth": "9",
             "tenth": "10",
+            # Do not edit the keys of pre and post
             "pre": [
                 "the",
             ],
@@ -65,6 +78,7 @@ localize = {
         },
         "episode": {
             "keywords": [
+                "episodes",
                 "episode",
             ],
             "pre": [
@@ -89,18 +103,30 @@ localize = {
                 "the",
             ],
             "post": [
+                "movies",
+                "movie",
+                "episodes",
                 "episode",
+                "tv",
+                "shows",
+                "show",
                 "of",
             ],
         },
         "unwatched": {
             "keywords": [
                 "unwatched",
+                "next",
             ],
             "pre": [],
             "post": [
+                "movies",
+                "movie",
                 "episodes",
                 "episode",
+                "tv",
+                "shows",
+                "show",
                 "of",
             ],
         },
@@ -113,26 +139,172 @@ localize = {
             "post": [
                 "movies",
                 "movie",
-                "tv shows",
-                "tv show",
+                "episodes",
+                "episode",
+                "tv",
                 "shows",
                 "show",
-                "tv",
+                "of",
+            ],
+        },
+        # This is the seperator word used at the end of the command
+        # To let us know it is a cast device.
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
+        "seperator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "on",
+            ],
+            "pre": [],
+            "post": [
+                "the",
             ],
         },
     },
-        "nl": {
-        # Generic Terms
+    "sv": {
+        "play": "spela",
+        "not_found": "finns ej",
+        "cast_device": "cast enhet",
+        "movies": [
+            "filmen",
+            "film",
+        ],
+        "shows": [
+            "avsnitt",
+            "tv programmet",
+            "tv",
+            "serien",
+            "serie",
+        ],
+
+        "controls": {
+            "play": "spela",
+            "pause": "paus",
+            "stop": "sluta",
+            "jump_forward": "hoppa framåt",
+            "jump_back": "hoppa tillbaka",
+        },
+
+        "not_found": "finns ej",
+        "cast_device": "cast enhet",
+        "no_call": "Inget kommando mottogs.",
+
+        "play_start": [
+            "spela filmen",
+            "spela film",
+            "spela tv programmet",
+            "spela serien",
+            "spela serie",
+            "spela tv",
+            "spela",
+        ],
+
+        "ordinals": {
+            "första": "1",
+            "andra": "2",
+            "tredje": "3",
+            "fjärde": "4",
+            "femte": "5",
+            "sjätte": "6",
+            "sjunde": "7",
+            "åttonde": "8",
+            "nionde": "9",
+            "tionde": "10",
+            "pre": [],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "season",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episod",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "senaste",
+                "nyligen",
+                "ny",
+            ],
+            "pre": [
+                "det",
+            ],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "osedda",
+            ],
+            "pre": [],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "kommande",
+            ],
+            "pre": [],
+            "post": [
+                "filmer",
+                "film",
+                "TV program",
+                "program",
+                "tv",
+            ],
+        },
+        "seperator": {
+            "keywords": [
+                "på",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
+    "nl": {
         "play": "speel",
-        "on_the": "op de",
-        "not_found": "niet gevonden",
-        "cast_device": "cast toestel",
         "movies": [
             "film"
         ],
         "shows": [
             "aflevering"
         ],
+
+        "controls": {
+            "play": "speel",
+            "pause": "pauze",
+            "stop": "hou op",
+            "jump_forward": "spring naar voren",
+            "jump_back": "terugspringen",
+        },
+
+        "not_found": "niet gevonden",
+        "cast_device": "cast toestel",
+        "no_call": "Er is geen opdracht ontvangen.",
 
         # Invoke Command
         "play_start": [
@@ -220,8 +392,7 @@ localize = {
         },
         "ondeck": {
             "keywords": [
-                "ondeck",
-                "on deck",                
+                "aan dek",
             ],
             "pre": [],
             "post": [
@@ -231,15 +402,36 @@ localize = {
                 "aflevering",
             ],
         },
+        "seperator"{
+            "keywords": [
+                "op",
+            ],
+            "pre": [],
+            "post": [
+                "de",
+            ],
+        },
     },
     # "template": {
     #     # Generic Terms
     #     "play": "",
-    #     "on_the": "",
-    #     "not_found": "",
-    #     "cast_device": "",
     #     "movies": [],
     #     "shows": [],
+
+    #     # Controls
+    #     "controls": {
+    #         "play": "",
+    #         "pause": "",
+    #         "stop": "",
+    #         "jump_forward": "",
+    #         "jump_back": "",
+    #     },
+
+    #     # Text for errors
+    #     "not_found": "",
+    #     "cast_device": "",
+    #     # no_call error is for when no command was recieved
+    #     "no_call": "",
 
     #     # Invoke Command
     #     "play_start": [],
@@ -284,6 +476,15 @@ localize = {
     #         "post": [],
     #     },
     #     "ondeck": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     # This is the seperator word used at the end of the command
+    #     # to let us know it is a cast device.
+    #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
+    #     "seperator": {
+    #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],
     #         "post": [],

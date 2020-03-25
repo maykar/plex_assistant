@@ -62,7 +62,7 @@ def setup(hass, config):
     default_cast = conf.get(CONF_DEFAULT_CAST)
     lang = conf.get(CONF_LANG)
     tts_error = conf.get(CONF_TTS_ERROR)
-    aliases = conf.get(CONF_ALIASES)
+    aliases = conf.get(CONF_ALIASES) or {}
 
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE['en']
 

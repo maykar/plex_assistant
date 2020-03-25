@@ -12,27 +12,24 @@ def cc_callback(chromecast):
     """ Callback for pychromecast's non-blocking get_chromecasts function.
     Adds all cast devices and their friendly names to PA.
     """
-    PA.device_names.append(chromecast.device.friendly_name)
-    PA.devices.append(chromecast)
+    if chromecast.device.friendly_name not in PA.device_names:
+        PA.device_names.append(chromecast.device.friendly_name)
+        PA.devices[chromecast.device.friendly_name] = chromecast
 
 
 def get_libraries(plex):
     """ Return Plex libraries, their contents, media titles, & time updated """
     plex.reload()
-    for section in plex.sections():
-        if section.type == "movie":
-            movies = section
-        elif section.type == "show":
-            shows = section
+    movies = plex.search(libtype="movie")
+    movies.sort(key=lambda x: x.addedAt)
+    shows = plex.search(libtype="show")
+    shows.sort(key=lambda x: x.updatedAt)
+
     return {
         "movies": movies,
-        "movie_titles": [
-            movie.title for movie in plex.sectionByID(movies.key).all()
-        ],
+        "movie_titles": [movie.title for movie in movies],
         "shows": shows,
-        "show_titles": [
-            show.title for show in plex.sectionByID(shows.key).all()
-        ],
+        "show_titles": [show.title for show in shows],
         "updated": datetime.now(),
     }
 
@@ -42,46 +39,99 @@ def fuzzy(media, lib, scorer=fuzz.QRatio):
     return fw.extractOne(media, lib, scorer=scorer)
 
 
-def video_selection(option, media):
+def video_selection(option, media, lib):
     """ Return media item.
     Narrow it down if season, episode, unwatched, or latest is used
     """
+    if media and lib:
+        media = next(m for m in lib if m.title == media)
+
     if option["season"] and option["episode"]:
         return media.episode(season=int(
             option["season"]), episode=int(option["episode"]))
-    elif option["season"]:
+
+    if option["season"]:
         media = media.season(title=int(option["season"]))
 
+    if option["ondeck"]:
+        if option["media"]:
+            ondeck = PA.plex.onDeck()
+            media = list(
+                filter(lambda x:
+                       (x.type == "movie" and x.title == media.title) or
+                       (media.title == x.show().title) or
+                       (media.show().title == x.show().title), ondeck))
+        elif option["library"]:
+            media = PA.plex.sectionByID(
+                option["library"][0].librarySectionID).onDeck()
+        else:
+            media = PA.plex.onDeck()
+        media.reverse()
+
     if option["unwatched"]:
-        if media.type == "season":
-            return list(filter(lambda x: not x.isWatched, media))[0]
-        return media.unwatched()[0]
-    elif option["latest"]:
-        return media.episodes()[-1]
-    else:
-        return media
+        if not media and not lib:
+            recent = PA.plex.recentlyAdded()
+            media = list(filter(lambda x: not x.isWatched, recent))
+        elif not media:
+            media = list(filter(lambda x: not x.isWatched, lib))
+        else:
+            media = list(filter(lambda x: not x.isWatched, media))
+        media.sort(key=lambda x: x.updatedAt)
+
+    if option["latest"]:
+        if not option["unwatched"]:
+            if not media and not lib:
+                media = PA.plex.recentlyAdded()
+                media.sort(key=lambda x: x.updatedAt)
+            elif not media:
+                media = lib
+                media.sort(key=lambda x: x.updatedAt)
+            if isinstance(media, list):
+                media.sort(key=lambda x: x.updatedAt)
+        if isinstance(media, list):
+            media = media[-1]
+        if media.type == "show" or media.type == "season":
+            media = media.episodes()[-1]
+
+    if isinstance(media, list):
+        media = media[0]
+
+    if media.type == "show" or media.type == "season":
+        return media.episodes()[0]
+
+    return media
 
 
 def find_media(selected, media, lib):
     """ Return media item and the library it resides in.
     If no library was given/found search both and find the closest title match.
     """
+    result = ""
+    library = ""
     if selected["library"]:
-        if selected["library"].type == 'show':
+        if selected["library"][0].type == 'show':
             section = "show_titles"
         else:
             section = "movie_titles"
-        result = fuzzy(media, lib[section], fuzz.WRatio)[0]
+
+        if not media:
+            result = ""
+        else:
+            result = fuzzy(media, lib[section], fuzz.WRatio)[0]
+
         library = selected["library"]
     else:
-        show_test = fuzzy(media, lib["show_titles"], fuzz.WRatio)
-        movie_test = fuzzy(media, lib["movie_titles"], fuzz.WRatio)
-        if show_test[1] > movie_test[1]:
-            result = show_test[0]
-            library = lib["shows"]
+        if not media:
+            result = ""
         else:
-            result = movie_test[0]
-            library = lib["movies"]
+            show_test = fuzzy(media, lib["show_titles"], fuzz.WRatio)
+            movie_test = fuzzy(media, lib["movie_titles"], fuzz.WRatio)
+            if show_test[1] > movie_test[1]:
+                result = show_test[0]
+                library = lib["shows"]
+            else:
+                result = movie_test[0]
+                library = lib["movies"]
     return {"media": result, "library": library}
 
 
@@ -180,39 +230,44 @@ def _find(item, command):
     return any(keyword in command for keyword in item["keywords"])
 
 
-def _remove(item, command):
+def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
     for keyword in item["keywords"]:
         if item["pre"]:
             for pre in item["pre"]:
                 command = command.replace("%s %s" % (
-                    pre, keyword), "")
+                    pre, keyword), replace).strip()
+                command = command.replace(pre, replace).strip()
         if item["post"]:
             for post in item["post"]:
                 command = command.replace("%s %s" % (
-                    keyword, post), "")
+                    keyword, post), replace).strip()
+                command = command.replace(post, replace).strip()
         if keyword in command:
-            command = command.replace(keyword, "")
+            command = command.replace(keyword, replace).strip()
     return command.strip()
 
 
 def get_library(phrase, lib, localize):
     """ Return the library type if the phrase contains related keywords. """
-    if any(word in phrase for word in localize["shows"]):
+    tv_keywords = localize["shows"] + \
+        localize["season"]["keywords"] + localize["episode"]["keywords"]
+    if any(word in phrase for word in tv_keywords):
         return lib["shows"]
-    if any(word in phrase for word in localize["movies"]):
+    elif any(word in phrase for word in localize["movies"]):
         return lib["movies"]
     return None
 
 
-def is_device(command, media_list, localize):
+def is_device(command, media_list, seperator):
     """ Return true if string is a cast device.
     Uses fuzzy wuzzy to score media titles against cast device names.
     """
-    split_score = fuzzy(command.split(localize["on_the"])[0], media_list)[1]
+    split = command.split(seperator)
     full_score = fuzzy(command, media_list)[1]
-    cast_score = fuzzy(command.split(localize["on_the"])[
-                       1], PA.device_names)[1]
+    split_score = fuzzy(command.replace(split[-1], "")[0], media_list)[1]
+    cast_score = fuzzy(split[-1], PA.device_names +
+                       PA.client_names + PA.alias_names)[1]
     if full_score > split_score and full_score > cast_score:
         return False
     return True
@@ -221,33 +276,35 @@ def is_device(command, media_list, localize):
 def get_media_and_device(localize, command, lib, library, default_cast):
     """ Find and return the media item and cast device. """
     media = None
-    chromecast = default_cast
-    if localize["on_the"] in command:
-        if len(command.split(localize["on_the"])) > 2:
-            chromecast = command.split(localize["on_the"])[-1]
-            command = command.replace("%s %s" % (
-                localize["on_the"], chromecast.strip()), "")
-        else:
-            device = False
-            if library == lib["shows"]:
-                device = is_device(command, lib["show_titles"], localize)
-            elif library == lib["movies"]:
-                device = is_device(command, lib["movie_titles"], localize)
-            else:
-                device = is_device(
-                    command,
-                    lib["movie_titles"] + lib["show_titles"],
-                    localize
-                )
+    device = default_cast
+    seperator = localize["seperator"]["keywords"][0]
+    command = _remove(localize["seperator"], command, seperator)
 
-            if device:
-                command = command.split(localize["on_the"])
-                media = command[0]
-                chromecast = command[1]
+    if command.strip().startswith(seperator + " "):
+        device = command.replace(seperator, "").strip()
+        return {"media": "", "device": device}
+
+    seperator = " " + seperator + " "
+    if seperator in command:
+        device = False
+        if library == lib["shows"]:
+            device = is_device(command, lib["show_titles"], seperator)
+        elif library == lib["movies"]:
+            device = is_device(command, lib["movie_titles"], seperator)
+        else:
+            device = is_device(
+                command,
+                lib["movie_titles"] + lib["show_titles"],
+                seperator
+            )
+
+        if device:
+            split = command.split(seperator)
+            media = command.replace(seperator + split[-1], "")
+            device = split[-1]
 
     media = media if media else command
-
-    return {"media": media, "chromecast": chromecast}
+    return {"media": media, "device": device}
 
 
 def play_media(cast, plex_c, media):

@@ -1,29 +1,50 @@
 from .helpers import (_find, _remove, get_library, get_media_and_device,
-                      get_season_episode_num)
+                      get_season_episode_num, fuzzy)
 
 
-def process_speech(command, lib, localize, default_cast):
+def process_speech(command, localize, default_cast, PA):
     """ Find and return all options found in the command string """
+    lib = PA.lib
     latest = False
     unwatched = False
     ondeck = False
     library = None
     episode = ""
     season = ""
+    remote = ""
+    device = ""
+
+    devices = PA.device_names + PA.client_names + PA.alias_names
+    controls = localize["controls"]
+    for control in controls:
+        if command.startswith(controls[control]):
+            control_check = command.replace(controls[control], "").strip()
+            if control_check == "":
+                remote = control
+            else:
+                fuzz_client = fuzzy(control_check, devices)
+                if fuzz_client[1] > 80 and fuzz_client[0] in devices:
+                    device = fuzz_client[0]
+                    remote = control
+
+    if remote:
+        return {
+            "device": device,
+            "control": remote
+        }
+
+    library = get_library(command, lib, localize)
 
     for start in localize["play_start"]:
         if command.startswith(start):
-            library = get_library(start, lib, localize)
             command = command.replace(start, "")
 
     if _find(localize["ondeck"], command):
         ondeck = True
-        library = get_library(command, lib, localize)
         command = _remove(localize["ondeck"], command)
 
     if _find(localize["latest"], command):
         latest = True
-        library = lib["shows"]
         command = _remove(localize["latest"], command)
 
     if _find(localize["unwatched"], command):
@@ -51,11 +72,12 @@ def process_speech(command, lib, localize, default_cast):
 
     return {
         "media": result["media"],
-        "chromecast": result["chromecast"],
+        "device": result["device"],
         "season": season,
         "episode": episode,
         "latest": latest,
         "unwatched": unwatched,
         "library": library,
         "ondeck": ondeck,
+        "control": "",
     }

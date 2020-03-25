@@ -341,11 +341,8 @@ LOCALIZE = {
                 "seizoen",
             ],
             "pre": [
-                'st',
-                'nd',
-                'rd',
-                'th',
-                'the',
+                'ste',
+                'de',
             ],
             "post": [
                 "nummer",
@@ -393,8 +390,14 @@ LOCALIZE = {
         "ondeck": {
             "keywords": [
                 "aan dek",
+                "voorpagina",
+                "hoofdpagina",
+                "beginpagina",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "op",
+            ],
             "post": [
                 "films",
                 "film",
@@ -402,7 +405,7 @@ LOCALIZE = {
                 "aflevering",
             ],
         },
-        "seperator"{
+        "seperator": {
             "keywords": [
                 "op",
             ],

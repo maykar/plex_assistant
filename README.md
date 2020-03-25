@@ -2,7 +2,7 @@
 
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT/DialogFlow Setup](#iftttdialogflow-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast and Plex devices with a bit of help from [IFTTT](https://ifttt.com/) or DialogFlow.
+Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast and Plex devices with a bit of help from [IFTTT or DialogFlow](#iftttdialogflow-setup).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
@@ -203,7 +203,7 @@ I've tried to take into account many different ways that commands could be phras
 ***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the phrase `"on"` or `"on the"`. Example: *"play friends **ON** downstairs tv"*
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

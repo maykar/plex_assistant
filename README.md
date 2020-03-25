@@ -171,6 +171,8 @@ intent_script:
           command: "{{command}}"
 ```
 
+You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "Hey Google, ask plex to..."
+
 ***Restart after adding the above.***
 
 </details>

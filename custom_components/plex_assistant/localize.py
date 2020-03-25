@@ -285,6 +285,136 @@ LOCALIZE = {
             "post": [],
         },
     },
+    "nl": {
+        "play": "speel",
+        "movies": [
+            "film"
+        ],
+        "shows": [
+            "aflevering"
+        ],
+
+        "controls": {
+            "play": "speel",
+            "pause": "pauzeer",
+            "stop": "stop",
+            "jump_forward": "spring naar voren",
+            "jump_back": "spring naar achter",
+        },
+
+        "not_found": "niet gevonden",
+        "cast_device": "cast toestel",
+        "no_call": "Er is geen opdracht ontvangen.",
+
+        # Invoke Command
+        "play_start": [
+            "speel de film",
+            "speel film",
+            "speel de aflevering",
+            "speel aflevering",
+            "play the show",
+            "speel de",
+            "speel",
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            "eerste": "1",
+            "tweede": "2",
+            "derde": "3",
+            "vierde": "4",
+            "vijfde": "5",
+            "zesde": "6",
+            "zevende": "7",
+            "achtste": "8",
+            "negende": "9",
+            "tiende": "10",
+            "pre": [
+                "de",
+            ],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "seizoen",
+            ],
+            "pre": [
+                'ste',
+                'de',
+            ],
+            "post": [
+                "nummer",
+                "van",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "aflevering",
+            ],
+            "pre": [
+                'ste',
+                'de',
+            ],
+            "post": [
+                "nummer",
+                "van",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "laatste",
+                "recentste",
+                "nieuwste",
+            ],
+            "pre": [
+                "de",
+            ],
+            "post": [
+                "aflevering",
+                "van",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "niet bekeken",
+            ],
+            "pre": [],
+            "post": [
+                "afleveringen",
+                "aflevering",
+                "van",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "aan dek",
+                "voorpagina",
+                "hoofdpagina",
+                "beginpagina",
+            ],
+            "pre": [
+                "de",
+                "op",
+            ],
+            "post": [
+                "films",
+                "film",
+                "afleveringen",
+                "aflevering",
+            ],
+        },
+        "seperator": {
+            "keywords": [
+                "op",
+            ],
+            "pre": [],
+            "post": [
+                "de",
+            ],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",

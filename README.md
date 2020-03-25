@@ -91,6 +91,8 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 `{ "action": "call_service", "service": "plex_assistant.command", "command": "{{TextField}}" }`
 
+#### In Home Assistant
+
 Finally, add the following automation to your Home Assistant configuration.yaml:
 
 ```
@@ -150,6 +152,8 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 * Click "Decide how your action is invoked"
 * Under "Display Name" type "Plex" then hit save in the top right (it may give an error, but thats okay).
 
+#### In Home Assistant
+
 Add the following to your `configuration.yaml` file
 
 ```
@@ -188,6 +192,8 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 * `stop`
 * `jump forward`
 * `jump back`
+
+Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"`.
 
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
 

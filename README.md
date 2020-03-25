@@ -61,7 +61,7 @@ plex_assistant:
 
 ## IFTTT/DialogFlow-Setup
 
-You can either use IFTTT or DialogFlow to trigger Plex Assistant. DialogFlow is more involved and finicky to setup than IFTTT. It's advantages are quicker response and support for more languages as long as the translation has been made for Plex Assistant.
+You can either use IFTTT or DialogFlow to trigger Plex Assistant. DialogFlow is more involved and finicky to setup than IFTTT and will add an extra response from the Google Assistant like: "Talking to the test version of Plex". It's advantages are quicker response and support for more languages as long as the translation has been made for Plex Assistant.
 
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>

@@ -10,7 +10,6 @@ Translations are held in a dictionary with the language code as the key (in this
     "en": {
         # Generic Terms
         "play": "play",
-        "movie": "movie",
         ...
 ```
 
@@ -18,15 +17,12 @@ Translations are held in a dictionary with the language code as the key (in this
 
 The first grouping of "Generic Terms" are translations of generic words that would be used throughout.
 For example in `"play": "play"` the first "play" is the key and should not be changed and the second "play" is the translation of the word.
-"on_the" is used to inform us that the user is trying to play the media on a specific device, for example: `play Friends on the Downstairs TV`.
+
 The keys "movies" and "shows" contain a list of keywords that would inform us of the media type the user is looking for.
 
 ```
         # Generic Terms
         "play": "play",
-        "on_the": "on the",
-        "not_found": "not found",
-        "cast_device": "cast device",
         "movies": [
             "movie",
             "film",
@@ -36,6 +32,30 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
             "tv",
             "show"
         ],
+```
+
+### Controls
+
+These are the media player controls.
+
+```
+        "controls": {
+            "play": "play",
+            "pause": "pause",
+            "stop": "stop",
+            "jump_forward": "jump forward",
+            "jump_back": "jump back",
+        },
+```
+
+### Errors
+
+Text for errors.
+
+```
+        "not_found": "not found",
+        "cast_device": "cast device",
+        "no_call": "No command was received.",
 ```
 
 ### Invoke Commands
@@ -129,6 +149,23 @@ Ordinal numbers between 1 and 10 (first and tenth) are often represented as word
             "post": [
                 "number",
                 "of",
+            ],
+        },
+```
+
+### Seperator
+
+This is the word that seperates the media from cast device. In English it is "on". It operates like the keywords above with a post and pre, but may only contain one keyword:
+
+```
+        "seperator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "on",
+            ],
+            "pre": [],
+            "post": [
+                "the",
             ],
         },
 ```

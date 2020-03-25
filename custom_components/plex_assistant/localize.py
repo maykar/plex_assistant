@@ -296,10 +296,10 @@ LOCALIZE = {
 
         "controls": {
             "play": "speel",
-            "pause": "pauze",
-            "stop": "hou op",
+            "pause": "pauzeer",
+            "stop": "stop",
             "jump_forward": "spring naar voren",
-            "jump_back": "terugspringen",
+            "jump_back": "spring naar achter",
         },
 
         "not_found": "niet gevonden",

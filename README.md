@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT Setup](#ifttt-setup) ｜ [Commands](#commands) ｜ [Translations](#translation)<br><hr>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT/DialogFlow Setup](#iftttdialogflow-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
 
 Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast and Plex devices with a bit of help from [IFTTT](https://ifttt.com/) or DialogFlow.
 
@@ -35,9 +35,12 @@ Add config to your configuration.yaml file.
 | url          |         | **Required** | The full url to your Plex instance including port.
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
-| language     | 'en'    | Optional     | Language code. Currently only 'en' (english) is supported.
+| language     | 'en'    | Optional     | Language code. See Below for supported Languages.
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name.
+
+#### Supported Languages
+Plex Assistant currently supports: English (en), Swedish (sv), and Dutch (nl). [Help add translations.](#translation)
 
 <hr>
 
@@ -58,7 +61,7 @@ plex_assistant:
 
 ## IFTTT/DialogFlow-Setup
 
-You can either use IFTTT or DialogFlow to trigger Plex Assistant. DialogFlow is more involved and finicky to setup than IFTTT. It's advantages are quicker responce and support for more languages as long as the translation has been made for Plex Assistant.
+You can either use IFTTT or DialogFlow to trigger Plex Assistant. DialogFlow is more involved and finicky to setup than IFTTT. It's advantages are quicker response and support for more languages as long as the translation has been made for Plex Assistant.
 
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>
@@ -81,7 +84,7 @@ Visit [ifttt.com](https://ifttt.com/) and sign up or sign in.
 * Press the plus sign next to "If". Search for and select "Google Assistant"
 * Select "Say phrase with text ingredient"
 
-Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. This component expects to hear something starting with "play" followed by at least a show/movie name, "ondeck", or similar (see more about [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Hit "Create Trigger" to continue.
+Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. See currently supported [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Hit "Create Trigger" to continue.
 
 * Press the plus sign next to "Then"
 * Search for and select "Webhooks", then select "Make a web request"
@@ -200,7 +203,7 @@ I've tried to take into account many different ways that commands could be phras
 ***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceeded with the phrase `"on"` or `"on the"`. Example: *"play friends **ON** downstairs tv"*
+If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the phrase `"on"` or `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

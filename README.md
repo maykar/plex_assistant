@@ -148,7 +148,8 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 * Then double click on the word "command" you just entered and select "@sys.any:command"
 * Scroll to the bottom and expand "Fulfillment" then click "ENABLE FULFILLMENT"
 * Turn on "Enable webhook call for this intent"
-* At the top of the page enter "Plex" for the intent name and hit "Save".
+* Expand "Responses" turn on “Set this intent as end of conversation”
+* At the top of the page enter "Plex" for the intent name and hit "Save"
 * On the right side of the page hit "Set-up Google Assistant integration"
 * Click the space under "Explicit invocation", select "Plex", then hit "Close"
 * Type "Plex" in "Implicit invocation", then click "Manage assistant app"

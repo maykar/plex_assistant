@@ -73,7 +73,6 @@ def setup(hass, config):
     PA.server = PlexServer(base_url, token)
     PA.plex = PA.server.library
     PA.lib = get_libraries(PA.plex)
-    if aliases
     PA.alias_names = list(aliases.keys()) if aliases else []
     PA.client_names = [client.title for client in PA.server.clients()]
     get_chromecasts(blocking=False, callback=cc_callback)
@@ -121,6 +120,11 @@ def setup(hass, config):
                                       localize["not_found"])
             _LOGGER.warning(error)
             return
+
+        if isinstance(cast, str):
+            client = True
+        else:
+            client = False
 
         if command["control"]:
             control = command["control"]

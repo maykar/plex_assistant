@@ -106,29 +106,23 @@ def setup(hass, config):
             PA.lib = get_libraries(PA.plex)
 
         try:
-            devices = PA.device_names + PA.client_names + PA.alias_names
-            name = fuzzy(command["device"] or default_cast, devices)[0]
-            if name in PA.alias_names and aliases[name] in PA.device_names:
-                cast = PA.devices[aliases[name]]
-            elif name in PA.device_names:
-                cast = PA.devices[name]
-            elif name in PA.client_names + PA.alias_names:
-                cast = aliases[name] if name in aliases else name
-                client = True
+            device = fuzzy(command["device"] or default_cast,
+                           PA.device_names + PA.client_names)
+            alias = fuzzy(command["device"], PA.alias_names)
+            name = aliases[alias[0]] if alias[1] > device[1] else device[0]
+            cast = PA.devices[name] if name in PA.device_names else name
         except Exception:
             error = "{0} {1}.".format(localize["cast_device"].capitalize(),
                                       localize["not_found"])
             _LOGGER.warning(error)
             return
 
-        if isinstance(cast, str):
-            client = True
-        else:
-            client = False
+        client = isinstance(cast, str)
 
         if command["control"]:
             control = command["control"]
             if client:
+                PA.server.client(cast).proxyThroughServer()
                 plex_c = PA.server.client(cast)
             else:
                 plex_c = PlexController()
@@ -170,6 +164,7 @@ def setup(hass, config):
 
         if client:
             _LOGGER.debug("Client: %s", cast)
+            PA.server.client(cast).proxyThroughServer()
             plex_c = PA.server.client(cast)
             plex_c.playMedia(media)
         else:

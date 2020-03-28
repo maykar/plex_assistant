@@ -106,9 +106,9 @@ def setup(hass, config):
             PA.lib = get_libraries(PA.plex)
 
         try:
-            device = fuzzy(command["device"] or default_cast,
-                           PA.device_names + PA.client_names)
-            alias = fuzzy(command["device"], PA.alias_names)
+            devices = PA.device_names + PA.client_names
+            device = fuzzy(command["device"] or default_cast, devices)
+            alias = fuzzy(command["device"] or default_cast, PA.alias_names)
             name = aliases[alias[0]] if alias[1] > device[1] else device[0]
             cast = PA.devices[name] if name in PA.device_names else name
         except Exception:

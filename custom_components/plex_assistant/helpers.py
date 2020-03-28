@@ -23,7 +23,7 @@ def get_libraries(plex):
     movies = plex.search(libtype="movie")
     movies.sort(key=lambda x: x.addedAt)
     shows = plex.search(libtype="show")
-    shows.sort(key=lambda x: x.updatedAt)
+    shows.sort(key=lambda x: x.updatedAt or x.addedAt)
 
     return {
         "movies": movies,

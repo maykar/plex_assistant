@@ -415,6 +415,171 @@ LOCALIZE = {
             ],
         },
     },
+    "fr": {
+        # Generic Terms
+        "play": "joue",
+        "movies": [
+            "vidéo",
+            "film"
+        ],
+        "shows": [
+            "épisode",
+            "série"
+        ],
+
+        # Controls
+        "controls": {
+            "play": "joue",
+            "pause": "pause",
+            "stop": "arrête",
+            "jump_forward": "avance",
+            "jump_back": "recule",
+        },
+
+        # Text for errors
+        "not_found": "non trouvé",
+        "cast_device": "sur",
+        "no_call": "aucune commande recue.",
+
+        # Invoke Command
+        "play_start": [
+            "joue le film",
+            "joue film",
+            "joue la vidéo",
+            "joue vidéo",
+            "joue la série",
+            "joue série",
+            "joue le",
+            "joue",
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "premier": "1",
+            "second": "2",
+            "troisième": "3",
+            "quatrième": "4",
+            "cinquième": "5",
+            "sixième": "6",
+            "septième": "7",
+            "huitième": "8",
+            "neuvième": "9",
+            "dixième": "10",
+            "onzième": "11",
+            "douzième": "12",
+            "treizième": "13",
+            "quatorzième": "14",
+            "quinzième": "15",
+            # Do not edit the keys of pre and post
+            "pre": [
+                "the",
+            ],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "saison",
+            ],
+            "pre": [
+                'st',
+                'nd',
+                'rd',
+                'th',
+                'the',
+            ],
+            "post": [
+                "number",
+                "of",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "épisodes",
+                "épisode",
+            ],
+            "pre": [
+                'st',
+                'nd',
+                'rd',
+                'th',
+                'the',
+            ],
+            "post": [
+                "nombre",
+                "de",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "dernier",
+                "nouvel",
+                "nouveau",
+            ],
+            "pre": [
+                "le",
+            ],
+            "post": [
+                "film",
+                "vidéo",
+                "épisodes",
+                "épisode",
+                "tv",
+                "shows",
+                "show",
+                "de",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "non vu",
+                "suivant",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "vidéo",
+                "épisodes",
+                "épisode",
+                "tv",
+                "shows",
+                "show",
+                "de",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "on deck",
+                "ondeck",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "vidéo",
+                "épisodes",
+                "épisode",
+                "tv",
+                "shows",
+                "show",
+                "de",
+            ],
+        },
+        # This is the seperator word used at the end of the command
+        # To let us know it is a cast device.
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
+        "seperator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "sur",
+            ],
+            "pre": [],
+            "post": [
+                "la",
+            ],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",

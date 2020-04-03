@@ -184,9 +184,6 @@ LOCALIZE = {
             "jump_forward": "hoppa framåt",
             "jump_back": "hoppa tillbaka",
         },
-
-        "not_found": "finns ej",
-        "cast_device": "cast enhet",
         "no_call": "Inget kommando mottogs.",
 
         "play_start": [

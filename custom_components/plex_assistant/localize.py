@@ -416,32 +416,48 @@ LOCALIZE = {
         },
     },
     "fr": {
-        # Generic Terms
         "play": "joue",
         "movies": [
             "vidéo",
-            "film"
+            "film",
+            "films"
         ],
         "shows": [
             "épisode",
+            "l'épisode",
+            "tv",
+            "télé",
+            "série télé",
+            "série télévisée",
+            "série tv",
+            "show",
             "série"
         ],
-
-        # Controls
         "controls": {
-            "play": "joue",
+            "play":  [
+                "joue",
+                "lis"
+            ],
             "pause": "pause",
             "stop": "arrête",
-            "jump_forward": "avance",
-            "jump_back": "recule",
+            "jump_forward": [
+                "avance",
+                "avancer",
+                "sauter en avant",
+                "saute en avant",
+            ],
+            "jump_back": [
+                "recule",
+                "reculer",
+                "reviens",
+                "retourne",
+                "arrière",
+                "en arrière",
+            ],
         },
-
-        # Text for errors
-        "not_found": "non trouvé",
+        "not_found": "je n'ai pas trouvé",
         "cast_device": "sur",
-        "no_call": "aucune commande recue.",
-
-        # Invoke Command
+        "no_call": "aucune commande reçue.",
         "play_start": [
             "joue le film",
             "joue film",
@@ -450,14 +466,38 @@ LOCALIZE = {
             "joue la série",
             "joue série",
             "joue le",
-            "joue",
+            "joue",           
+            "lire le film",
+            "lire film",
+            "lis le film",
+            "lecture du film",
+            "lecture film",
+            "lancer série",
+            "lancer la série",
+            "lance la série",
+            "lis la série",
+            "lire la série",
+            "lire la série télé",
+            "lire la série tv",
+            "lire la série télévisée",
+            "lire le show",
+            "lire le show tv",
+            "lire télé",
+            "lecture de la série",
+            "lecture tv",
+            "lire tv",
+            "lis tv",
+            "lance tv",
+            "lancer tv",
+            "lis série",
+            "lire show",
+            "lire the",
+            "lire"
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "premier": "1",
-            "second": "2",
+            "deuxième": "2",
             "troisième": "3",
             "quatrième": "4",
             "cinquième": "5",
@@ -471,28 +511,22 @@ LOCALIZE = {
             "treizième": "13",
             "quatorzième": "14",
             "quinzième": "15",
-            # Do not edit the keys of pre and post
-            "pre": [
-                "the",
-            ],
+        "pre": [
+            "le",
+        ],
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "saison",
             ],
             "pre": [
-                'st',
-                'nd',
-                'rd',
-                'th',
-                'the',
+                "la",
             ],
             "post": [
                 "number",
-                "of",
+                "de",
             ],
         },
         "episode": {
@@ -501,34 +535,38 @@ LOCALIZE = {
                 "épisode",
             ],
             "pre": [
-                'st',
-                'nd',
-                'rd',
-                'th',
-                'the',
+                "le",
+                "l'",
             ],
             "post": [
                 "nombre",
+                "number",
                 "de",
             ],
         },
         "latest": {
             "keywords": [
                 "dernier",
+                "récent",
                 "nouvel",
                 "nouveau",
             ],
             "pre": [
                 "le",
+                "un",
             ],
             "post": [
                 "film",
                 "vidéo",
+                "films",
                 "épisodes",
                 "épisode",
+                "séries",
+                "série",
                 "tv",
-                "shows",
-                "show",
+                "télé",
+                "télévisée",
+                "de la",
                 "de",
             ],
         },
@@ -536,46 +574,79 @@ LOCALIZE = {
             "keywords": [
                 "non vu",
                 "suivant",
+                "à avoir",
+                "pas encore vu",
+                "non-vu",
             ],
-            "pre": [],
+            "pre": [
+                "l'",
+                "un",
+            ],
             "post": [
                 "film",
-                "vidéo",
+                "vidéo"
                 "épisodes",
                 "épisode",
+                "films",
+                "séries",
+                "série",
                 "tv",
-                "shows",
-                "show",
+                "télé",
+                "télévisée",
+                "de la",
                 "de",
             ],
         },
         "ondeck": {
             "keywords": [
+                "dans pont",
+                "dans le pont",
+                "sur le pont",
+                "pont",
+                "deck",
+                "récents",
+                "favoris",
+                "à voir",
                 "on deck",
                 "ondeck",
             ],
-            "pre": [],
+            "pre": [
+                "de mes",
+                "dans mon",
+                "dans mes",
+                "mes",
+                "sur",
+                "sur le",
+                "le",
+                "de",
+                "dans",
+                "mon",
+                "mes",
+                "sur",
+                "le",
+            ],
             "post": [
                 "film",
                 "vidéo",
                 "épisodes",
                 "épisode",
+                "films",
+                "séries",
+                "série",
                 "tv",
-                "shows",
-                "show",
+                "télé",
+                "télévisée",
+                "du",
                 "de",
             ],
         },
-        # This is the seperator word used at the end of the command
-        # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "seperator": {
-            # Only use one keyword for this one.
             "keywords": [
                 "sur",
             ],
             "pre": [],
             "post": [
+                "le",
                 "la",
             ],
         },

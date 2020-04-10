@@ -147,10 +147,10 @@ LOCALIZE = {
                 "of",
             ],
         },
-        # This is the seperator word used at the end of the command
+        # This is the separator word used at the end of the command
         # To let us know it is a cast device.
         # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
-        "seperator": {
+        "separator": {
             # Only use one keyword for this one.
             "keywords": [
                 "on",
@@ -274,7 +274,7 @@ LOCALIZE = {
                 "tv",
             ],
         },
-        "seperator": {
+        "separator": {
             "keywords": [
                 "på",
             ],
@@ -402,7 +402,7 @@ LOCALIZE = {
                 "aflevering",
             ],
         },
-        "seperator": {
+        "separator": {
             "keywords": [
                 "op",
             ],
@@ -637,7 +637,7 @@ LOCALIZE = {
                 "de",
             ],
         },
-        "seperator": {
+        "separator": {
             "keywords": [
                 "sur",
             ],
@@ -716,10 +716,10 @@ LOCALIZE = {
     #         "pre": [],
     #         "post": [],
     #     },
-    #     # This is the seperator word used at the end of the command
+    #     # This is the separator word used at the end of the command
     #     # to let us know it is a cast device.
     #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
-    #     "seperator": {
+    #     "separator": {
     #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],

@@ -6,8 +6,8 @@
   "codeowners": ["@maykar"],
   "requirements": [
     "gTTs",
-    "pychromecast==5.0.0",
+    "pychromecast>=5.0.0",
     "fuzzywuzzy==0.16.0",
-    "plexapi==3.4.0"
+    "plexapi>=3.4.0"
   ]
 }

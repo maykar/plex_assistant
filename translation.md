@@ -158,7 +158,7 @@ Ordinal numbers between 1 and 10 (first and tenth) are often represented as word
 This is the word that seperates the media from cast device. In English it is "on". It operates like the keywords above with a post and pre, but may only contain one keyword:
 
 ```
-        "seperator": {
+        "separator": {
             # Only use one keyword for this one.
             "keywords": [
                 "on",

@@ -259,11 +259,11 @@ def get_library(phrase, lib, localize):
     return None
 
 
-def is_device(command, media_list, seperator):
+def is_device(command, media_list, separator):
     """ Return true if string is a cast device.
     Uses fuzzy wuzzy to score media titles against cast device names.
     """
-    split = command.split(seperator)
+    split = command.split(separator)
     full_score = fuzzy(command, media_list)[1]
     split_score = fuzzy(command.replace(split[-1], "")[0], media_list)[1]
     cast_score = fuzzy(split[-1], PA.device_names +
@@ -277,30 +277,30 @@ def get_media_and_device(localize, command, lib, library, default_cast):
     """ Find and return the media item and cast device. """
     media = None
     device = default_cast
-    seperator = localize["seperator"]["keywords"][0]
-    command = _remove(localize["seperator"], command, seperator)
+    separator = localize["separator"]["keywords"][0]
+    command = _remove(localize["separator"], command, separator)
 
-    if command.strip().startswith(seperator + " "):
-        device = command.replace(seperator, "").strip()
+    if command.strip().startswith(separator + " "):
+        device = command.replace(separator, "").strip()
         return {"media": "", "device": device}
 
-    seperator = " " + seperator + " "
-    if seperator in command:
+    separator = " " + separator + " "
+    if separator in command:
         device = False
         if library == lib["shows"]:
-            device = is_device(command, lib["show_titles"], seperator)
+            device = is_device(command, lib["show_titles"], separator)
         elif library == lib["movies"]:
-            device = is_device(command, lib["movie_titles"], seperator)
+            device = is_device(command, lib["movie_titles"], separator)
         else:
             device = is_device(
                 command,
                 lib["movie_titles"] + lib["show_titles"],
-                seperator
+                separator
             )
 
         if device:
-            split = command.split(seperator)
-            media = command.replace(seperator + split[-1], "")
+            split = command.split(separator)
+            media = command.replace(separator + split[-1], "")
             device = split[-1]
 
     media = media if media else command

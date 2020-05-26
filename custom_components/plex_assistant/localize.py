@@ -147,10 +147,10 @@ LOCALIZE = {
                 "of",
             ],
         },
-        # This is the seperator word used at the end of the command
+        # This is the separator word used at the end of the command
         # To let us know it is a cast device.
         # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
-        "seperator": {
+        "separator": {
             # Only use one keyword for this one.
             "keywords": [
                 "on",
@@ -184,9 +184,6 @@ LOCALIZE = {
             "jump_forward": "hoppa framåt",
             "jump_back": "hoppa tillbaka",
         },
-
-        "not_found": "finns ej",
-        "cast_device": "cast enhet",
         "no_call": "Inget kommando mottogs.",
 
         "play_start": [
@@ -277,7 +274,7 @@ LOCALIZE = {
                 "tv",
             ],
         },
-        "seperator": {
+        "separator": {
             "keywords": [
                 "på",
             ],
@@ -405,7 +402,7 @@ LOCALIZE = {
                 "aflevering",
             ],
         },
-        "seperator": {
+        "separator": {
             "keywords": [
                 "op",
             ],
@@ -538,7 +535,7 @@ LOCALIZE = {
                 "di",
             ],
         },
-        "seperator": {
+        "separator": {
             "keywords": [
                 "su",
             ],
@@ -548,6 +545,242 @@ LOCALIZE = {
             ],
         },
     },    
+    "fr": {
+        "play": "joue",
+        "movies": [
+            "vidéo",
+            "film",
+            "films"
+        ],
+        "shows": [
+            "épisode",
+            "l'épisode",
+            "tv",
+            "télé",
+            "série télé",
+            "série télévisée",
+            "série tv",
+            "show",
+            "série"
+        ],
+        "controls": {
+            "play":  [
+                "joue",
+                "lis"
+            ],
+            "pause": "pause",
+            "stop": "arrête",
+            "jump_forward": [
+                "avance",
+                "avancer",
+                "sauter en avant",
+                "saute en avant",
+            ],
+            "jump_back": [
+                "recule",
+                "reculer",
+                "reviens",
+                "retourne",
+                "arrière",
+                "en arrière",
+            ],
+        },
+        "not_found": "je n'ai pas trouvé",
+        "cast_device": "sur",
+        "no_call": "aucune commande reçue.",
+        "play_start": [
+            "joue le film",
+            "joue film",
+            "joue la vidéo",
+            "joue vidéo",
+            "joue la série",
+            "joue série",
+            "joue le",
+            "joue",           
+            "lire le film",
+            "lire film",
+            "lis le film",
+            "lecture du film",
+            "lecture film",
+            "lancer série",
+            "lancer la série",
+            "lance la série",
+            "lis la série",
+            "lire la série",
+            "lire la série télé",
+            "lire la série tv",
+            "lire la série télévisée",
+            "lire le show",
+            "lire le show tv",
+            "lire télé",
+            "lecture de la série",
+            "lecture tv",
+            "lire tv",
+            "lis tv",
+            "lance tv",
+            "lancer tv",
+            "lis série",
+            "lire show",
+            "lire the",
+            "lire"
+        ],
+
+        "ordinals": {
+            "premier": "1",
+            "deuxième": "2",
+            "troisième": "3",
+            "quatrième": "4",
+            "cinquième": "5",
+            "sixième": "6",
+            "septième": "7",
+            "huitième": "8",
+            "neuvième": "9",
+            "dixième": "10",
+            "onzième": "11",
+            "douzième": "12",
+            "treizième": "13",
+            "quatorzième": "14",
+            "quinzième": "15",
+        "pre": [
+            "le",
+        ],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "saison",
+            ],
+            "pre": [
+                "la",
+            ],
+            "post": [
+                "number",
+                "de",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "épisodes",
+                "épisode",
+            ],
+            "pre": [
+                "le",
+                "l'",
+            ],
+            "post": [
+                "nombre",
+                "number",
+                "de",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "dernier",
+                "récent",
+                "nouvel",
+                "nouveau",
+            ],
+            "pre": [
+                "le",
+                "un",
+            ],
+            "post": [
+                "film",
+                "vidéo",
+                "films",
+                "épisodes",
+                "épisode",
+                "séries",
+                "série",
+                "tv",
+                "télé",
+                "télévisée",
+                "de la",
+                "de",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "non vu",
+                "suivant",
+                "à avoir",
+                "pas encore vu",
+                "non-vu",
+            ],
+            "pre": [
+                "l'",
+                "un",
+            ],
+            "post": [
+                "film",
+                "vidéo"
+                "épisodes",
+                "épisode",
+                "films",
+                "séries",
+                "série",
+                "tv",
+                "télé",
+                "télévisée",
+                "de la",
+                "de",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "dans pont",
+                "dans le pont",
+                "sur le pont",
+                "pont",
+                "deck",
+                "récents",
+                "favoris",
+                "à voir",
+                "on deck",
+                "ondeck",
+            ],
+            "pre": [
+                "de mes",
+                "dans mon",
+                "dans mes",
+                "mes",
+                "sur",
+                "sur le",
+                "le",
+                "de",
+                "dans",
+                "mon",
+                "mes",
+                "sur",
+                "le",
+            ],
+            "post": [
+                "film",
+                "vidéo",
+                "épisodes",
+                "épisode",
+                "films",
+                "séries",
+                "série",
+                "tv",
+                "télé",
+                "télévisée",
+                "du",
+                "de",
+            ],
+        },
+        "separator": {
+            "keywords": [
+                "sur",
+            ],
+            "pre": [],
+            "post": [
+                "le",
+                "la",
+            ],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",
@@ -616,10 +849,10 @@ LOCALIZE = {
     #         "pre": [],
     #         "post": [],
     #     },
-    #     # This is the seperator word used at the end of the command
+    #     # This is the separator word used at the end of the command
     #     # to let us know it is a cast device.
     #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
-    #     "seperator": {
+    #     "separator": {
     #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],

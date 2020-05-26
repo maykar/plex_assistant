@@ -416,7 +416,6 @@ LOCALIZE = {
         },
     },
     "it": {
-        # Generic Terms
         "play": "riproduci",
         "movies": [
             "film",
@@ -427,7 +426,6 @@ LOCALIZE = {
             "serie tv"
         ],
 
-        # Controls
         "controls": {
             "play": "riproduci",
             "pause": "metti in pasa",
@@ -436,12 +434,10 @@ LOCALIZE = {
             "jump_back": "vai indietro",
         },
 
-        # Text for errors
         "not_found": "non trovato",
         "cast_device": "dispositivo cast",
         "no_call": "Nessun comando ricevuto.",
 
-        # Invoke Command
         "play_start": [
             "riproduci il film",
             "riproduci film",
@@ -454,9 +450,7 @@ LOCALIZE = {
             "riproduci",
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "primo": "1",
             "secondo": "2",
             "terzo": "3",
@@ -467,23 +461,17 @@ LOCALIZE = {
             "ottavo": "8",
             "nono": "9",
             "decimo": "10",
-            # Do not edit the keys of pre and post
             "pre": [
                 "the",
             ],
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "stagione",
             ],
             "pre": [
-                'o',
-                'o',
-                'o',
-                'o',
                 'o',
             ],
             "post": [
@@ -497,10 +485,6 @@ LOCALIZE = {
                 "episodio",
             ],
             "pre": [
-                'o',
-                'o',
-                'o',
-                'o',
                 'o',
             ],
             "post": [
@@ -554,11 +538,7 @@ LOCALIZE = {
                 "di",
             ],
         },
-        # This is the seperator word used at the end of the command
-        # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "seperator": {
-            # Only use one keyword for this one.
             "keywords": [
                 "su",
             ],

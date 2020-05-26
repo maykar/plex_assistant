@@ -6,8 +6,8 @@
   "codeowners": ["@maykar"],
   "requirements": [
     "gTTs",
-    "pychromecast==4.1.1",
+    "pychromecast",
     "fuzzywuzzy==0.16.0",
-    "git+https://github.com/pkkid/python-plexapi.git@c3e16b2d369968433048ae9a5678294041eb084d#plexapi==9.9.9"
+    "plexapi"
   ]
 }

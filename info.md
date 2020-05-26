@@ -9,7 +9,8 @@ You can use the component's service without IFTTT/DialogFlow to call the command
 [Visit the readme for config, setup, and availible commands.](https://github.com/maykar/plex_assistant)
 
 
-#### Support Development
+## Supporting Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
+- :1st_place_medal:&nbsp;&nbsp;[Tip some Crypto](https://github.com/sponsors/maykar)
 - :heart:&nbsp;&nbsp;[Sponsor me on GitHub](https://github.com/sponsors/maykar)
 - :keyboard:&nbsp;&nbsp;[Help with translation, development, or documentation](https://github.com/maykar/plex_assistant)

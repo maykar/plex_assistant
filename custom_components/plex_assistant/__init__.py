@@ -102,7 +102,7 @@ def setup(hass, config):
         if not command["control"]:
             _LOGGER.debug({i: command[i] for i in command if i != 'library'})
 
-        if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc")[0].addedAt:
+        if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
             PA.lib = get_libraries(PA.plex)
 
         try:

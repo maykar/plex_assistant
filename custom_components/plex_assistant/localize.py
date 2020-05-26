@@ -412,6 +412,139 @@ LOCALIZE = {
             ],
         },
     },
+    "it": {
+        "play": "riproduci",
+        "movies": [
+            "film",
+        ],
+        "shows": [
+            "episodio",
+            "telefilm",
+            "serie tv"
+        ],
+
+        "controls": {
+            "play": "riproduci",
+            "pause": "metti in pasa",
+            "stop": "interrompi",
+            "jump_forward": "vai avanti",
+            "jump_back": "vai indietro",
+        },
+
+        "not_found": "non trovato",
+        "cast_device": "dispositivo cast",
+        "no_call": "Nessun comando ricevuto.",
+
+        "play_start": [
+            "riproduci il film",
+            "riproduci film",
+            "riproduci la serie tv",
+            "riproduci serie tv",
+            "riproduci telefilm",
+            "riproduci serie",
+            "riproduci il",
+            "riproduci la",
+            "riproduci",
+        ],
+
+        "ordinals": {
+            "primo": "1",
+            "secondo": "2",
+            "terzo": "3",
+            "quarto": "4",
+            "quinto": "5",
+            "sesto": "6",
+            "settimo": "7",
+            "ottavo": "8",
+            "nono": "9",
+            "decimo": "10",
+            "pre": [
+                "the",
+            ],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "stagione",
+            ],
+            "pre": [
+                'o',
+            ],
+            "post": [
+                "numero",
+                "di",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episodi",
+                "episodio",
+            ],
+            "pre": [
+                'o',
+            ],
+            "post": [
+                "numero",
+                "di",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "ultimo",
+                "recente",
+                "nuovo",
+            ],
+            "pre": [
+                "il",
+                "la",
+            ],
+            "post": [
+                "film",
+                "episodi",
+                "episodio",
+                "serie tv",
+                "di",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "non visto",
+                "prossimo",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "episodi",
+                "episodio",
+                "serie tv",
+                "di",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "on deck",
+                "ondeck",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "episodi",
+                "episodio",
+                "serie tv",
+                "di",
+            ],
+        },
+        "separator": {
+            "keywords": [
+                "su",
+            ],
+            "pre": [],
+            "post": [
+                "il",
+            ],
+        },
+    },    
     "fr": {
         "play": "joue",
         "movies": [

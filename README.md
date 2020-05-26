@@ -6,7 +6,7 @@ Plex Assistant is a Home Assistant component to allow Google Assistant to cast P
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
-You can use the component's service without IFTTT/DialogFlow as well to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+You can use the component's service without IFTTT/DialogFlow to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
 
 ## Supporting Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)

@@ -16,7 +16,7 @@ You can use the component's service without IFTTT/DialogFlow as well to call the
   <br><br>
 
 ## Author's note
-This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment (is it just me?). It has only been tested on my setup with first generation Chromecasts.
+This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment.
 
 This project is not a priority as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will be adding features and fixing issues until that time. As always, I both welcome and greatly appreciate pull requests.
 

@@ -7,6 +7,8 @@ cast device names.
 
 https://github.com/maykar/plex_assistant
 """
+
+from homeassistant.helpers.network import get_url
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 
@@ -88,9 +90,7 @@ def setup(hass, config):
         speech_error = False
 
         get_chromecasts(blocking=False, callback=cc_callback)
-        for client in PA.server.clients():
-            if client.title not in PA.client_names:
-                PA.client_names.append(client.title)
+        PA.client_names = [client.title for client in PA.server.clients()]
 
         command = process_speech(
             call.data.get("command").lower(),
@@ -109,11 +109,16 @@ def setup(hass, config):
             devices = PA.device_names + PA.client_names
             device = fuzzy(command["device"] or default_cast, devices)
             alias = fuzzy(command["device"] or default_cast, PA.alias_names)
+            if alias[1] < 75 and device[1] < 75:
+                raise Exception()
             name = aliases[alias[0]] if alias[1] > device[1] else device[0]
             cast = PA.devices[name] if name in PA.device_names else name
         except Exception:
-            error = "{0} {1}.".format(localize["cast_device"].capitalize(),
-                                      localize["not_found"])
+            error = "{0} {1}: \"{2}\"".format(
+                localize["cast_device"].capitalize(),
+                localize["not_found"],
+                command["device"].title()
+            )
             _LOGGER.warning(error)
             return
 
@@ -155,7 +160,7 @@ def setup(hass, config):
         if speech_error and not client:
             cast.wait()
             med_con = cast.media_controller
-            mp3 = hass.config.api.base_url + "/local/plex_assist_tts/error.mp3"
+            mp3 = get_url(hass) + "/local/plex_assist_tts/error.mp3"
             med_con.play_media(mp3, 'audio/mpeg')
             med_con.block_until_active()
             return
@@ -170,8 +175,8 @@ def setup(hass, config):
         else:
             _LOGGER.debug("Cast: %s", cast.name)
             plex_c = PlexController()
-            cast.wait()
             cast.register_handler(plex_c)
+            cast.wait()
             play_media(cast, plex_c, media)
 
     hass.services.register(DOMAIN, "command", handle_input)

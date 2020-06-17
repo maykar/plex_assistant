@@ -544,7 +544,7 @@ LOCALIZE = {
                 "il",
             ],
         },
-    },    
+    },
     "fr": {
         "play": "joue",
         "movies": [
@@ -596,7 +596,7 @@ LOCALIZE = {
             "joue la série",
             "joue série",
             "joue le",
-            "joue",           
+            "joue",
             "lire le film",
             "lire film",
             "lis le film",
@@ -641,9 +641,9 @@ LOCALIZE = {
             "treizième": "13",
             "quatorzième": "14",
             "quinzième": "15",
-        "pre": [
-            "le",
-        ],
+            "pre": [
+                "le",
+            ],
             "post": [],
         },
 

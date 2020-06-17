@@ -42,7 +42,7 @@ Add config to your configuration.yaml file.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name.
 
 #### Supported Languages
-Plex Assistant currently supports: English (en), Swedish (sv), and Dutch (nl). [Help add translations.](#translation)
+Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it). [Help add translations.](#translation)
 
 <hr>
 
@@ -57,6 +57,15 @@ plex_assistant:
   aliases:
     Downstairs TV: TV0565124
     Upstairs TV: Samsung_66585
+```
+
+## Companion Sensor
+
+Plex assistant includes a sensor to display the names of currently connected cast devices. This is to help with config and troubleshooting. To add the sensor use the code below:
+
+```
+sensor:
+- platform: plex_assistant
 ```
 
 ***You must restart after installation and configuration, you may want to setup IFTTT or DialogFlow with the instructions below before doing so.*** 

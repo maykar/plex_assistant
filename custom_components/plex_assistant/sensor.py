@@ -38,8 +38,6 @@ class PlexAssistantSensor(Entity):
 
     async def async_update(self):
         get_chromecasts(blocking=False, callback=cc_callback)
-        get_libraries(PA.plex)
-        PA.client_names = [client.title for client in PA.server.clients()]
         self._state = str(len(PA.device_names + PA.client_names)
                           ) + ' connected devices.'
         self._attributes = {'device_names': ', '.join(

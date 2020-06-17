@@ -72,12 +72,12 @@ def setup(hass, config):
     if tts_error and not os.path.exists(directory):
         os.makedirs(directory, mode=0o777)
 
+    get_chromecasts(blocking=False, callback=cc_callback)
     PA.server = PlexServer(base_url, token)
     PA.plex = PA.server.library
     PA.lib = get_libraries(PA.plex)
     PA.alias_names = list(aliases.keys()) if aliases else []
     PA.client_names = [client.title for client in PA.server.clients()]
-    get_chromecasts(blocking=False, callback=cc_callback)
 
     def handle_input(call):
         """Handle the service call."""

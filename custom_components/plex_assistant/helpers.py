@@ -12,9 +12,9 @@ def cc_callback(chromecast):
     """ Callback for pychromecast's non-blocking get_chromecasts function.
     Adds all cast devices and their friendly names to PA.
     """
-    if chromecast.device.friendly_name not in PA.device_names:
-        PA.device_names.append(chromecast.device.friendly_name)
-        PA.devices[chromecast.device.friendly_name] = chromecast
+    PA.devices[chromecast.device.friendly_name] = chromecast
+    PA.client_names = [client.title for client in PA.server.clients()]
+    PA.device_names = list(PA.devices.keys())
 
 
 def get_libraries(plex):

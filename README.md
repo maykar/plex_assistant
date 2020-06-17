@@ -41,9 +41,6 @@ Add config to your configuration.yaml file.
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name.
 
-#### Supported Languages
-Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it). [Help add translations.](#translation)
-
 <hr>
 
 **Sample Config**
@@ -72,7 +69,10 @@ sensor:
 
 ## IFTTT/DialogFlow-Setup
 
-You can either use IFTTT or DialogFlow to trigger Plex Assistant. DialogFlow is more involved and finicky to setup than IFTTT and will add an extra response from the Google Assistant like: "Talking to the test version of Plex". It's advantages are quicker response and support for more languages as long as the translation has been made for Plex Assistant.
+You can either use IFTTT or DialogFlow to trigger Plex Assistant. IFTTT is the easiest way to set this up, DialogFlow is more involved and has some quirks. The advantage to using Dialogflow is it's support for more languages (as long as the translation has been made for Plex Assistant, see below).
+
+#### Supported Languages
+Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](#translation)
 
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>

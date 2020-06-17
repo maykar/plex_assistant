@@ -61,7 +61,7 @@ plex_assistant:
 
 ## Companion Sensor
 
-Plex assistant includes a sensor to display the names of currently connected cast devices (updates once a minute). This is to help with config and troubleshooting. To add the sensor use the code below:
+Plex Assistant includes a sensor to display the names of currently connected cast devices (updates once a minute). This is to help with config and troubleshooting. To use the sensor add the code below to configuration.yaml:
 
 ```
 sensor:

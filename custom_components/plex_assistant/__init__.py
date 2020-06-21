@@ -19,14 +19,16 @@ CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
 CONF_ALIASES = "aliases"
+CONF_CAST_DELAY = "cast_delay"
 
 CONFIG_SCHEMA = vol.Schema({DOMAIN: {
     vol.Required(CONF_URL): cv.url,
     vol.Required(CONF_TOKEN): cv.string,
     vol.Optional(CONF_DEFAULT_CAST): cv.string,
+    vol.Optional(CONF_CAST_DELAY, default={}): vol.Any(dict),
     vol.Optional(CONF_LANG, default='en'): cv.string,
     vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
-    vol.Optional(CONF_ALIASES): vol.Any(dict),
+    vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
 }}, extra=vol.ALLOW_EXTRA)
 
 
@@ -37,8 +39,13 @@ class PA:
     lib = {}
     devices = {}
     device_names = []
+    clients = {}
     client_names = []
+    client_sensor = []
     alias_names = []
+    attr_update = True
+    running = False
+    sensor_updating = False
 
 
 def setup(hass, config):
@@ -55,6 +62,7 @@ def setup(hass, config):
                           media_error, play_media, video_selection)
     from .localize import LOCALIZE
     from .process_speech import process_speech
+    from datetime import datetime
 
     _LOGGER = logging.getLogger(__name__)
 
@@ -64,7 +72,8 @@ def setup(hass, config):
     default_cast = conf.get(CONF_DEFAULT_CAST)
     lang = conf.get(CONF_LANG)
     tts_error = conf.get(CONF_TTS_ERROR)
-    aliases = conf.get(CONF_ALIASES) or {}
+    aliases = conf.get(CONF_ALIASES)
+    cast_delay = conf.get(CONF_CAST_DELAY)
 
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE['en']
 
@@ -77,20 +86,21 @@ def setup(hass, config):
     PA.plex = PA.server.library
     PA.lib = get_libraries(PA.plex)
     PA.alias_names = list(aliases.keys()) if aliases else []
-    PA.client_names = [client.title for client in PA.server.clients()]
 
     def handle_input(call):
-        """Handle the service call."""
         if not call.data.get("command").strip():
             _LOGGER.warning(localize["no_call"])
             return
 
+        PA.running = True
+
+        if not PA.sensor_updating:
+            PA.attr_update = True
+            get_chromecasts(blocking=False, callback=cc_callback)
+
         cast = None
         client = False
         speech_error = False
-
-        get_chromecasts(blocking=False, callback=cc_callback)
-        PA.client_names = [client.title for client in PA.server.clients()]
 
         command = process_speech(
             call.data.get("command").lower(),
@@ -105,14 +115,21 @@ def setup(hass, config):
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
             PA.lib = get_libraries(PA.plex)
 
+        PA.device_names = list(PA.devices.keys())
+
         try:
-            devices = PA.device_names + PA.client_names
+            devices = PA.device_names + PA.client_names + PA.client_ids
             device = fuzzy(command["device"] or default_cast, devices)
             alias = fuzzy(command["device"] or default_cast, PA.alias_names)
             if alias[1] < 75 and device[1] < 75:
                 raise Exception()
             name = aliases[alias[0]] if alias[1] > device[1] else device[0]
             cast = PA.devices[name] if name in PA.device_names else name
+            client = isinstance(cast, str)
+            if client:
+                client_device = next(
+                    c for c in PA.clients if c.title == cast or c.machineIdentifier == cast)
+                cast = client_device
         except Exception:
             error = "{0} {1}: \"{2}\"".format(
                 localize["cast_device"].capitalize(),
@@ -122,12 +139,10 @@ def setup(hass, config):
             _LOGGER.warning(error)
             return
 
-        client = isinstance(cast, str)
-
         if command["control"]:
             control = command["control"]
             if client:
-                PA.server.client(cast).proxyThroughServer()
+                cast.proxyThroughServer()
                 plex_c = PA.server.client(cast)
             else:
                 plex_c = PlexController()
@@ -169,15 +184,23 @@ def setup(hass, config):
 
         if client:
             _LOGGER.debug("Client: %s", cast)
-            PA.server.client(cast).proxyThroughServer()
-            plex_c = PA.server.client(cast)
+            cast.proxyThroughServer()
+            plex_c = cast
             plex_c.playMedia(media)
         else:
             _LOGGER.debug("Cast: %s", cast.name)
+            delay = 6
+            if call.data.get("cast_delay") or call.data.get("cast_delay") == 0:
+                delay = call.data.get("cast_delay")
+            elif cast.name in cast_delay.keys():
+                delay = cast_delay[cast.name]
             plex_c = PlexController()
+            plex_c.namespace = 'urn:x-cast:com.google.cast.media'
             cast.register_handler(plex_c)
             cast.wait()
-            play_media(cast, plex_c, media)
+            play_media(float(delay), cast, plex_c, media)
+
+        PA.running = False
 
     hass.services.register(DOMAIN, "command", handle_input)
     return True

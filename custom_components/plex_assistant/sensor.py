@@ -10,8 +10,12 @@ https://github.com/custom-cards/upcoming-media-card
 from . import PA
 import json
 from pychromecast import get_chromecasts
-from .helpers import (cc_callback, get_libraries)
 from homeassistant.helpers.entity import Entity
+from datetime import datetime, timedelta
+import time
+from .helpers import cc_callback
+
+SCAN_INTERVAL = timedelta(minutes=1)
 
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
@@ -23,6 +27,8 @@ class PlexAssistantSensor(Entity):
 
     def __init__(self, hass, conf, name):
         self._name = name
+        self.devices = {}
+        self.update_clients = True
 
     @property
     def name(self):
@@ -37,8 +43,17 @@ class PlexAssistantSensor(Entity):
         return self._attributes
 
     async def async_update(self):
-        get_chromecasts(blocking=False, callback=cc_callback)
-        self._state = str(len(PA.device_names + PA.client_names)
-                          ) + ' connected devices.'
-        self._attributes = {'device_names': ', '.join(
-            PA.device_names + PA.client_names)}
+        PA.sensor_updating = True
+        if not PA.running:
+            PA.attr_update = True
+            get_chromecasts(blocking=False, callback=cc_callback)
+        time.sleep(5)
+        clients = [{client.title: {"ID": client.machineIdentifier,
+                                   "type": client.product}} for client in PA.clients]
+        devicelist = list(PA.devices.keys())
+        self._state = str(len(devicelist + clients)) + ' connected devices.'
+        self._attributes = {"Connected Devices": {
+            'Cast Devices': devicelist or 'None',
+            'Plex Clients': clients or 'None'
+        }}
+        PA.sensor_updating = False

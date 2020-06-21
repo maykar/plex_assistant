@@ -13,8 +13,11 @@ def cc_callback(chromecast):
     Adds all cast devices and their friendly names to PA.
     """
     PA.devices[chromecast.device.friendly_name] = chromecast
-    PA.client_names = [client.title for client in PA.server.clients()]
-    PA.device_names = list(PA.devices.keys())
+    if PA.attr_update:
+        PA.clients = PA.server.clients()
+        PA.client_names = [client.title for client in PA.clients]
+        PA.client_ids = [client.machineIdentifier for client in PA.clients]
+        PA.attr_update = False
 
 
 def get_libraries(plex):
@@ -307,27 +310,21 @@ def get_media_and_device(localize, command, lib, library, default_cast):
     return {"media": media, "device": device}
 
 
-def play_media(cast, plex_c, media):
+def play_media(delay, cast, plex_c, media):
     """ Play plex media on cast device,
-    with a good bit of craziness to avoid grey screen bug.
+    with some craziness to avoid grey screen bug.
     """
-    if cast.status.status_text:
-        cast.quit_app()
+    cast.quit_app()
 
-    timeout = time.time() + 7
-    while cast.status.status_text:
-        time.sleep(0.5)
-        if time.time() > timeout:
-            break
+    while cast.app_display_name == 'Plex':
+        time.sleep(0.1)
 
     plex_c.play_media(media)
 
-    timeout = time.time() + 7
-    while plex_c.status.player_state != 'PLAYING':
-        time.sleep(0.5)
-        if time.time() > timeout:
-            break
+    while cast.app_display_name != 'Plex':
+        time.sleep(0.1)
 
+    time.sleep(delay)
     plex_c.play_media(media)
     plex_c.play()
 

@@ -2,5 +2,8 @@ command:
   description: Send command to Plex
   fields:
     command:
-      description: Command to send
+      description: '[Required] Command to send'
       example: Play Evil Dead on the Downstairs TV
+    cast_delay:
+      description: '[Optional] Used to test cast devices delay.'
+      example: 6

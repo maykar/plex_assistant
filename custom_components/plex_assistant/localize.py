@@ -781,6 +781,160 @@ LOCALIZE = {
             ],
         },
     },
+    "pt": {
+        # Generic Terms
+        "play": "ver",
+        "movies": [
+            "filmes",
+        ],
+        "shows": [
+            "episódio",
+            "episódios",
+            "serie",
+            "series"
+        ],
+
+        # Controls
+        "controls": {
+            "play": "play",
+            "pause": "pausa",
+            "stop": "stop",
+            "jump_forward": "para a frente",
+            "jump_back": "para trás",
+        },
+
+        # Text for errors
+        "not_found": "não encontrado",
+        "cast_device": "dispositivo cast",
+        "no_call": "Nenhum comando recebido.",
+
+        # Invoke Command
+        "play_start": [
+            "inicia o filme",
+            "começa o filme",
+            "inicia a serie",
+            "começa a serie",
+            "inicia filme",
+            "inicia a serie",
+            "começar o filme",
+            "começar a serie",
+            "começa o filme",
+            "começa a serie",
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "primeiro": "1",
+            "segundo": "2",
+            "terceiro": "3",
+            "quarto": "4",
+            "quinto": "5",
+            "sexto": "6",
+            "sétimo": "7",
+            "oitavo": "8",
+            "nono": "9",
+            "décimo": "10",
+            # Do not edit the keys of pre and post
+            "pre": [
+                "o",
+                "a",
+            ],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "temporada",
+            ],
+            "pre": [],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episódio",
+                "episódios",
+            ],
+            "pre": [],
+            "post": [
+                "número",
+                "de",
+                "da",
+                "do",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "último",
+                "recente",
+                "novo",
+            ],
+            "pre": [
+                "o",
+                "a",
+            ],
+            "post": [
+                "filmes",
+                "filme",
+                "episódios",
+                "episódio",
+                "tv",
+                "series",
+                "serie",
+                "de",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "não vistos",
+                "próximo",
+            ],
+            "pre": [],
+            "post": [
+                "filmes",
+                "filme",
+                "episódios",
+                "episódio",
+                "tv",
+                "series",
+                "serie",
+                "de",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "ao vivo",
+                "live",
+            ],
+            "pre": [],
+            "post": [
+                "filmes",
+                "filme",
+                "episódios",
+                "episódio",
+                "tv",
+                "series",
+                "serie",
+                "de",
+            ],
+        },
+        # This is the separator word used at the end of the command
+        # To let us know it is a cast device.
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
+        "separator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "na",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",

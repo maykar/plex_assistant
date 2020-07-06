@@ -303,7 +303,6 @@ LOCALIZE = {
         "cast_device": "cast toestel",
         "no_call": "Er is geen opdracht ontvangen.",
 
-        # Invoke Command
         "play_start": [
             "speel de film",
             "speel film",
@@ -314,7 +313,6 @@ LOCALIZE = {
             "speel",
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
             "eerste": "1",
             "tweede": "2",
@@ -332,7 +330,6 @@ LOCALIZE = {
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "seizoen",
@@ -767,7 +764,6 @@ LOCALIZE = {
         },
     },
     "pt": {
-        # Generic Terms
         "play": "ver",
         "movies": [
             "filmes",
@@ -779,7 +775,6 @@ LOCALIZE = {
             "series"
         ],
 
-        # Controls
         "controls": {
             "play": "play",
             "pause": "pausa",
@@ -788,12 +783,10 @@ LOCALIZE = {
             "jump_back": "para trás",
         },
 
-        # Text for errors
         "not_found": "não encontrado",
         "cast_device": "dispositivo cast",
         "no_call": "Nenhum comando recebido.",
 
-        # Invoke Command
         "play_start": [
             "inicia o filme",
             "começa o filme",
@@ -807,9 +800,7 @@ LOCALIZE = {
             "começa a serie",
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "primeiro": "1",
             "segundo": "2",
             "terceiro": "3",
@@ -820,7 +811,6 @@ LOCALIZE = {
             "oitavo": "8",
             "nono": "9",
             "décimo": "10",
-            # Do not edit the keys of pre and post
             "pre": [
                 "o",
                 "a",
@@ -828,7 +818,6 @@ LOCALIZE = {
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "temporada",
@@ -908,11 +897,7 @@ LOCALIZE = {
                 "de",
             ],
         },
-        # This is the separator word used at the end of the command
-        # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "separator": {
-            # Only use one keyword for this one.
             "keywords": [
                 "na",
             ],

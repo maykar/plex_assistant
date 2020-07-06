@@ -43,7 +43,6 @@ class PlexAssistantSensor(Entity):
         return self._attributes
 
     async def async_update(self):
-        PA.sensor_updating = True
         if not PA.running:
             PA.attr_update = True
             get_chromecasts(blocking=False, callback=cc_callback)
@@ -56,4 +55,3 @@ class PlexAssistantSensor(Entity):
             'Cast Devices': devicelist or 'None',
             'Plex Clients': clients or 'None'
         }}
-        PA.sensor_updating = False

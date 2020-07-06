@@ -45,7 +45,6 @@ class PA:
     alias_names = []
     attr_update = True
     running = False
-    sensor_updating = False
 
 
 def setup(hass, config):
@@ -93,10 +92,8 @@ def setup(hass, config):
             return
 
         PA.running = True
-
-        if not PA.sensor_updating:
-            PA.attr_update = True
-            get_chromecasts(blocking=False, callback=cc_callback)
+        PA.attr_update = True
+        get_chromecasts(blocking=True, callback=cc_callback)
 
         cast = None
         client = False

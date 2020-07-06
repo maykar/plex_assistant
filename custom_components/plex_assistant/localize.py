@@ -564,10 +564,7 @@ LOCALIZE = {
             "série"
         ],
         "controls": {
-            "play":  [
-                "joue",
-                "lis"
-            ],
+            "play":  "joue",
             "pause": "pause",
             "stop": "arrête",
             "jump_forward": [

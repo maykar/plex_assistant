@@ -59,7 +59,7 @@ plex_assistant:
 
 ## Companion Sensor
 
-Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients (updates once a minute). This is to help with config and troubleshooting. It is advisable to remove the sensor when not needed to cut down on API calls. To use the sensor add the code below to configuration.yaml:
+Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting. To update the sensor send the command "update sensor" to Plex Assistant either through Google Assistant or as a HA service call.
 
 ```
 sensor:

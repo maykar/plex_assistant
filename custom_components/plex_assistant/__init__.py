@@ -44,7 +44,6 @@ class PA:
     client_sensor = []
     alias_names = []
     attr_update = True
-    running = False
 
 
 def setup(hass, config):
@@ -86,25 +85,46 @@ def setup(hass, config):
     PA.lib = get_libraries(PA.plex)
     PA.alias_names = list(aliases.keys()) if aliases else []
 
+    def update_sensor():
+        clients = [{client.title: {"ID": client.machineIdentifier,
+                                   "type": client.product}} for client in PA.clients]
+        devicelist = list(PA.devices.keys())
+        state = str(len(devicelist + clients)) + ' connected devices.'
+        attributes = {
+            "Connected Devices": {
+                'Cast Devices': devicelist or 'None',
+                'Plex Clients': clients or 'None'
+            },
+            "friendly_name": "Plex Assistant Devices",
+        }
+        sensor = "sensor.plex_assistant_devices"
+        hass.states.async_set(sensor, state, attributes)
+
     def handle_input(call):
-        if not call.data.get("command").strip():
+        command_string = call.data.get("command").strip().lower()
+
+        if not command_string:
             _LOGGER.warning(localize["no_call"])
             return
 
-        PA.running = True
-        PA.attr_update = True
-        get_chromecasts(blocking=True, callback=cc_callback)
+        chromecasts = get_chromecasts()
+        for chromecast in chromecasts:
+            PA.devices[chromecast.device.friendly_name] = chromecast
+
+        PA.clients = PA.server.clients()
+        PA.client_names = [client.title for client in PA.clients]
+        PA.client_ids = [client.machineIdentifier for client in PA.clients]
+
+        if localize["controls"]["update_sensor"] in command_string:
+            update_sensor()
+            return
 
         cast = None
+        alias = ["", 0]
         client = False
         speech_error = False
 
-        command = process_speech(
-            call.data.get("command").lower(),
-            localize,
-            default_cast,
-            PA
-        )
+        command = process_speech(command_string, localize, default_cast, PA)
 
         if not command["control"]:
             _LOGGER.debug({i: command[i] for i in command if i != 'library'})
@@ -113,34 +133,38 @@ def setup(hass, config):
             PA.lib = get_libraries(PA.plex)
 
         PA.device_names = list(PA.devices.keys())
-
-        try:
-            devices = PA.device_names + PA.client_names + PA.client_ids
-            device = fuzzy(command["device"] or default_cast, devices)
+        devices = PA.device_names + PA.client_names + PA.client_ids
+        device = fuzzy(command["device"] or default_cast, devices)
+        if aliases:
             alias = fuzzy(command["device"] or default_cast, PA.alias_names)
-            if alias[1] < 75 and device[1] < 75:
-                raise Exception()
-            name = aliases[alias[0]] if alias[1] > device[1] else device[0]
-            cast = PA.devices[name] if name in PA.device_names else name
-            client = isinstance(cast, str)
-            if client:
-                client_device = next(
-                    c for c in PA.clients if c.title == cast or c.machineIdentifier == cast)
-                cast = client_device
-        except Exception:
-            error = "{0} {1}: \"{2}\"".format(
+
+        if alias[1] < 60 and device[1] < 60:
+            _LOGGER.warning("{0} {1}: \"{2}\"".format(
                 localize["cast_device"].capitalize(),
                 localize["not_found"],
                 command["device"].title()
-            )
-            _LOGGER.warning(error)
+            ))
+            _LOGGER.debug("Device Score: %s", device[1])
+            _LOGGER.debug("Devices: %s", str(devices))
+
+            if aliases:
+                _LOGGER.debug("Alias Score: %s", alias[1])
+                _LOGGER.debug("Aliases: %s", str(PA.alias_names))
             return
+
+        name = aliases[alias[0]] if alias[1] > device[1] else device[0]
+        cast = PA.devices[name] if name in PA.device_names else name
+        client = isinstance(cast, str)
+        if client:
+            client_device = next(
+                c for c in PA.clients if c.title == cast or c.machineIdentifier == cast)
+            cast = client_device
 
         if command["control"]:
             control = command["control"]
             if client:
                 cast.proxyThroughServer()
-                plex_c = PA.server.client(cast)
+                plex_c = PA.server.client(cast.title)
             else:
                 plex_c = PlexController()
                 cast.wait()
@@ -197,7 +221,7 @@ def setup(hass, config):
             cast.wait()
             play_media(float(delay), cast, plex_c, media)
 
-        PA.running = False
+        update_sensor()
 
     hass.services.register(DOMAIN, "command", handle_input)
     return True

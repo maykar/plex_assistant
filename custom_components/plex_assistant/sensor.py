@@ -15,8 +15,6 @@ from datetime import datetime, timedelta
 import time
 from .helpers import cc_callback
 
-SCAN_INTERVAL = timedelta(minutes=1)
-
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     name = "Plex Assistant Devices"
@@ -42,11 +40,7 @@ class PlexAssistantSensor(Entity):
     def device_state_attributes(self):
         return self._attributes
 
-    async def async_update(self):
-        if not PA.running:
-            PA.attr_update = True
-            get_chromecasts(blocking=False, callback=cc_callback)
-        time.sleep(5)
+    def update(self):
         clients = [{client.title: {"ID": client.machineIdentifier,
                                    "type": client.product}} for client in PA.clients]
         devicelist = list(PA.devices.keys())

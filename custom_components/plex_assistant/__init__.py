@@ -101,16 +101,18 @@ def setup(hass, config):
         hass.states.async_set(sensor, state, attributes)
 
     def handle_input(call):
-        command_string = call.data.get("command").strip().lower()
-
-        if not command_string:
+        if not call.data.get("command").strip():
             _LOGGER.warning(localize["no_call"])
             return
+
+        command_string = call.data.get("command").strip().lower()
+        _LOGGER.debug("Command: %s", command_string)
 
         chromecasts = get_chromecasts()
         for chromecast in chromecasts:
             PA.devices[chromecast.device.friendly_name] = chromecast
 
+        PA.device_names = list(PA.devices.keys())
         PA.clients = PA.server.clients()
         PA.client_names = [client.title for client in PA.clients]
         PA.client_ids = [client.machineIdentifier for client in PA.clients]
@@ -132,7 +134,6 @@ def setup(hass, config):
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
             PA.lib = get_libraries(PA.plex)
 
-        PA.device_names = list(PA.devices.keys())
         devices = PA.device_names + PA.client_names + PA.client_ids
         device = fuzzy(command["device"] or default_cast, devices)
         if aliases:
@@ -164,7 +165,7 @@ def setup(hass, config):
             control = command["control"]
             if client:
                 cast.proxyThroughServer()
-                plex_c = PA.server.client(cast.title)
+                plex_c = cast
             else:
                 plex_c = PlexController()
                 cast.wait()

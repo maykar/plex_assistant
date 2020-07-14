@@ -24,7 +24,7 @@ def get_libraries(plex):
     """ Return Plex libraries, their contents, media titles, & time updated """
     plex.reload()
     movies = plex.search(libtype="movie")
-    movies.sort(key=lambda x:  x.addedAt or x.updatedAt)
+    movies.sort(key=lambda x: x.addedAt or x.updatedAt)
     shows = plex.search(libtype="show")
     shows.sort(key=lambda x: x.addedAt or x.updatedAt)
 

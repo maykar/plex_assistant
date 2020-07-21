@@ -22,13 +22,11 @@ def process_speech(command, localize, default_cast, PA):
             if control_check == "":
                 remote = control
             else:
-                try:
-                    fuzz_client = fuzzy(control_check, devices)
-                    if fuzz_client[1] > 80 and fuzz_client[0] in devices:
-                        device = fuzz_client[0]
-                        remote = control
-                except:
-                    pass
+                devices = devices + list(PA.devices.keys())
+                fuzz_client = fuzzy(control_check, devices)
+                if fuzz_client[1] > 80 and fuzz_client[0] in devices:
+                    device = fuzz_client[0]
+                    remote = control
 
     if remote:
         return {

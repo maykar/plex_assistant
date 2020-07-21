@@ -43,7 +43,7 @@ class PA:
     client_names = []
     client_sensor = []
     alias_names = []
-    attr_update = True
+    client_update = True
 
 
 def setup(hass, config):
@@ -108,11 +108,9 @@ def setup(hass, config):
         command_string = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command_string)
 
-        chromecasts = get_chromecasts()
-        for chromecast in chromecasts:
-            PA.devices[chromecast.device.friendly_name] = chromecast
+        client_update = True
+        get_chromecasts(blocking=False, callback=cc_callback)
 
-        PA.device_names = list(PA.devices.keys())
         PA.clients = PA.server.clients()
         PA.client_names = [client.title for client in PA.clients]
         PA.client_ids = [client.machineIdentifier for client in PA.clients]
@@ -127,6 +125,7 @@ def setup(hass, config):
         speech_error = False
 
         command = process_speech(command_string, localize, default_cast, PA)
+        PA.device_names = list(PA.devices.keys())
 
         if not command["control"]:
             _LOGGER.debug({i: command[i] for i in command if i != 'library'})

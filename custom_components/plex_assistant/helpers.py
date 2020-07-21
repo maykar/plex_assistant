@@ -13,11 +13,11 @@ def cc_callback(chromecast):
     Adds all cast devices and their friendly names to PA.
     """
     PA.devices[chromecast.device.friendly_name] = chromecast
-    if PA.attr_update:
+    if PA.client_update:
         PA.clients = PA.server.clients()
         PA.client_names = [client.title for client in PA.clients]
         PA.client_ids = [client.machineIdentifier for client in PA.clients]
-        PA.attr_update = False
+        PA.client_update = False
 
 
 def get_libraries(plex):
@@ -39,7 +39,10 @@ def get_libraries(plex):
 
 def fuzzy(media, lib, scorer=fuzz.QRatio):
     """  Use Fuzzy Wuzzy to return highest scoring item. """
-    return fw.extractOne(media, lib, scorer=scorer)
+    if isinstance(lib, list) and len(lib) > 0:
+        return fw.extractOne(media, lib, scorer=scorer)
+    else:
+        return ["", 0]
 
 
 def video_selection(option, media, lib):
@@ -79,18 +82,18 @@ def video_selection(option, media, lib):
             media = list(filter(lambda x: not x.isWatched, lib))
         else:
             media = list(filter(lambda x: not x.isWatched, media))
-        media.sort(key=lambda x: x.updatedAt)
+        media.sort(key=lambda x: x.addedAt or x.updatedAt)
 
     if option["latest"]:
         if not option["unwatched"]:
             if not media and not lib:
                 media = PA.plex.recentlyAdded()
-                media.sort(key=lambda x: x.updatedAt)
+                media.sort(key=lambda x: x.addedAt or x.updatedAt)
             elif not media:
                 media = lib
-                media.sort(key=lambda x: x.updatedAt)
+                media.sort(key=lambda x: x.addedAt or x.updatedAt)
             if isinstance(media, list):
-                media.sort(key=lambda x: x.updatedAt)
+                media.sort(key=lambda x: x.addedAt or x.updatedAt)
         if isinstance(media, list):
             media = media[-1]
         if media.type == "show" or media.type == "season":

@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast and Plex devices with a bit of help from [IFTTT](https://ifttt.com/) or DialogFlow.
+Plex Assistant is a component to allow Google Assistant to cast Plex media to Google devices and Plex clients with a bit of help from IFTTT or DialogFlow. You could also use this component with anything that can make a service call to HA (see the IFTTT and DialogFlow automations in the readme as a starting point).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 

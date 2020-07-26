@@ -189,6 +189,89 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 </details>
 
+<details>
+  <summary><b>Rhasspy Voice Assistant Setup Guide</b></summary>
+  
+## Rhasspy Setup
+
+#### Pre Requistites
+You already have setup Rhasspy Intent Handling to <b>Send Events</b> to Home assistant. If this has not been done, there is plenty of Rhasspy documentation on the subject depending on your setup. <b>Intents</b> can also be sent to home assistant but this is not covered here.
+#### Rhasspy Setup
+You will need to setup a Slot and Sentence in Rhasspy, one example shown below.
+See the Rhasspy Documentation if more information is required on Slots and Sentences
+#### Slot
+Create a Slot called ‘Films’ and paste in or type your list of Film titles. The Rhasspy documentation shows how slots may be dynamically updated with scripts.
+e.g.
+```
+Ant Man
+Aquaman
+Birdman
+….
+Wanted
+Zero Dark 30
+```
+#### Sentence
+Example:-
+```
+[PlayFilm]
+play ($films) {film_name} (in | on) plex
+```
+In the above example, saying ‘Play Ant Man in Plex’ will match the sentence and play the film. Note that ‘in’ can also be ‘on’ due to the alternative defined (in | on). $films refers to our slot list of films, and {film_name} is the tag that will store our film name and pass to Home Assistant. Also note that the sentence will only match if our film is in the slot list.
+
+### Home assistant
+#### Automation
+Example trigger / action :-
+```
+  trigger:
+  - event_data: {}
+    event_type: rhasspy_PlayFilm
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      command: '{% set plex_command = "play " + trigger.event.data.film_name %} {{
+        plex_command }}'
+    service: plex_assistant.command
+```
+
+The event defined in the trigger is rhasspy_PlayFilm where we defined [PlayFilm] as our sentence in Rhasspy. Our film_name tag declared in Rhasspy can be accessed in the event data - trigger.event.data.film_name
+
+#### Troubleshooting
+
+In Home assistant, Developer Tools, select the Events tab. At the bottom, you can listen to events. Put rhasspy_PlayFilm as the event to subscribe to and click ‘start listening’.
+
+When the event is fired you should see something like this (first few lines of the event). Note the film_name, intentName, sitteid, slots and so on are all useful. Particularly film_name though.
+```
+Event 4 fired 11:34 AM:
+
+{
+    "event_type": "rhasspy_PlayFilm",
+    "data": {
+        "film_name": "Ant Man",
+        "_text": "play Ant Man in plex",
+        "_raw_text": "play ant man in plex",
+        "_intent": {
+            "input": "play Ant Man in plex",
+            "intent": {
+                "intentName": "PlayFilm",
+                "confidenceScore": 1
+            },
+            "siteId": "living_room",
+            "id": null,
+            "slots": [
+                {
+                    "entity": "films",
+                    "value": {
+                        "kind": "Unknown",
+                        "value": "Ant Man"
+                    },
+                    "slotName": "film_name",
+                    "rawValue": "ant man",
+……..
+…….
+```
+</details>
+
 ## Commands
 
 #### Fuzzy Matching

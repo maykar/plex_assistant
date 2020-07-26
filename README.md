@@ -2,7 +2,7 @@
 
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT/DialogFlow Setup](#iftttdialogflow-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast and Plex devices with a bit of help from [IFTTT or DialogFlow](#iftttdialogflow-setup).
+Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google devices and Plex clients with a bit of help from IFTTT or DialogFlow. You could use this component with anything that can make a service call to HA as well (see the IFTTT and DialogFlow automations below as a starting point).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
@@ -16,9 +16,9 @@ You can use the component's service without IFTTT/DialogFlow to call the command
   <br><br>
 
 ## Author's note
-This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment.
+This is just a side project made to fill the absence of native Google Assistant support in Plex and the fact that the Phlex/FlexTV projects aren’t in working order at the moment.
 
-This project is not a priority as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will be adding features and fixing issues until that time. As always, I both welcome and greatly appreciate pull requests.
+This project is not a priority of mine as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will try to add features and fix issues until that time. As always, I both welcome and greatly appreciate pull requests.
 
 Thank you for understanding.
 

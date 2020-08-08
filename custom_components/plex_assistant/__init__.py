@@ -19,13 +19,11 @@ CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
 CONF_ALIASES = "aliases"
-CONF_CAST_DELAY = "cast_delay"
 
 CONFIG_SCHEMA = vol.Schema({DOMAIN: {
     vol.Required(CONF_URL): cv.url,
     vol.Required(CONF_TOKEN): cv.string,
     vol.Optional(CONF_DEFAULT_CAST): cv.string,
-    vol.Optional(CONF_CAST_DELAY, default={}): vol.Any(dict),
     vol.Optional(CONF_LANG, default='en'): cv.string,
     vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
     vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
@@ -57,7 +55,7 @@ def setup(hass, config):
     from pychromecast.controllers.plex import PlexController
 
     from .helpers import (cc_callback, find_media, fuzzy, get_libraries,
-                          media_error, play_media, video_selection)
+                          media_error, video_selection)
     from .localize import LOCALIZE
     from .process_speech import process_speech
     from datetime import datetime
@@ -71,7 +69,6 @@ def setup(hass, config):
     lang = conf.get(CONF_LANG)
     tts_error = conf.get(CONF_TTS_ERROR)
     aliases = conf.get(CONF_ALIASES)
-    cast_delay = conf.get(CONF_CAST_DELAY)
 
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE['en']
 
@@ -210,16 +207,10 @@ def setup(hass, config):
             plex_c.playMedia(media)
         else:
             _LOGGER.debug("Cast: %s", cast.name)
-            delay = 6
-            if call.data.get("cast_delay") or call.data.get("cast_delay") == 0:
-                delay = call.data.get("cast_delay")
-            elif cast.name in cast_delay.keys():
-                delay = cast_delay[cast.name]
             plex_c = PlexController()
-            plex_c.namespace = 'urn:x-cast:com.google.cast.media'
             cast.register_handler(plex_c)
             cast.wait()
-            play_media(float(delay), cast, plex_c, media)
+            plex_c.play_media(media)
 
         update_sensor()
 

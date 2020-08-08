@@ -40,7 +40,6 @@ Add config to your configuration.yaml file.
 | language     | 'en'    | Optional     | Language code. See Below for supported Languages.
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.
-| cast_delay   | 6       | Optional     | This delay helps prevent "Sorry, something went wrong" and grey screen errors. [See below for more info.](#cast-delay)
 
 <hr>
 
@@ -219,30 +218,6 @@ I've tried to take into account many different ways that commands could be phras
 
 #### Cast Device
 If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
-
-## Cast Delay
-A delay (in seconds) is used to help prevent grey screen and "Sorry, something went wrong" errors that can happen on some cast devices. This setting has no effect on Plex Clients, only Google Cast devices.
-
-If you are having these issues you can test the delay needed by using the `plex_assistant.command` service found in `Developer Tools > Services`. The example below will test the needed delay on the device named "Downstairs TV":
-
-```
-command: Play Evil Dead on the Downstairs TV
-cast_delay: 7
-```
-
-The amount of delay needed is typically the time it takes from when the screen turns black after calling the service to when you see the show info on screen. Test this with nothing playing on the device and with something already playing on the device as well.
-
-The default delay per device is 6 seconds. By using this config option you can set the delay per device, see example below:
-
-```
-plex_assistant:
-  url: 'http://192.168.1.3:32400'
-  token: 'tH1s1Sy0uRT0k3n'
-  default_cast: 'Downstairs TV'
-  cast_delay:
-    Downstairs TV: 7
-```
-
 
 ## Translation
 You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

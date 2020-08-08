@@ -34,7 +34,8 @@ def process_speech(command, localize, default_cast, PA):
             "control": remote
         }
 
-    library = get_library(command, lib, localize)
+    library = get_library(command, lib, localize,
+                          devices + list(PA.devices.keys()))
 
     for start in localize["play_start"]:
         if command.startswith(start):

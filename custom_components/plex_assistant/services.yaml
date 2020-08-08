@@ -3,7 +3,4 @@ command:
   fields:
     command:
       description: '[Required] Command to send'
-      example: Play Evil Dead on the Downstairs TV
-    cast_delay:
-      description: '[Optional] Used to test cast devices delay.'
-      example: 6
+      example: Play Evil Dead on the Living Room TV

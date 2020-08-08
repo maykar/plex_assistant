@@ -238,24 +238,26 @@ def _find(item, command):
 
 def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
+    if replace != "":
+        replace = " " + replace + " "
     for keyword in item["keywords"]:
         if item["pre"]:
             for pre in item["pre"]:
-                command = command.replace("%s %s" % (
-                    pre, keyword), replace).strip()
-                command = command.replace(pre, replace).strip()
+                command = command.replace("%s %s" % (pre, keyword), replace)
         if item["post"]:
             for post in item["post"]:
                 command = command.replace("%s %s" % (
-                    keyword, post), replace).strip()
-                command = command.replace(post, replace).strip()
+                    keyword, post), replace)
         if keyword in command:
-            command = command.replace(keyword, replace).strip()
-    return command.strip()
+            command = command.replace(" " + keyword + " ", replace)
+    return ' '.join(command.split())
 
 
-def get_library(phrase, lib, localize):
+def get_library(phrase, lib, localize, devices):
     """ Return the library type if the phrase contains related keywords. """
+    for device in devices:
+        if device.lower() in phrase:
+            phrase = phrase.replace(device.lower(), "")
     tv_keywords = localize["shows"] + \
         localize["season"]["keywords"] + localize["episode"]["keywords"]
     if any(word in phrase for word in tv_keywords):
@@ -311,25 +313,6 @@ def get_media_and_device(localize, command, lib, library, default_cast):
 
     media = media if media else command
     return {"media": media, "device": device}
-
-
-def play_media(delay, cast, plex_c, media):
-    """ Play plex media on cast device,
-    with some craziness to avoid grey screen bug.
-    """
-    cast.quit_app()
-
-    while cast.app_display_name == 'Plex':
-        time.sleep(0.1)
-
-    plex_c.play_media(media)
-
-    while cast.app_display_name != 'Plex':
-        time.sleep(0.1)
-
-    time.sleep(delay)
-    plex_c.play_media(media)
-    plex_c.play()
 
 
 def media_error(command, localize):

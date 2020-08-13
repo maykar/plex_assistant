@@ -126,6 +126,8 @@ automation:
       service_template: '{{ trigger.event.data.service }}'
 ```
 
+If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Flow](https://github.com/maykar/plex_assistant/issues/34) to do this.
+
 ***Either refresh your automations or restart after adding the automation.***
 
 </details>

@@ -911,6 +911,164 @@ LOCALIZE = {
             "post": [],
         },
     },
+    "da": {
+        "play": "afspil",
+        "movies": [
+            "film"
+        ],
+        "shows": [
+            "episode",
+            "tv",
+            "show",
+            "serie",
+            "tv serie"
+        ],
+        "controls": {
+            "play": "afspil",
+            "pause": "pause",
+            "stop": "stop",
+            "jump_forward": "spol frem",
+            "jump_back": "spol tilbage",
+            "update_sensor": "opdater sensor",
+        },
+        "not_found": "Ikke fundet",
+        "cast_device": "cast enhed",
+        "no_call": "Ingen kommando modtaget.",
+
+        "play_start": [
+            "afspil filmen",
+            "afspil film",
+            "spil filmen",
+            "spil film",
+            "afspil showet",
+            "afspil serien",
+            "afspil tv serien",
+            "afspil serie",
+            "afspil show",
+            "spil showet",
+            "spil serien",
+            "spil tv serien",
+            "spil serie",
+            "spil show",
+            "spil",
+            "afspil",
+        ],
+
+        "ordinals": {
+
+            "første": "1",
+            "anden": "2",
+            "tredje": "3",
+            "fjerde": "4",
+            "femte": "5",
+            "sjette": "6",
+            "syvende": "7",
+            "ottende": "8",
+            "niende": "9",
+            "tiende": "10",
+            "pre": [
+                "den",
+            ],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "sæson",
+            ],
+            "pre": [
+                'st',
+                'nd',
+                'rd',
+                'th',
+                'the',
+            ],
+            "post": [
+                "nummer",
+                "af",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episoder",
+                "episode",
+                "episoden",
+            ],
+            "pre": [
+                'ste',
+                'en',
+                'je',
+                'de',
+                'te',
+            ],
+            "post": [
+                "number",
+                "of",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "seneste",
+                "nylige",
+                "nye",
+                "nyeste",
+            ],
+            "pre": [
+                "den",
+                "det",
+            ],
+            "post": [
+                "film",
+                "episode",
+                "serie",
+                "show",
+                "tv serie",
+                "show",
+                "af",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "usete",
+                "efterfølgende",
+                "næste",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "episode",
+                "serie",
+                "show",
+                "tv serie",
+                "show",
+                "af",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "on deck",
+                "ondeck",
+            ],
+            "pre": [],
+            "post": [
+                "movies",
+                "movie",
+                "episodes",
+                "episode",
+                "tv",
+                "shows",
+                "show",
+                "of",
+            ],
+        },
+        "separator": {
+            "keywords": [
+                "på",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",
@@ -989,162 +1147,4 @@ LOCALIZE = {
     #         "post": [],
     #     },
     # },
-  "da": {
-    "play": "afspil",
-    "movies": [
-      "film"
-    ],
-    "shows": [
-      "episode",
-      "tv",
-      "show",
-      "serie",
-      "tv serie"
-    ],
-    "controls": {
-      "play": "afspil",
-      "pause": "pause",
-      "stop": "stop",
-      "jump_forward": "spol frem",
-      "jump_back": "spol tilbage",
-      "update_sensor": "opdater sensor",
-    },
-    "not_found": "Ikke fundet",
-    "cast_device": "cast enhed",
-    "no_call": "Ingen kommando modtaget.",
-
-    "play_start": [
-      "afspil filmen",
-      "afspil film",
-      "spil filmen",
-      "spil film",
-      "afspil showet",
-      "afspil serien",
-      "afspil tv serien",
-      "afspil serie",
-      "afspil show",
-      "spil showet",
-      "spil serien",
-      "spil tv serien",
-      "spil serie",
-      "spil show",
-      "spil",
-      "afspil",
-    ],
-
-    "ordinals": {
-
-      "første": "1",
-      "anden": "2",
-      "tredje": "3",
-      "fjerde": "4",
-      "femte": "5",
-      "sjette": "6",
-      "syvende": "7",
-      "ottende": "8",
-      "niende": "9",
-      "tiende": "10",
-      "pre": [
-        "den",
-      ],
-      "post": [],
-    },
-
-    "season": {
-      "keywords": [
-        "sæson",
-      ],
-      "pre": [
-        'st',
-        'nd',
-        'rd',
-        'th',
-        'the',
-      ],
-      "post": [
-        "nummer",
-        "af",
-      ],
-    },
-    "episode": {
-      "keywords": [
-        "episoder",
-        "episode",
-        "episoden",
-      ],
-      "pre": [
-        'ste',
-        'en',
-        'je',
-        'de',
-        'te',
-      ],
-      "post": [
-        "number",
-        "of",
-      ],
-    },
-    "latest": {
-      "keywords": [
-        "seneste",
-        "nylige",
-        "nye",
-        "nyeste",
-      ],
-      "pre": [
-        "den",
-        "det",
-      ],
-      "post": [
-        "film",
-        "episode",
-        "serie",
-        "show",
-        "tv serie",
-        "show",
-        "af",
-      ],
-    },
-    "unwatched": {
-      "keywords": [
-        "usete",
-        "efterfølgende",
-        "næste",
-      ],
-      "pre": [],
-      "post": [
-        "film",
-        "episode",
-        "serie",
-        "show",
-        "tv serie",
-        "show",
-        "af",
-      ],
-    },
-    "ondeck": {
-      "keywords": [
-        "on deck",
-        "ondeck",
-      ],
-      "pre": [],
-      "post": [
-        "movies",
-        "movie",
-        "episodes",
-        "episode",
-        "tv",
-        "shows",
-        "show",
-        "of",
-      ],
-    },
-    "separator": {
-      "keywords": [
-        "på",
-      ],
-      "pre": [],
-      "post": [],
-    },
-  },
 }

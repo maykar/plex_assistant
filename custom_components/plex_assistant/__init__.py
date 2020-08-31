@@ -210,7 +210,7 @@ def setup(hass, config):
             plex_c = PlexController()
             cast.register_handler(plex_c)
             cast.wait()
-            plex_c.play_media(media)
+            plex_c.block_until_playing(media)
 
         update_sensor()
 

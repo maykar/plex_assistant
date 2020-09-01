@@ -2,11 +2,11 @@
 
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [Google Assistant Triggers](#google-assistant-triggers) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Commands](#commands)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well (see the IFTTT and DialogFlow automations below as a starting point).
+Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well (see the automations in the [Google Assistant trigger guides](](#google-assistant-triggers)) for IFTTT and DialogFlow as a starting point).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
-You can use the component's service without IFTTT/DialogFlow to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+You can use the component's service to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
 
 ***Music isn't built in yet, only shows and movies at the moment.***
 

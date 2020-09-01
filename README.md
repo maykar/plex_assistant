@@ -8,6 +8,8 @@ Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."
 
 You can use the component's service without IFTTT/DialogFlow to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
 
+***Music isn't built in yet, only shows and movies at the moment.***
+
 ## Supporting Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
 - :1st_place_medal:&nbsp;&nbsp;[Tip some Crypto](https://github.com/sponsors/maykar)
@@ -234,8 +236,6 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"`.
 
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
-
-***Music isn't built in yet, only shows and movies at the moment.***
 
 #### Cast Device
 If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*

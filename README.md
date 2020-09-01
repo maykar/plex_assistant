@@ -67,7 +67,7 @@ sensor:
 - platform: plex_assistant
 ```
 
-***You must restart after installation and configuration, you may want to setup IFTTT or DialogFlow with the instructions below before doing so.*** 
+***You must restart after installation and configuration, you may want to setup Google Assistant triggers or HA's conversation intergration first as they will also require a restart. Instructions for each below.*** 
 
 ## Google Assistant Triggers
 

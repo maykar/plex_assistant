@@ -1,8 +1,8 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT/DialogFlow Setup](#iftttdialogflow-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [Google Assistant Triggers](#google-assistant-triggers) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google devices and Plex clients with a bit of help from IFTTT or DialogFlow. You could use this component with anything that can make a service call to HA as well (see the IFTTT and DialogFlow automations below as a starting point).
+Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well (see the IFTTT and DialogFlow automations below as a starting point).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
@@ -67,11 +67,10 @@ sensor:
 
 ***You must restart after installation and configuration, you may want to setup IFTTT or DialogFlow with the instructions below before doing so.*** 
 
-## IFTTT/DialogFlow-Setup
+## Google Assistant Triggers
 
-You can either use IFTTT or DialogFlow to trigger Plex Assistant. IFTTT is the easiest way to set this up, DialogFlow is more involved and has some quirks. The advantage to using Dialogflow is it's support for more languages (as long as the translation has been made for Plex Assistant, see below).
+You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up. DialogFlow is a bit more involved and has some quirks, but has support for more languages (as long as the translation has been made for Plex Assistant).
 
-#### Supported Languages
 Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](#translation)
 
 <details>
@@ -189,6 +188,26 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 ***Restart after adding the above.***
 
 </details>
+
+## Home Assistant Conversation Setup
+
+To use Plex assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file:
+
+```
+conversation:
+  intents:
+    PlexAssistant:
+     - Tell Plex to {command}
+
+intent_script:
+  PlexAssistant:
+    speech:
+      text: Command sent to Plex.
+    action:
+      service: plex_assistant.command
+      data_template:
+        command: "{{command}}"
+```
 
 ## Commands
 

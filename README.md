@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [Google Assistant Triggers](#google-assistant-triggers) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [Google Assistant Triggers](#google-assistant-triggers) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Commands](#commands)<br><hr>
 
 Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well (see the IFTTT and DialogFlow automations below as a starting point).
 
@@ -73,7 +73,7 @@ sensor:
 
 You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up. DialogFlow is a bit more involved and has some quirks, but has support for more languages (as long as the translation has been made for Plex Assistant).
 
-Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](#translation)
+Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](translation.md)
 
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>
@@ -239,6 +239,3 @@ I've tried to take into account many different ways that commands could be phras
 
 #### Cast Device
 If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
-
-## Translation
-You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

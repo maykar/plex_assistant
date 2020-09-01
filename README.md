@@ -71,9 +71,9 @@ sensor:
 
 ## Google Assistant Triggers
 
-You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up. DialogFlow is a bit more involved and has some quirks, but has support for more languages (as long as the translation has been made for Plex Assistant).
+You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up, but only if IFTTT supports your language. DialogFlow is a bit more involved and has some quirks, but has support for more languages (as long as the translation has been made for Plex Assistant).
 
-Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](translation.md)
+Plex Assistant currently supports the following languages when using DialogFlow: English `en`, Swedish `sv`, Dutch `nl`, French `fr`, and Italian `it`. [Help add translations.](translation.md)
 
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>

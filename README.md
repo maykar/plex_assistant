@@ -15,7 +15,7 @@ You can use the component's service to call the commands however you'd like. Vis
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
 - :1st_place_medal:&nbsp;&nbsp;[Tip some Crypto](https://github.com/sponsors/maykar)
 - :heart:&nbsp;&nbsp;[Sponsor me on GitHub](https://github.com/sponsors/maykar)
-- :keyboard:&nbsp;&nbsp;Help with translation, development, or documentation
+- :keyboard:&nbsp;&nbsp;Help with [translation](translation.md), development, or documentation
   <br><br>
 
 ## Installation

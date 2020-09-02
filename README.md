@@ -55,8 +55,6 @@ plex_assistant:
 ## Cast Devices
 This component does not use HA media players as devices, it automatically detects compatible devices (Google Cast devices and Plex Clients). It will use the name from the devices themselves. Use the [companion sensor](#companion-sensor) to get a list of compatible devices with their names/IDs.
 
-If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
-
 ## Companion Sensor
 
 Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting. To update the sensor send the command "update sensor" to Plex Assistant either through Google Assistant or as a HA service call. The sensor is also updated any time Plex Assistant is sent a command. To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
@@ -243,5 +241,7 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 * `jump back`
 
 Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"`.
+
+If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.

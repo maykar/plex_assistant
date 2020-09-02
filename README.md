@@ -33,14 +33,14 @@ Add config to your configuration.yaml file.
 | url          |         | **Required** | The full url to your Plex instance including port.
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
-| language     | 'en'    | Optional     | Language code. See Below for supported Languages.
+| language     | 'en'    | Optional     | Language code ([Supported Languages](#supported-languages)).
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.
 
 <hr>
 
 **Sample Config**
-```
+```yaml
 plex_assistant:
   url: 'http://192.168.1.3:32400'
   token: 'tH1s1Sy0uRT0k3n'
@@ -61,7 +61,7 @@ Plex Assistant includes a sensor to display the names of currently connected dev
 
 Add the sensor by including the code below in your configuration.yaml file.
 
-```
+```yaml
 sensor:
 - platform: plex_assistant
 ```
@@ -111,7 +111,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 Finally, add the following automation to your Home Assistant configuration.yaml:
 
-```
+```yaml
 automation:
   - alias: Plex Assistant Automation
     trigger:
@@ -175,7 +175,7 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 
 Add the following to your `configuration.yaml` file
 
-```
+```yaml
 intent_script:
   Plex:
     speech:
@@ -205,7 +205,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 ## Home Assistant Conversation Setup
 
-To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the supported languages from the IFTTT and DialogFlow lists above.
+To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the supported languages from the table above.
 
 ```yaml
 conversation:

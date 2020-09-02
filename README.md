@@ -130,6 +130,15 @@ If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Fl
 
 </details>
 
+**IFTTT currently supports the following languages:**
+
+* English
+* French
+* German
+* Italian
+* Japanese
+* Spanish
+
 <details>
   <summary><b>DialogFlow Setup Guide</b></summary>
 

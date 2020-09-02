@@ -72,6 +72,25 @@ sensor:
 
 You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up, but only if IFTTT supports your language. DialogFlow is a bit more involved and has some quirks, but has support for more languages (as long as the translation has been made for Plex Assistant).
 
+**IFTTT currently supports the following languages:**
+
+* English
+* French
+* German
+* Italian
+* Japanese
+* Spanish
+
+**Plex Assistant currently supports the following languages when using DialogFlow:**
+
+* `"nl"` Dutch
+* `"en"` English
+* `"fr"` French
+* `"it"` Italian
+* `"sv"` Swedish
+
+[Help add translations.](translation.md)<br><hr>
+
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>
   
@@ -130,15 +149,6 @@ If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Fl
 
 </details>
 
-**IFTTT currently supports the following languages:**
-
-* English
-* French
-* German
-* Italian
-* Japanese
-* Spanish
-
 <details>
   <summary><b>DialogFlow Setup Guide</b></summary>
 
@@ -196,16 +206,6 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 ***Restart after adding the above.***
 
 </details>
-
-**Plex Assistant currently supports the following languages when using DialogFlow:**
-
-* `"nl"` Dutch
-* `"en"` English
-* `"fr"` French
-* `"it"` Italian
-* `"sv"` Swedish
-
-[Help add translations.](translation.md)
 
 ## Home Assistant Conversation Setup
 

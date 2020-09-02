@@ -53,7 +53,7 @@ plex_assistant:
 ```
 
 ## Cast Devices
-This component does not use HA media players as devices, it automatically detects compatible devices (Google Cast devices and Plex Clients). It will use the name from the devices themselves. Use the [companion sensor](#companion-sensor) to get a list of compatible devices with their names/IDs.
+This component does not use HA's media_player entities, it automatically detects compatible devices (Google Cast devices and Plex Clients). It will use the name from the devices themselves. Use the [companion sensor](#companion-sensor) to get a list of compatible devices with their names/IDs.
 
 ## Companion Sensor
 

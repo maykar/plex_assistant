@@ -206,7 +206,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 ## Home Assistant Conversation Setup
 
-To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file:
+To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the supported languages from the IFTTT and DialogFlow lists above.
 
 ```yaml
 conversation:

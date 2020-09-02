@@ -207,6 +207,7 @@ conversation:
   intents:
     PlexAssistant:
      - Tell Plex to {command}
+     - {command} with Plex
 
 intent_script:
   PlexAssistant:

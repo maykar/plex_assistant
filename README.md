@@ -77,13 +77,13 @@ Plex clients must be open in order to be detected or recieve commands from this 
 You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up, but only if IFTTT supports your language. DialogFlow is a bit more involved and has some quirks, but has support for more languages.
 
 #### Supported Languages:
-| Language | Code | IFTTT | DialogFlow |
-|----------|:----:|:-----:|:----------:|
-| Dutch    | "nl" |   No  |     Yes    |
-| English  | "en" |  Yes  |     Yes    |
-| French   | "fr" |  Yes  |     Yes    |
-| Italian  | "it" |  Yes  |     Yes    |
-| Swedish  | "sv" |   No  |     Yes    |
+| Language | Code |        IFTTT         |         DialogFlow         |
+|----------|:----:|:--------------------:|:--------------------------:|
+| Dutch    | "nl" |         :x:          |      :heavy_check_mark:    |
+| English  | "en" |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| French   | "fr" |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| Italian  | "it" |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| Swedish  | "sv" |         :x:          |      :heavy_check_mark:    |
 
 [Help add translations.](translation.md)<br><hr>
 

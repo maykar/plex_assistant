@@ -57,7 +57,7 @@ This component does not use HA media players as devices, it automatically detect
 
 ## Companion Sensor
 
-Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting. To update the sensor send the command "update sensor" to Plex Assistant either through Google Assistant or as a HA service call. The sensor is also updated any time Plex Assistant is sent a command. To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
+Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting.
 
 Add the sensor by including the code below in your configuration.yaml file.
 
@@ -65,6 +65,10 @@ Add the sensor by including the code below in your configuration.yaml file.
 sensor:
 - platform: plex_assistant
 ```
+
+To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `Hey Google, tell Plex to update sensor.`) or as a HA service call. The sensor is also updated any time Plex Assistant is sent a command. To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
+
+Plex clients must be open in order to be detected or recieve commands from this component, Plex can sometimes take around a minute to detect that a client is active/inactive.
 
 ***You must restart after installation and configuration, you may want to setup Google Assistant triggers or HA's conversation intergration first as they will also require a restart. Instructions for each below.*** 
 

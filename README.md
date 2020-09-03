@@ -7,7 +7,13 @@ Plex Assistant is a Home Assistant component to allow Google Assistant, Home Ass
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
-You can use the component's service to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+You can use the component's service (`plex_assistant.command`) to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+
+```
+service: plex_assistant.command
+data:
+  command: Tell Plex to play Breaking Bad
+```
 
 ***Music and audio aren't built in yet, only shows and movies at the moment.***
 

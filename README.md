@@ -9,6 +9,7 @@ Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."
 
 You can use the component's service (`plex_assistant.command`) to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
 
+Example [HA service call](https://www.home-assistant.io/docs/scripts/service-calls/):
 ```
 service: plex_assistant.command
 data:

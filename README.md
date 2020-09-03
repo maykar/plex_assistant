@@ -13,7 +13,7 @@ Example [HA service call](https://www.home-assistant.io/docs/scripts/service-cal
 ```
 service: plex_assistant.command
 data:
-  command: Tell Plex to play Breaking Bad
+  command: Play Breaking Bad
 ```
 
 ***Music and audio aren't built in yet, only shows and movies at the moment.***

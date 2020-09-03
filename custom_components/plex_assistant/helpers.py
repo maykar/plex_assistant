@@ -101,7 +101,7 @@ def video_selection(option, media, lib):
     if isinstance(media, list):
         media = media[0]
 
-    if media.type == "show" or media.type == "season":
+    if media.type == "show":
         unWatched = list(filter(lambda x: not x.isWatched, media.episodes()))
         return unWatched[0] if len(unWatched) > 0 else media.episodes()[0]
 

@@ -72,7 +72,6 @@ def video_selection(option, media, lib):
                 option["library"][0].librarySectionID).onDeck()
         else:
             media = PA.plex.onDeck()
-        media.reverse()
 
     if option["unwatched"]:
         if not media and not lib:
@@ -102,11 +101,8 @@ def video_selection(option, media, lib):
         media = media[0]
 
     if media.type == "show":
-        unWatched = list(filter(lambda x: not x.isWatched, media.episodes()))
-        return unWatched[0] if len(unWatched) > 0 else media.episodes()[0]
-
-    if media.type == "season":
-        return media.episodes()[0]
+        unWatched = media.unwatched()
+        return unWatched[0] if unWatched else media.episodes()[0]
 
     return media
 

@@ -911,6 +911,139 @@ LOCALIZE = {
             "post": [],
         },
     },
+    "de": {
+        "play": "spiele",
+        "movies": [
+            "film",
+        ],
+        "shows": [
+            "serie",
+            "episode",
+            "show",
+        ],
+        "controls": {
+            "play": "spiele",
+            "pause": "pausiere",
+            "stop": "stoppe",
+            "jump_forward": "springe vor",
+            "jump_back": "springe zurück",
+            "update_sensor": "aktualisiere sensor",
+        },
+        "not_found": "nicht gefunden",
+        "cast_device": "cast gerät",
+        "no_call": "es wurde kein befehl empfangen",
+
+        "play_start": [
+            "spiele die show",
+            "spiele den film",
+            "spiele film",
+            "spiele die serie",
+            "spiele die",
+            "spiele",
+        ],
+
+        "ordinals": {
+            "erste": "1",
+            "zweite": "2",
+            "dritte": "3",
+            "vierte": "4",
+            "fünfte": "5",
+            "sechste": "6",
+            "siebte": "7",
+            "achte": "8",
+            "neunte": "9",
+            "zehnte": "10",
+
+            "pre": [
+                "die",
+            ],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "staffel",
+            ],
+            "pre": [
+                "ste",
+                "te",
+                "die",
+            ],
+            "post": [
+                "von",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episode",
+                "folge",
+            ],
+            "pre": [
+                "ste",
+                "te",
+                "die",
+            ],
+            "post": [
+                "von",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "neuste",
+                "aktuellste",
+                "letzte",
+                "aktuelle",
+            ],
+            "pre": [
+                "die"
+            ],
+            "post": [
+                "episode",
+                "folge",
+                "staffel",
+                "von"
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "nicht gesehenen",
+                "nicht gesehene",
+                "nächste",
+                "folgende",
+            ],
+            "pre": [
+                "die",
+            ],
+            "post": [
+                "episode",
+                "folge",
+                "staffel",
+                "von",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "startseite",
+                "hauptseite"
+            ],
+            "pre": [
+                "die",
+            ],
+            "post": [
+                "von",
+            ],
+        },
+
+        "separator": {
+            "keywords": [
+                "auf",
+            ],
+            "pre": [],
+            "post": [
+                "dem",
+            ],
+        },
+    },
     "da": {
         "play": "afspil",
         "movies": [

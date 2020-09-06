@@ -1,26 +1,29 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [IFTTT/DialogFlow Setup](#iftttdialogflow-setup) ｜ [Commands](#commands) ｜ [Help Translate](#translation)<br><hr>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Commands](#commands)<br>
+[Google Assistant Triggers](#google-assistant-triggers) ｜ [HA Conversation Setup](#home-assistant-conversation-setup)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant to cast Plex media to Google devices and Plex clients with a bit of help from IFTTT or DialogFlow. You could use this component with anything that can make a service call to HA as well (see the IFTTT and DialogFlow automations below as a starting point).
+Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well (see the automations in the [Google Assistant trigger guides](](#google-assistant-triggers)) for IFTTT and DialogFlow as a starting point).
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
-You can use the component's service without IFTTT/DialogFlow to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+You can use the component's service (`plex_assistant.command`) to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+
+Example [HA service call](https://www.home-assistant.io/docs/scripts/service-calls/):
+```
+service: plex_assistant.command
+data:
+  command: Play Breaking Bad
+```
+
+***Music and audio aren't built in yet, only shows and movies at the moment.***
 
 ## Supporting Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
 - :1st_place_medal:&nbsp;&nbsp;[Tip some Crypto](https://github.com/sponsors/maykar)
 - :heart:&nbsp;&nbsp;[Sponsor me on GitHub](https://github.com/sponsors/maykar)
-- :keyboard:&nbsp;&nbsp;Help with translation, development, or documentation
+- :keyboard:&nbsp;&nbsp;Help with [translation](translation.md), development, or documentation
   <br><br>
-
-## Author's note
-This is just a side project made to fill the absence of native Google Assistant support in Plex and the fact that the Phlex/FlexTV projects aren’t in working order at the moment.
-
-This project is not a priority of mine as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will try to add features and fix issues until that time. As always, I both welcome and greatly appreciate pull requests.
-
-Thank you for understanding.
 
 ## Installation
 Install by using one of the methods below:
@@ -37,14 +40,14 @@ Add config to your configuration.yaml file.
 | url          |         | **Required** | The full url to your Plex instance including port.
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
-| language     | 'en'    | Optional     | Language code. See Below for supported Languages.
+| language     | 'en'    | Optional     | Language code ([Supported Languages](#supported-languages)).
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.
 
 <hr>
 
 **Sample Config**
-```
+```yaml
 plex_assistant:
   url: 'http://192.168.1.3:32400'
   token: 'tH1s1Sy0uRT0k3n'
@@ -56,23 +59,29 @@ plex_assistant:
     Upstairs TV: Samsung_66585
 ```
 
+## Cast Devices
+This component does not use HA's media_player entities, it automatically detects compatible devices (Google Cast devices and Plex Clients). It will use the name from the devices themselves. Use the [companion sensor](#companion-sensor) to get a list of compatible devices with their names/IDs.
+
 ## Companion Sensor
 
-Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting. To update the sensor send the command "update sensor" to Plex Assistant either through Google Assistant or as a HA service call.
+Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting.
 
-```
+Add the sensor by including the code below in your configuration.yaml file.
+
+```yaml
 sensor:
 - platform: plex_assistant
 ```
 
-***You must restart after installation and configuration, you may want to setup IFTTT or DialogFlow with the instructions below before doing so.*** 
+To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `"Hey Google, tell Plex to update sensor."`) or as a HA service call. The sensor is also updated any time Plex Assistant is sent a command. To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
 
-## IFTTT/DialogFlow-Setup
+Plex clients must be open in order to be detected or recieve commands from this component, Plex can sometimes take around a minute to detect that a client is active/inactive.
 
-You can either use IFTTT or DialogFlow to trigger Plex Assistant. IFTTT is the easiest way to set this up, DialogFlow is more involved and has some quirks. The advantage to using Dialogflow is it's support for more languages (as long as the translation has been made for Plex Assistant, see below).
+***You must restart after installation and configuration, you may want to setup Google Assistant triggers or HA's conversation intergration first as they will also require a restart. Instructions for each below.*** 
 
-#### Supported Languages
-Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](#translation)
+## Google Assistant Triggers
+
+You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Assistant. IFTTT is the easiest way to set this up, but only if IFTTT supports your language. DialogFlow is a bit more involved and has some quirks, but has support for more languages.
 
 <details>
   <summary><b>IFTTT Setup Guide</b></summary>
@@ -95,7 +104,7 @@ Visit [ifttt.com](https://ifttt.com/) and sign up or sign in.
 * Press the plus sign next to "If". Search for and select "Google Assistant"
 * Select "Say phrase with text ingredient"
 
-Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. See currently supported [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Hit "Create Trigger" to continue.
+Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. See currently supported [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Select your language (as long as it's supported, see list above), then hit "Create Trigger" to continue.
 
 * Press the plus sign next to "Then"
 * Search for and select "Webhooks", then select "Make a web request"
@@ -109,7 +118,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 Finally, add the following automation to your Home Assistant configuration.yaml:
 
-```
+```yaml
 automation:
   - alias: Plex Assistant Automation
     trigger:
@@ -173,7 +182,7 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 
 Add the following to your `configuration.yaml` file
 
-```
+```yaml
 intent_script:
   Plex:
     speech:
@@ -189,6 +198,39 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 ***Restart after adding the above.***
 
 </details>
+
+#### Supported Languages:
+| Language |  Code  |        IFTTT         |         DialogFlow         |
+|----------|:------:|:--------------------:|:--------------------------:|
+| Dutch    | `"nl"` |         :x:          |      :heavy_check_mark:    |
+| English  | `"en"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| French   | `"fr"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| Italian  | `"it"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| Swedish  | `"sv"` |         :x:          |      :heavy_check_mark:    |
+
+[Help add translations.](translation.md)<br>
+
+## Home Assistant Conversation Setup
+
+To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the supported languages from the table above.
+
+```yaml
+conversation:
+  intents:
+    PlexAssistant:
+     # These trigger commands can be changed to suit your needs.
+     - Tell Plex to {command}
+     - {command} with Plex
+
+intent_script:
+  PlexAssistant:
+    speech:
+      text: Command sent to Plex.
+    action:
+      service: plex_assistant.command
+      data_template:
+        command: "{{command}}"
+```
 
 ## Commands
 
@@ -214,12 +256,6 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 
 Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"`.
 
+If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
+
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
-
-***Music isn't built in yet, only shows and movies at the moment.***
-
-#### Cast Device
-If no cast device is specified the default_cast device set in config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
-
-## Translation
-You can contribute to the translation/localization of this component by using the [translation guide](translation.md).

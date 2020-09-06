@@ -82,7 +82,6 @@ def video_selection(option, media, lib):
             media = list(filter(lambda x: not x.isWatched, lib))
         else:
             media = list(filter(lambda x: not x.isWatched, media))
-        media.sort(key=lambda x: x.addedAt or x.updatedAt)
 
     if option["latest"]:
         if not option["unwatched"]:
@@ -102,7 +101,11 @@ def video_selection(option, media, lib):
     if isinstance(media, list):
         media = media[0]
 
-    if media.type == "show" or media.type == "season":
+    if media.type == "show":
+        unWatched = list(filter(lambda x: not x.isWatched, media.episodes()))
+        return unWatched[0] if len(unWatched) > 0 else media.episodes()[0]
+
+    if media.type == "season":
         return media.episodes()[0]
 
     return media

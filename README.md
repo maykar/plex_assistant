@@ -199,7 +199,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 </details>
 
-#### Currently Supported Languages ([Help add translations.](translation.md)):
+#### Currently Supported Languages:
 | Language |  Code  |        IFTTT         |         DialogFlow         |
 |----------|:------:|:--------------------:|:--------------------------:|
 | <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NL%402x.png?raw=true' height='12'>  Dutch    | `"nl"` |         :x:          |      :heavy_check_mark:    |
@@ -212,6 +212,8 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 | <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DA%402x.png?raw=true' height='12'>  Danish  | `"da"` |         :x:          |      :heavy_check_mark:    |
 | <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DE%402x.png?raw=true' height='12'>  German  | `"de"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
 -->
+
+#### [Help add support for more languages.](translation.md)<hr>
 
 ## Home Assistant Conversation Setup
 

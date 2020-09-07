@@ -199,16 +199,19 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 </details>
 
-#### Supported Languages:
+#### Currently Supported Languages ([Help add translations.](translation.md)):
 | Language |  Code  |        IFTTT         |         DialogFlow         |
 |----------|:------:|:--------------------:|:--------------------------:|
-| Dutch    | `"nl"` |         :x:          |      :heavy_check_mark:    |
-| English  | `"en"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| French   | `"fr"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| Italian  | `"it"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| Swedish  | `"sv"` |         :x:          |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NL%402x.png?raw=true' height='12'>  Dutch    | `"nl"` |         :x:          |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/GB%402x.png?raw=true' height='12'>  English  | `"en"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/FR%402x.png?raw=true' height='12'>  French   | `"fr"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/IT%402x.png?raw=true' height='12'>  Italian  | `"it"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/SV%402x.png?raw=true' height='12'>  Swedish  | `"sv"` |         :x:          |      :heavy_check_mark:    |
 
-[Help add translations.](translation.md)<br>
+<!---
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DA%402x.png?raw=true' height='12'>  Danish  | `"da"` |         :x:          |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DE%402x.png?raw=true' height='12'>  German  | `"de"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+-->
 
 ## Home Assistant Conversation Setup
 

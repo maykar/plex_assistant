@@ -199,20 +199,25 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 </details>
 
-#### Supported Languages:
+### Currently Supported Languages:
 | Language |  Code  |        IFTTT         |         DialogFlow         |
-|----------|:------:|:--------------------:|:--------------------------:|
-| Dutch    | `"nl"` |         :x:          |      :heavy_check_mark:    |
-| English  | `"en"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| French   | `"fr"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| Italian  | `"it"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| Swedish  | `"sv"` |         :x:          |      :heavy_check_mark:    |
+|:----------|:------:|:--------------------:|:--------------------------:|
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NL%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Dutch**    | `"nl"` |         :x:          |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/GB%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**English**  | `"en"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/FR%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**French**   | `"fr"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/IT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Italian**  | `"it"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/SV%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Swedish**  | `"sv"` |         :x:          |      :heavy_check_mark:    |
 
-[Help add translations.](translation.md)<br>
+<!---
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DA%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Danish**  | `"da"` |         :x:          |      :heavy_check_mark:    |
+| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DE%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**German**  | `"de"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
+-->
+
+#### [Help add support for more languages.](translation.md)<hr>
 
 ## Home Assistant Conversation Setup
 
-To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the supported languages from the table above.
+To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the languages from the table above.
 
 ```yaml
 conversation:

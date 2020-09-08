@@ -1,5 +1,4 @@
 import re
-import time
 from datetime import datetime
 
 from fuzzywuzzy import fuzz
@@ -84,25 +83,19 @@ def video_selection(option, media, lib):
 
     if option["latest"]:
         if not option["unwatched"]:
-            if not media and not lib:
-                media = PA.plex.recentlyAdded()
-                media.sort(key=lambda x: x.addedAt or x.updatedAt)
-            elif not media:
-                media = lib
+            if not media:
+                media = PA.plex.recentlyAdded() if not lib else lib
                 media.sort(key=lambda x: x.addedAt or x.updatedAt)
             if isinstance(media, list):
                 media.sort(key=lambda x: x.addedAt or x.updatedAt)
+        if media.type in ["show", "season"]:
+            media = media.episodes()[-1]
         if isinstance(media, list):
             media = media[-1]
-        if media.type == "show" or media.type == "season":
-            media = media.episodes()[-1]
-
-    if isinstance(media, list):
-        media = media[0]
 
     if media.type == "show":
         unWatched = media.unwatched()
-        return unWatched[0] if unWatched else media.episodes()[0]
+        return unWatched[0] if unWatched else media
 
     return media
 
@@ -119,11 +112,8 @@ def find_media(selected, media, lib):
         else:
             section = "movie_titles"
 
-        if not media:
-            result = ""
-        else:
-            result = fuzzy(media, lib[section], fuzz.WRatio)[0]
-
+        result = "" if not media else fuzzy(
+            media, lib[section], fuzz.WRatio)[0]
         library = selected["library"]
     else:
         if not media:
@@ -275,9 +265,7 @@ def is_device(command, media_list, separator):
     split_score = fuzzy(command.replace(split[-1], "")[0], media_list)[1]
     cast_score = fuzzy(split[-1], PA.device_names +
                        PA.client_names + PA.alias_names)[1]
-    if full_score > split_score and full_score > cast_score:
-        return False
-    return True
+    return full_score < split_score or full_score < cast_score
 
 
 def get_media_and_device(localize, command, lib, library, default_cast):

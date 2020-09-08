@@ -58,7 +58,6 @@ def setup(hass, config):
                           media_error, video_selection)
     from .localize import LOCALIZE
     from .process_speech import process_speech
-    from datetime import datetime
 
     _LOGGER = logging.getLogger(__name__)
 
@@ -105,7 +104,6 @@ def setup(hass, config):
         command_string = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command_string)
 
-        client_update = True
         get_chromecasts(blocking=False, callback=cc_callback)
 
         PA.clients = PA.server.clients()

@@ -8,12 +8,7 @@ https://github.com/custom-cards/upcoming-media-card
 
 """
 from . import PA
-import json
-from pychromecast import get_chromecasts
 from homeassistant.helpers.entity import Entity
-from datetime import datetime, timedelta
-import time
-from .helpers import cc_callback
 
 
 def setup_platform(hass, config, add_devices, discovery_info=None):

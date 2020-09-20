@@ -109,12 +109,9 @@ async def async_setup(hass, config):
         command_string = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command_string)
 
+        PA.client_update = True
         get_chromecasts(blocking=False, callback=cc_callback,
                         zeroconf_instance=zc)
-
-        PA.clients = PA.server.clients()
-        PA.client_names = [client.title for client in PA.clients]
-        PA.client_ids = [client.machineIdentifier for client in PA.clients]
 
         if localize["controls"]["update_sensor"] in command_string:
             update_sensor(hass)

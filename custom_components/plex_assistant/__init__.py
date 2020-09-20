@@ -10,6 +10,7 @@ https://github.com/maykar/plex_assistant
 
 from homeassistant.helpers.network import get_url
 import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.typing import HomeAssistantType
 import voluptuous as vol
 
 DOMAIN = "plex_assistant"
@@ -42,6 +43,16 @@ class PA:
     client_sensor = []
     alias_names = []
     client_update = True
+    zeroconf = None
+
+
+async def get_zeroconf_singleton(hass: HomeAssistantType):
+    try:
+        from homeassistant.components.zeroconf import async_get_instance
+        PA.zeroconf = await async_get_instance(hass)
+    except:
+        from zeroconf import Zeroconf
+        PA.zeroconf = Zeroconf()
 
 
 def setup(hass, config):
@@ -75,7 +86,9 @@ def setup(hass, config):
     if tts_error and not os.path.exists(directory):
         os.makedirs(directory, mode=0o777)
 
-    get_chromecasts(blocking=False, callback=cc_callback)
+    get_chromecasts(blocking=False, callback=cc_callback,
+                    zeroconf_instance=PA.zeroconf)
+
     PA.server = PlexServer(base_url, token)
     PA.plex = PA.server.library
     PA.lib = get_libraries(PA.plex)
@@ -104,7 +117,8 @@ def setup(hass, config):
         command_string = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command_string)
 
-        get_chromecasts(blocking=False, callback=cc_callback)
+        get_chromecasts(blocking=False, callback=cc_callback,
+                        zeroconf_instance=PA.zeroconf)
 
         PA.clients = PA.server.clients()
         PA.client_names = [client.title for client in PA.clients]

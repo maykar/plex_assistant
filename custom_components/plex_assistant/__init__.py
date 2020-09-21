@@ -18,6 +18,7 @@ CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
 CONF_ALIASES = "aliases"
+CONF_SENSOR = "sensor"
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -28,6 +29,7 @@ CONFIG_SCHEMA = vol.Schema(
             vol.Optional(CONF_LANG, default="en"): cv.string,
             vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
             vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
+            vol.Optional(CONF_SENSOR, default=True): cv.boolean,
         }
     },
     extra=vol.ALLOW_EXTRA,
@@ -65,6 +67,7 @@ async def async_setup(hass, config):
     lang = conf.get(CONF_LANG)
     tts_errors = conf.get(CONF_TTS_ERROR)
     aliases = conf.get(CONF_ALIASES)
+    sensor = conf.get(CONF_SENSOR)
     zeroconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
 
@@ -85,8 +88,10 @@ async def async_setup(hass, config):
     get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zeroconf)
 
     def sync_sensor_io():
+        if not sensor:
+            return
         time.sleep(5)
-        update_sensor(hass, PA)
+        update_sensor(hass, PA, sensor)
 
     await hass.async_add_executor_job(sync_sensor_io)
 
@@ -108,7 +113,7 @@ async def async_setup(hass, config):
         )
 
         if localize["controls"]["update_sensor"] in command:
-            update_sensor(hass, PA)
+            update_sensor(hass, PA, True)
             return
 
         command = process_speech(command, localize, default_device, PA)
@@ -205,13 +210,15 @@ async def async_setup(hass, config):
             player.wait()
             plex_c.block_until_playing(media)
 
-        update_sensor(hass, PA)
+        update_sensor(hass, PA, sensor)
 
     hass.services.async_register(DOMAIN, "command", handle_input)
     return True
 
 
-def update_sensor(hass, PA):
+def update_sensor(hass, PA, sensor):
+    if not sensor:
+        return
     clients = [
         {client.title: {"ID": client.machineIdentifier, "type": client.product}}
         for client in PA.plex_clients
@@ -225,8 +232,8 @@ def update_sensor(hass, PA):
         },
         "friendly_name": "Plex Assistant Devices",
     }
-    sensor = "sensor.plex_assistant_devices"
-    hass.states.async_set(sensor, state, attributes)
+    pa_sensor = "sensor.plex_assistant_devices"
+    hass.states.async_set(pa_sensor, state, attributes)
 
 
 class PlexAssistant:

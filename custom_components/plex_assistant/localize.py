@@ -1,3 +1,4 @@
+# fmt: off
 LOCALIZE = {
     "en": {
         # Generic Terms

@@ -1,5 +1,11 @@
-from .helpers import (_find, _remove, get_library, get_media_and_device,
-                      get_season_episode_num, fuzzy)
+from .helpers import (
+    _find,
+    _remove,
+    get_library,
+    get_media_and_device,
+    get_season_episode_num,
+    fuzzy,
+)
 
 
 def process_speech(command, localize, default_cast, PA):
@@ -14,28 +20,20 @@ def process_speech(command, localize, default_cast, PA):
     remote = ""
     device = ""
 
-    devices = PA.device_names + PA.client_names + PA.alias_names
+    devices = PA.chromecast_names + PA.plex_client_names + PA.alias_names
     controls = localize["controls"]
     for control in controls:
         if command.startswith(controls[control]):
             control_check = command.replace(controls[control], "").strip()
             if control_check == "":
-                remote = control
+                return {"device": device, "control": control}
             else:
-                devices = devices + list(PA.devices.keys())
                 fuzz_client = fuzzy(control_check, devices)
                 if fuzz_client[1] > 80 and fuzz_client[0] in devices:
                     device = fuzz_client[0]
-                    remote = control
+                    return {"device": device, "control": control}
 
-    if remote:
-        return {
-            "device": device,
-            "control": remote
-        }
-
-    library = get_library(command, lib, localize,
-                          devices + list(PA.devices.keys()))
+    library = get_library(command, lib, localize, devices)
 
     for start in localize["play_start"]:
         if command.startswith(start):
@@ -69,8 +67,7 @@ def process_speech(command, localize, default_cast, PA):
         episode = result["number"]
         command = result["command"]
 
-    result = get_media_and_device(
-        localize, command, lib, library, default_cast)
+    result = get_media_and_device(PA, localize, command, lib, library, default_cast)
 
     return {
         "media": result["media"],

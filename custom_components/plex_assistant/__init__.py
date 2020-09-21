@@ -19,126 +19,111 @@ CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
 CONF_ALIASES = "aliases"
 
-CONFIG_SCHEMA = vol.Schema({DOMAIN: {
-    vol.Required(CONF_URL): cv.url,
-    vol.Required(CONF_TOKEN): cv.string,
-    vol.Optional(CONF_DEFAULT_CAST): cv.string,
-    vol.Optional(CONF_LANG, default='en'): cv.string,
-    vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
-    vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
-}}, extra=vol.ALLOW_EXTRA)
-
-
-class PA:
-    """ Hold our libraries, devices, etc. """
-
-    plex = None
-    server = None
-    lib = {}
-    devices = {}
-    device_names = []
-    clients = {}
-    client_names = []
-    client_sensor = []
-    alias_names = []
-    client_update = True
+CONFIG_SCHEMA = vol.Schema(
+    {
+        DOMAIN: {
+            vol.Required(CONF_URL): cv.url,
+            vol.Required(CONF_TOKEN): cv.string,
+            vol.Optional(CONF_DEFAULT_CAST): cv.string,
+            vol.Optional(CONF_LANG, default="en"): cv.string,
+            vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
+            vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
+        }
+    },
+    extra=vol.ALLOW_EXTRA,
+)
 
 
 async def async_setup(hass, config):
     """Called when Home Assistant is loading our component."""
 
     import os
+    import time
     import logging
 
     from gtts import gTTS
-    from plexapi.server import PlexServer
     from pychromecast import get_chromecasts
     from pychromecast.controllers.plex import PlexController
     from homeassistant.helpers.network import get_url
+    from homeassistant.components.zeroconf import async_get_instance
+
     from .localize import LOCALIZE
     from .process_speech import process_speech
     from .helpers import (
-        cc_callback,
         find_media,
         fuzzy,
-        get_libraries,
         media_error,
         video_selection,
     )
 
-    conf = config[DOMAIN]
-    base_url = conf.get(CONF_URL)
-    token = conf.get(CONF_TOKEN)
-    default_cast = conf.get(CONF_DEFAULT_CAST)
-    lang = conf.get(CONF_LANG)
-    tts_error = conf.get(CONF_TTS_ERROR)
-    aliases = conf.get(CONF_ALIASES)
-
     _LOGGER = logging.getLogger(__name__)
 
+    conf = config[DOMAIN]
+    url = conf.get(CONF_URL)
+    token = conf.get(CONF_TOKEN)
+    default_device = conf.get(CONF_DEFAULT_CAST)
+    lang = conf.get(CONF_LANG)
+    tts_errors = conf.get(CONF_TTS_ERROR)
+    aliases = conf.get(CONF_ALIASES)
+    zeroconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
-    zc = None
 
-    try:
-        from homeassistant.components.zeroconf import async_get_instance
-        zc = await async_get_instance(hass)
-    except:
-        from zeroconf import Zeroconf
-        zc = Zeroconf()
+    dir = hass.config.path() + "/www/plex_assist_tts/"
+    if tts_errors and not os.path.exists(dir):
+        os.makedirs(dir, mode=0o777)
 
-    directory = hass.config.path() + "/www/plex_assist_tts/"
-    if tts_error and not os.path.exists(directory):
-        os.makedirs(directory, mode=0o777)
+    def sync_class_io(url, token, aliases):
+        PA = PlexAssistant(url, token, aliases)
+        PA.plex_client_update()
+        return PA
 
-    get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zc)
+    PA = await hass.async_add_executor_job(sync_class_io, url, token, aliases)
 
-    def sync_io_server(base_url, token):
-        PA.server = PlexServer(base_url, token)
-        PA.plex = PA.server.library
-        PA.lib = get_libraries(PA.plex)
+    def cc_callback(chromecast):
+        PA.chromecasts[chromecast.device.friendly_name] = chromecast
 
-    await hass.async_add_executor_job(sync_io_server, base_url, token)
+    get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zeroconf)
 
-    PA.alias_names = list(aliases.keys()) if aliases else []
+    def sync_sensor_io():
+        time.sleep(5)
+        update_sensor(hass, PA)
+
+    await hass.async_add_executor_job(sync_sensor_io)
 
     def handle_input(call):
+        player = None
+        alias = ["", 0]
+        speak_error = False
+
         if not call.data.get("command").strip():
             _LOGGER.warning(localize["no_call"])
             return
 
-        command_string = call.data.get("command").strip().lower()
-        _LOGGER.debug("Command: %s", command_string)
+        command = call.data.get("command").strip().lower()
+        _LOGGER.debug("Command: %s", command)
 
-        get_chromecasts(blocking=False, callback=cc_callback,
-                        zeroconf_instance=zc)
+        PA.plex_client_update()
+        get_chromecasts(
+            blocking=False, callback=cc_callback, zeroconf_instance=zeroconf
+        )
 
-        PA.clients = PA.server.clients()
-        PA.client_names = [client.title for client in PA.clients]
-        PA.client_ids = [client.machineIdentifier for client in PA.clients]
-
-        if localize["controls"]["update_sensor"] in command_string:
-            update_sensor(hass)
+        if localize["controls"]["update_sensor"] in command:
+            update_sensor(hass, PA)
             return
 
-        cast = None
-        alias = ["", 0]
-        client = False
-        speech_error = False
-
-        command = process_speech(command_string, localize, default_cast, PA)
-        PA.device_names = list(PA.devices.keys())
+        command = process_speech(command, localize, default_device, PA)
 
         if not command["control"]:
             _LOGGER.debug({i: command[i] for i in command if i != "library"})
 
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
-            PA.lib = get_libraries(PA.plex)
+            PA.lib = PA.get_libraries()
 
-        devices = PA.device_names + PA.client_names + PA.client_ids
-        device = fuzzy(command["device"] or default_cast, devices)
+        devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
+        device = fuzzy(command["device"] or default_device, devices)
 
         if aliases:
-            alias = fuzzy(command["device"] or default_cast, PA.alias_names)
+            alias = fuzzy(command["device"] or default_device, PA.alias_names)
 
         if alias[1] < 60 and device[1] < 60:
             _LOGGER.warning(
@@ -157,81 +142,81 @@ async def async_setup(hass, config):
             return
 
         name = aliases[alias[0]] if alias[1] > device[1] else device[0]
-        cast = PA.devices[name] if name in PA.device_names else name
-        client = isinstance(cast, str)
+        player = PA.chromecasts[name] if name in PA.chromecast_names else name
+        client = isinstance(player, str)
 
         if client:
-            client_device = next(
-                c for c in PA.clients if c.title == cast or c.machineIdentifier == cast
+            player = next(
+                x
+                for x in PA.plex_clients
+                if x.title == player or x.machineIdentifier == player
             )
-            cast = client_device
 
         if command["control"]:
             control = command["control"]
             if client:
-                cast.proxyThroughServer()
-                plex_c = cast
+                player.proxyThroughServer()
+                controller = player
             else:
-                plex_c = PlexController()
-                cast.wait()
-                cast.register_handler(plex_c)
+                controller = PlexController()
+                player.register_handler(controller)
+                player.wait()
             if control == "play":
-                plex_c.play()
+                controller.play()
             elif control == "pause":
-                plex_c.pause()
+                controller.pause()
             elif control == "stop":
-                plex_c.stop()
+                controller.stop()
             elif control == "jump_forward":
-                plex_c.stepForward()
+                controller.stepForward()
             elif control == "jump_back":
-                plex_c.stepBack()
+                controller.stepBack()
             return
 
         try:
             result = find_media(command, command["media"], PA.lib)
-            media = video_selection(
-                command, result["media"], result["library"])
+            media = video_selection(PA, command, result["media"], result["library"])
         except Exception:
             error = media_error(command, localize)
-            if tts_error:
+            if tts_errors:
                 tts = gTTS(error, lang=lang)
-                tts.save(directory + "error.mp3")
-                speech_error = True
+                tts.save(dir + "error.mp3")
+                speak_error = True
 
-        if speech_error and not client:
-            cast.wait()
-            med_con = cast.media_controller
+        if speak_error and not client:
+            player.wait()
+            media_con = player.media_controller
             mp3 = get_url(hass) + "/local/plex_assist_tts/error.mp3"
-            med_con.play_media(mp3, "audio/mpeg")
-            med_con.block_until_active()
+            media_con.play_media(mp3, "audio/mpeg")
+            media_con.block_until_active()
             return
 
         _LOGGER.debug("Media: %s", str(media))
 
         if client:
-            _LOGGER.debug("Client: %s", cast)
-            cast.proxyThroughServer()
-            plex_c = cast
+            _LOGGER.debug("Client: %s", player)
+            player.proxyThroughServer()
+            plex_c = player
             plex_c.playMedia(media)
         else:
-            _LOGGER.debug("Cast: %s", cast.name)
+            _LOGGER.debug("Cast: %s", player.name)
             plex_c = PlexController()
-            cast.register_handler(plex_c)
-            cast.wait()
+            player.register_handler(plex_c)
+            player.wait()
             plex_c.block_until_playing(media)
 
-        update_sensor(hass)
+        update_sensor(hass, PA)
 
     hass.services.async_register(DOMAIN, "command", handle_input)
     return True
 
 
-def update_sensor(hass):
+def update_sensor(hass, PA):
     clients = [
         {client.title: {"ID": client.machineIdentifier, "type": client.product}}
-        for client in PA.clients
+        for client in PA.plex_clients
     ]
-    devicelist = list(PA.devices.keys())
+    devicelist = PA.chromecast_names
     state = str(len(devicelist + clients)) + " connected devices."
     attributes = {
         "Connected Devices": {
@@ -242,3 +227,52 @@ def update_sensor(hass):
     }
     sensor = "sensor.plex_assistant_devices"
     hass.states.async_set(sensor, state, attributes)
+
+
+class PlexAssistant:
+    """Hold our libraries, devices, etc."""
+
+    chromecasts = {}
+    plex_clients = {}
+
+    def __init__(self, url, token, aliases):
+        from plexapi.server import PlexServer
+
+        self.server = PlexServer(url, token)
+        self.plex = self.server.library
+        self.get_libraries()
+        self.aliases = aliases
+        self.alias_names = list(aliases.keys()) if aliases else []
+
+    def get_libraries(self):
+        """Return Plex libraries, lib contents, media titles, & time updated."""
+        from datetime import datetime
+
+        self.plex.reload()
+        movies = self.plex.search(libtype="movie")
+        movies.sort(key=lambda x: x.addedAt or x.updatedAt)
+        shows = self.plex.search(libtype="show")
+        shows.sort(key=lambda x: x.addedAt or x.updatedAt)
+
+        self.lib = {
+            "movies": movies,
+            "movie_titles": [movie.title for movie in movies],
+            "shows": shows,
+            "show_titles": [show.title for show in shows],
+            "updated": datetime.now(),
+        }
+
+    def plex_client_update(self):
+        self.plex_clients = self.server.clients() if self.server else []
+
+    @property
+    def chromecast_names(self):
+        return list(self.chromecasts.keys())
+
+    @property
+    def plex_client_names(self):
+        return [client.title for client in self.plex_clients]
+
+    @property
+    def plex_client_ids(self):
+        return [client.machineIdentifier for client in self.plex_clients]

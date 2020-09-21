@@ -3,7 +3,6 @@ Companion Sensor for Plex Assistant
 https://github.com/maykar/plex_assistant
 
 """
-from . import PA
 from homeassistant.helpers.entity import Entity
 
 
@@ -13,11 +12,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
 
 class PlexAssistantSensor(Entity):
-
     def __init__(self, hass, conf, name):
         self._name = name
         self.devices = {}
-        self.update_clients = True
 
     @property
     def name(self):
@@ -32,11 +29,10 @@ class PlexAssistantSensor(Entity):
         return self._attributes
 
     def update(self):
-        clients = [{client.title: {"ID": client.machineIdentifier,
-                                   "type": client.product}} for client in PA.clients]
-        devicelist = list(PA.devices.keys())
-        self._state = str(len(devicelist + clients)) + ' connected devices.'
-        self._attributes = {"Connected Devices": {
-            'Cast Devices': devicelist or 'None',
-            'Plex Clients': clients or 'None'
-        }}
+        self._state = "No connected devices."
+        self._attributes = {
+            "Connected Devices": {
+                "Cast Devices": "None",
+                "Plex Clients": "None",
+            }
+        }

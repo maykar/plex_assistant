@@ -4,6 +4,25 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
 
 
+def update_sensor(hass, PA, sensor):
+    if sensor:
+        clients = [
+            {client.title: {"ID": client.machineIdentifier, "type": client.product}}
+            for client in PA.plex_clients
+        ]
+        devicelist = PA.chromecast_names
+        state = str(len(devicelist + clients)) + " connected devices."
+        attributes = {
+            "Connected Devices": {
+                "Cast Devices": devicelist or "None",
+                "Plex Clients": clients or "None",
+            },
+            "friendly_name": "Plex Assistant Devices",
+        }
+        pa_sensor = "sensor.plex_assistant_devices"
+        hass.states.async_set(pa_sensor, state, attributes)
+
+
 def fuzzy(media, lib, scorer=fuzz.QRatio):
     """  Use Fuzzy Wuzzy to return highest scoring item. """
     if isinstance(lib, list) and len(lib) > 0:
@@ -196,19 +215,17 @@ def _find(item, command):
     return any(keyword in command for keyword in item["keywords"])
 
 
-def _remove(item, command, replace=""):
+def _remove(item, command):
     """ Remove key, pre, and post words from command string. """
-    if replace != "":
-        replace = " " + replace + " "
     for keyword in item["keywords"]:
         if item["pre"]:
             for pre in item["pre"]:
-                command = command.replace("%s %s" % (pre, keyword), replace)
+                command = command.replace("%s %s" % (pre, keyword), "")
         if item["post"]:
             for post in item["post"]:
-                command = command.replace("%s %s" % (keyword, post), replace)
+                command = command.replace("%s %s" % (keyword, post), "")
         if keyword in command:
-            command = command.replace(" " + keyword + " ", replace)
+            command = command.replace(" " + keyword + " ", "")
     return " ".join(command.split())
 
 
@@ -236,9 +253,7 @@ def is_device(PA, command, media_list, separator):
     split = command.split(separator)
     full_score = fuzzy(command, media_list)[1]
     split_score = fuzzy(command.replace(split[-1], "")[0], media_list)[1]
-    cast_score = fuzzy(
-        split[-1], PA.chromecast_names + PA.plex_client_names + PA.alias_names
-    )[1]
+    cast_score = fuzzy(split[-1], PA.device_names)[1]
     return full_score < split_score or full_score < cast_score
 
 
@@ -291,3 +306,76 @@ def media_error(command, localize):
         error += "%s %s " % (localize["episode"]["keywords"][0], command["episode"])
     error += localize["not_found"] + "."
     return error.capitalize()
+
+
+def process_speech(command, localize, default_cast, PA):
+    """ Find and return all options found in the command string """
+    lib = PA.lib
+    latest = False
+    unwatched = False
+    ondeck = False
+    library = None
+    episode = ""
+    season = ""
+    remote = ""
+    device = ""
+
+    controls = localize["controls"]
+    for control in controls:
+        if command.startswith(controls[control]):
+            control_check = command.replace(controls[control], "").strip()
+            if control_check == "":
+                return {"device": device, "control": control}
+            else:
+                fuzz_client = fuzzy(control_check, PA.device_names)
+                if fuzz_client[1] > 80 and fuzz_client[0] in PA.device_names:
+                    device = fuzz_client[0]
+                    return {"device": device, "control": control}
+
+    library = get_library(command, lib, localize, PA.device_names)
+
+    for start in localize["play_start"]:
+        if command.startswith(start):
+            command = command.replace(start, "")
+
+    if _find(localize["ondeck"], command):
+        ondeck = True
+        command = _remove(localize["ondeck"], command)
+
+    if _find(localize["latest"], command):
+        latest = True
+        command = _remove(localize["latest"], command)
+
+    if _find(localize["unwatched"], command):
+        unwatched = True
+        command = _remove(localize["unwatched"], command)
+
+    if _find(localize["season"], command):
+        library = lib["shows"]
+        result = get_season_episode_num(
+            command, localize["season"], localize["ordinals"]
+        )
+        season = result["number"]
+        command = result["command"]
+
+    if _find(localize["episode"], command):
+        library = lib["shows"]
+        result = get_season_episode_num(
+            command, localize["episode"], localize["ordinals"]
+        )
+        episode = result["number"]
+        command = result["command"]
+
+    result = get_media_and_device(PA, localize, command, lib, library, default_cast)
+
+    return {
+        "media": result["media"],
+        "device": result["device"],
+        "season": season,
+        "episode": episode,
+        "latest": latest,
+        "unwatched": unwatched,
+        "library": library,
+        "ondeck": ondeck,
+        "control": "",
+    }

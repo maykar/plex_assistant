@@ -39,23 +39,24 @@ CONFIG_SCHEMA = vol.Schema(
 async def async_setup(hass, config):
     """Called when Home Assistant is loading our component."""
 
+    import logging
     import os
     import time
-    import logging
 
     from gtts import gTTS
-    from pychromecast import get_chromecasts
-    from pychromecast.controllers.plex import PlexController
     from homeassistant.helpers.network import get_url
     from homeassistant.components.zeroconf import async_get_instance
+    from pychromecast import get_chromecasts
+    from pychromecast.controllers.plex import PlexController
 
     from .localize import LOCALIZE
-    from .process_speech import process_speech
     from .helpers import (
         find_media,
         fuzzy,
         media_error,
         video_selection,
+        update_sensor,
+        process_speech,
     )
 
     _LOGGER = logging.getLogger(__name__)
@@ -68,37 +69,38 @@ async def async_setup(hass, config):
     tts_errors = conf.get(CONF_TTS_ERROR)
     aliases = conf.get(CONF_ALIASES)
     sensor = conf.get(CONF_SENSOR)
-    zeroconf = await async_get_instance(hass)
+    zconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
 
     dir = hass.config.path() + "/www/plex_assist_tts/"
     if tts_errors and not os.path.exists(dir):
         os.makedirs(dir, mode=0o777)
 
-    def sync_class_io(url, token, aliases):
+    def pa_executor(url, token, aliases):
         PA = PlexAssistant(url, token, aliases)
         PA.plex_client_update()
         return PA
 
-    PA = await hass.async_add_executor_job(sync_class_io, url, token, aliases)
+    PA = await hass.async_add_executor_job(pa_executor, url, token, aliases)
 
     def cc_callback(chromecast):
         PA.chromecasts[chromecast.device.friendly_name] = chromecast
 
-    get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zeroconf)
+    get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zconf)
 
-    def sync_sensor_io():
-        if not sensor:
-            return
+    def sensor_executor():
         time.sleep(5)
         update_sensor(hass, PA, sensor)
 
-    await hass.async_add_executor_job(sync_sensor_io)
+    if sensor:
+        await hass.async_add_executor_job(sensor_executor)
 
     def handle_input(call):
         player = None
         alias = ["", 0]
-        speak_error = False
+
+        PA.plex_client_update()
+        get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zconf)
 
         if not call.data.get("command").strip():
             _LOGGER.warning(localize["no_call"])
@@ -106,11 +108,6 @@ async def async_setup(hass, config):
 
         command = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command)
-
-        PA.plex_client_update()
-        get_chromecasts(
-            blocking=False, callback=cc_callback, zeroconf_instance=zeroconf
-        )
 
         if localize["controls"]["update_sensor"] in command:
             update_sensor(hass, PA, True)
@@ -151,11 +148,10 @@ async def async_setup(hass, config):
         client = isinstance(player, str)
 
         if client:
-            player = next(
-                x
-                for x in PA.plex_clients
-                if x.title == player or x.machineIdentifier == player
-            )
+            for c in PA.plex_clients:
+                if c.title == player or c.machineIdentifier == player:
+                    player == c
+                    break
 
         if command["control"]:
             control = command["control"]
@@ -186,15 +182,13 @@ async def async_setup(hass, config):
             if tts_errors:
                 tts = gTTS(error, lang=lang)
                 tts.save(dir + "error.mp3")
-                speak_error = True
-
-        if speak_error and not client:
-            player.wait()
-            media_con = player.media_controller
-            mp3 = get_url(hass) + "/local/plex_assist_tts/error.mp3"
-            media_con.play_media(mp3, "audio/mpeg")
-            media_con.block_until_active()
-            return
+                if not client:
+                    player.wait()
+                    media_con = player.media_controller
+                    mp3 = get_url(hass) + "/local/plex_assist_tts/error.mp3"
+                    media_con.play_media(mp3, "audio/mpeg")
+                    media_con.block_until_active()
+                    return
 
         _LOGGER.debug("Media: %s", str(media))
 
@@ -216,44 +210,43 @@ async def async_setup(hass, config):
     return True
 
 
-def update_sensor(hass, PA, sensor):
-    if not sensor:
-        return
-    clients = [
-        {client.title: {"ID": client.machineIdentifier, "type": client.product}}
-        for client in PA.plex_clients
-    ]
-    devicelist = PA.chromecast_names
-    state = str(len(devicelist + clients)) + " connected devices."
-    attributes = {
-        "Connected Devices": {
-            "Cast Devices": devicelist or "None",
-            "Plex Clients": clients or "None",
-        },
-        "friendly_name": "Plex Assistant Devices",
-    }
-    pa_sensor = "sensor.plex_assistant_devices"
-    hass.states.async_set(pa_sensor, state, attributes)
-
-
 class PlexAssistant:
     """Hold our libraries, devices, etc."""
+
+    from plexapi.server import PlexServer
+    from datetime import datetime
 
     chromecasts = {}
     plex_clients = {}
 
     def __init__(self, url, token, aliases):
-        from plexapi.server import PlexServer
-
         self.server = PlexServer(url, token)
         self.plex = self.server.library
         self.get_libraries()
         self.aliases = aliases
         self.alias_names = list(aliases.keys()) if aliases else []
 
+    @property
+    def chromecast_names(self):
+        return list(self.chromecasts.keys())
+
+    @property
+    def plex_client_names(self):
+        return [client.title for client in self.plex_clients]
+
+    @property
+    def device_names(self):
+        return self.chromecast_names + self.plex_client_names + self.alias_names
+
+    @property
+    def plex_client_ids(self):
+        return [client.machineIdentifier for client in self.plex_clients]
+
+    def plex_client_update(self):
+        self.plex_clients = self.server.clients() if self.server else []
+
     def get_libraries(self):
         """Return Plex libraries, lib contents, media titles, & time updated."""
-        from datetime import datetime
 
         self.plex.reload()
         movies = self.plex.search(libtype="movie")
@@ -268,18 +261,3 @@ class PlexAssistant:
             "show_titles": [show.title for show in shows],
             "updated": datetime.now(),
         }
-
-    def plex_client_update(self):
-        self.plex_clients = self.server.clients() if self.server else []
-
-    @property
-    def chromecast_names(self):
-        return list(self.chromecasts.keys())
-
-    @property
-    def plex_client_names(self):
-        return [client.title for client in self.plex_clients]
-
-    @property
-    def plex_client_ids(self):
-        return [client.machineIdentifier for client in self.plex_clients]

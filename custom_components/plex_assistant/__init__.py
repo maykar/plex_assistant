@@ -46,7 +46,6 @@ async def async_setup(hass, config):
     from gtts import gTTS
     from homeassistant.helpers.network import get_url
     from homeassistant.components.zeroconf import async_get_instance
-    from pychromecast import get_chromecasts
     from pychromecast.controllers.plex import PlexController
 
     from .localize import LOCALIZE
@@ -77,16 +76,10 @@ async def async_setup(hass, config):
     if tts_errors and not os.path.exists(dir):
         os.makedirs(dir, mode=0o777)
 
-    def pa_executor(url, token, aliases):
-        return PlexAssistant(url, token, aliases)
+    def pa_executor(url, token, aliases, zconf):
+        return PlexAssistant(url, token, aliases, zconf)
 
-    PA = await hass.async_add_executor_job(pa_executor, url, token, aliases)
-
-    def cc_callback(chromecast):
-        """get_chromecasts() callback function."""
-        PA.chromecasts[chromecast.device.friendly_name] = chromecast
-
-    get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zconf)
+    PA = await hass.async_add_executor_job(pa_executor, url, token, aliases, zconf)
 
     # First update of sensor.
     def sensor_executor():
@@ -101,8 +94,7 @@ async def async_setup(hass, config):
         alias = ["", 0]
 
         # Update devices at start of call in case new ones have appeared.
-        PA.plex_client_update()
-        get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zconf)
+        PA.update_devices()
 
         if not call.data.get("command").strip():
             _LOGGER.warning(localize["no_call"])
@@ -158,7 +150,7 @@ async def async_setup(hass, config):
         if client:
             for c in PA.plex_clients:
                 if c.title == player or c.machineIdentifier == player:
-                    player == c
+                    player = c
                     break
 
         # Remote control operations.
@@ -227,6 +219,7 @@ class PlexAssistant:
     Args:
         url (str): URL to connect to server.
         token (str): X-Plex-Token used for authenication.
+        zconf (Zeroconf instance): HA's shared Zeroconf instance.
         aliases (dict): Alternate names assigned to devices.
 
     Attributes:
@@ -243,18 +236,17 @@ class PlexAssistant:
         device_names (list): Combined list of alias, chromecast, and plex client names.
     """
 
-    from plexapi.server import PlexServer
-    from datetime import datetime
+    def __init__(self, url, token, aliases, zconf):
+        from plexapi.server import PlexServer
 
-    chromecasts = {}  # Updated on load and on call with get_chromecasts().
-
-    def __init__(self, url, token, aliases):
+        self.zconf = zconf
         self.server = PlexServer(url, token)
+        self.chromecasts = {}
+        self.update_devices()
         self.plex = self.server.library
         self.get_libraries()
         self.aliases = aliases
         self.alias_names = list(aliases.keys()) if aliases else []
-        self.plex_clients = self.server.clients()
 
     @property
     def chromecast_names(self):
@@ -276,11 +268,21 @@ class PlexAssistant:
         """Return list of devices and aliases names"""
         return self.chromecast_names + self.plex_client_names + self.alias_names
 
-    def plex_client_update(self):
-        """Get currently connected Plex clients."""
+    def update_devices(self):
+        """Update currently connected cast and client devices."""
+        from pychromecast import get_chromecasts
+
+        def cc_callback(chromecast):
+            self.chromecasts[chromecast.device.friendly_name] = chromecast
+
+        get_chromecasts(
+            blocking=False, callback=cc_callback, zeroconf_instance=self.zconf
+        )
         self.plex_clients = self.server.clients()
 
     def get_libraries(self):
+        from datetime import datetime
+
         """Update library contents, media titles, & set time updated."""
 
         self.plex.reload()

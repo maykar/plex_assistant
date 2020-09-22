@@ -215,17 +215,19 @@ def _find(item, command):
     return any(keyword in command for keyword in item["keywords"])
 
 
-def _remove(item, command):
+def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
+    if replace != "":
+        replace = " " + replace + " "
     for keyword in item["keywords"]:
         if item["pre"]:
             for pre in item["pre"]:
-                command = command.replace("%s %s" % (pre, keyword), "")
+                command = command.replace("%s %s" % (pre, keyword), replace)
         if item["post"]:
             for post in item["post"]:
-                command = command.replace("%s %s" % (keyword, post), "")
+                command = command.replace("%s %s" % (keyword, post), replace)
         if keyword in command:
-            command = command.replace(" " + keyword + " ", "")
+            command = command.replace(" " + keyword + " ", replace)
     return " ".join(command.split())
 
 

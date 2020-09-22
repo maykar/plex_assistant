@@ -123,7 +123,7 @@ async def async_setup(hass, config):
 
         # Update libraries if the latest item was added after last lib update.
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
-            PA.lib = PA.get_libraries()
+            PA.get_libraries()
 
         # Get the closest name match to device in command, fuzzy returns its name and score.
         devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
@@ -148,8 +148,8 @@ async def async_setup(hass, config):
                 _LOGGER.debug("Aliases: %s", str(PA.alias_names))
             return
 
-        # Get the name of the highest scoring between alias and device
-        # and make player = the Cast device or client name.
+        # Get the name of the highest scoring item between alias and device.
+        # Make player = the Cast device or client name.
         name = aliases[alias[0]] if alias[1] > device[1] else device[0]
         player = PA.chromecasts[name] if name in PA.chromecast_names else name
         client = isinstance(player, str)
@@ -251,7 +251,7 @@ class PlexAssistant:
     def __init__(self, url, token, aliases):
         self.server = PlexServer(url, token)
         self.plex = self.server.library
-        self.lib = self.get_libraries()
+        self.get_libraries()
         self.aliases = aliases
         self.alias_names = list(aliases.keys()) if aliases else []
         self.plex_clients = self.server.clients()

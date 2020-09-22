@@ -100,6 +100,7 @@ async def async_setup(hass, config):
         player = None
         alias = ["", 0]
 
+        # Update devices at start of call in case new ones have appeared.
         PA.plex_client_update()
         get_chromecasts(blocking=False, callback=cc_callback, zeroconf_instance=zconf)
 
@@ -114,20 +115,23 @@ async def async_setup(hass, config):
             update_sensor(hass, PA, True)
             return
 
+        # Return a dict of the options processed from the speech command.
         command = process_speech(command, localize, default_device, PA)
 
         if not command["control"]:
             _LOGGER.debug({i: command[i] for i in command if i != "library"})
 
+        # Update libraries if the latest item was added after last lib update.
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
             PA.lib = PA.get_libraries()
 
+        # Get the closest name match to device in command, fuzzy returns its name and score.
         devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
         device = fuzzy(command["device"] or default_device, devices)
-
         if aliases:
             alias = fuzzy(command["device"] or default_device, PA.alias_names)
 
+        # If the fuzzy score is less than 60, we can't find the device.
         if alias[1] < 60 and device[1] < 60:
             _LOGGER.warning(
                 '{0} {1}: "{2}"'.format(
@@ -144,16 +148,20 @@ async def async_setup(hass, config):
                 _LOGGER.debug("Aliases: %s", str(PA.alias_names))
             return
 
+        # Get the name of the highest scoring between alias and device
+        # and make player = the Cast device or client name.
         name = aliases[alias[0]] if alias[1] > device[1] else device[0]
         player = PA.chromecasts[name] if name in PA.chromecast_names else name
         client = isinstance(player, str)
 
+        # If player is a Plex client, find it with title or machine ID.
         if client:
             for c in PA.plex_clients:
                 if c.title == player or c.machineIdentifier == player:
                     player == c
                     break
 
+        # Remote control operations.
         if command["control"]:
             control = command["control"]
             if client:
@@ -175,6 +183,7 @@ async def async_setup(hass, config):
                 controller.stepBack()
             return
 
+        # Look for the requested media and apply user's filters (onDeck, unwatched, etc.) to them.
         try:
             result = find_media(command, command["media"], PA.lib)
             media = video_selection(PA, command, result["media"], result["library"])
@@ -193,6 +202,7 @@ async def async_setup(hass, config):
 
         _LOGGER.debug("Media: %s", str(media))
 
+        # Play the selected media on the selected device.
         if client:
             _LOGGER.debug("Client: %s", player)
             player.proxyThroughServer()
@@ -212,7 +222,7 @@ async def async_setup(hass, config):
 
 
 class PlexAssistant:
-    """Main class for interacting with the Plex server.
+    """Class for interacting with the Plex server and devices.
 
     Args:
         url (str): URL to connect to server.

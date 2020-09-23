@@ -74,12 +74,11 @@ def video_selection(option, media, lib):
 
     if option["unwatched"]:
         if not media and not lib:
-            recent = PA.plex.recentlyAdded()
-            media = list(filter(lambda x: not x.isWatched, recent))
+            media = list(filter(lambda x: not x.isWatched, PA.plex.recentlyAdded()))
         elif not media:
             media = list(filter(lambda x: not x.isWatched, lib))
         else:
-            media = list(filter(lambda x: not x.isWatched, media))
+            media = media.unwatched()
 
     if option["latest"]:
         if not option["unwatched"]:
@@ -93,9 +92,12 @@ def video_selection(option, media, lib):
         if isinstance(media, list):
             media = media[-1]
 
-    if media.type == "show":
+    if getattr(media, "TYPE", None) == "show":
         unWatched = media.unwatched()
         return unWatched[0] if unWatched else media
+    
+    if isinstance(media, list):
+        media = media[0]
 
     return media
 
@@ -227,6 +229,7 @@ def _find(item, command):
 
 def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
+    command = " " + command + " "
     if replace != "":
         replace = " " + replace + " "
     for keyword in item["keywords"]:

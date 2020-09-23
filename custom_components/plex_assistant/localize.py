@@ -117,6 +117,7 @@ LOCALIZE = {
         "unwatched": {
             "keywords": [
                 "unwatched",
+                "on watched",
                 "next",
             ],
             "pre": [],

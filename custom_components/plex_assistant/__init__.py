@@ -186,8 +186,7 @@ async def async_setup(hass, config):
 
         try:
             result = find_media(command, command["media"], PA.lib)
-            media = video_selection(
-                command, result["media"], result["library"])
+            media = video_selection(command, result["media"], result["library"])
         except Exception:
             error = media_error(command, localize)
             if tts_error:

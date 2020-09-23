@@ -64,8 +64,8 @@ def video_selection(option, media, lib):
             media = list(
                 filter(lambda x:
                        (x.type == "movie" and x.title == media.title) or
-                       (media.title == x.show().title) or
-                       (media.show().title == x.show().title), ondeck))
+                       (getattr(x, "show", None) and media.title == x.show().title) or
+                       (getattr(media, "show", None) and media.show().title == x.show().title), ondeck))
         elif option["library"]:
             media = PA.plex.sectionByID(
                 option["library"][0].librarySectionID).onDeck()

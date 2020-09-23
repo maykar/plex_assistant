@@ -24,7 +24,10 @@ def process_speech(command, localize, default_cast, PA):
             else:
                 devices = devices + list(PA.devices.keys())
                 fuzz_client = fuzzy(control_check, devices)
-                if fuzz_client[1] > 80 and fuzz_client[0] in devices:
+                if fuzz_client[0] in ["watched", "deck"]:
+                    remote = ""
+                    device = ""
+                elif fuzz_client[1] > 80 and fuzz_client[0] in devices:
                     device = fuzz_client[0]
                     remote = control
 

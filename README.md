@@ -224,8 +224,8 @@ conversation:
   intents:
     PlexAssistant:
      # These trigger commands can be changed to suit your needs.
-     - Tell Plex to {command}
-     - {command} with Plex
+     - "Tell Plex to {command}"
+     - "{command} with Plex"
 
 intent_script:
   PlexAssistant:

@@ -78,16 +78,6 @@ async def async_setup(hass, config):
 
     PA = await hass.async_add_executor_job(pa_executor, zconf, url, token, aliases)
 
-    # async def timers():
-    #     # Update devices every 2 mins and sensor 10 secs after that.
-    #     from threading import Timer
-    #     Timer(30, PA.update_devices).start()
-    #     Timer(40, update_sensor).start()
-
-    # hass.async_create_task(timers())
-
-    update_sensor(hass, PA)
-
     # First update of sensor.
     def sensor_executor():
         time.sleep(5)

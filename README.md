@@ -41,7 +41,6 @@ Add config to your configuration.yaml file.
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
 | language     | 'en'    | Optional     | Language code ([Supported Languages](#supported-languages)).
-| sensor       | true    | Optional     | Adds a sensor to display connected devices, their names, and info.
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.
 
@@ -68,7 +67,7 @@ This component does not use HA's media_player entities, it automatically detects
 
 ## Companion Sensor
 
-Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting. The sensor is added by default, but can be disabled by using `sensor: false` in your config. Even if you disable the sensor, you can always make it appear by updating it using the methods below.
+Plex Assistant adds a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting.
 
 To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `"Hey Google, tell Plex to update sensor."`) or as a HA service call. The sensor is also updated any time Plex Assistant is sent a command. To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
 

@@ -86,8 +86,10 @@ async def async_setup(hass, config):
     await hass.async_add_executor_job(sensor_executor)
 
     def handle_input(call):
+        offset = 0
         player = None
         alias = ["", 0]
+        startItem = None
 
         # Update devices at start of call in case new ones have appeared.
         PA.update_devices()
@@ -190,18 +192,23 @@ async def async_setup(hass, config):
 
         _LOGGER.debug("Media: %s", str(media))
 
+        if getattr(media, "viewOffset", 0) > 10000:
+            offset = media.viewOffset if client else media.viewOffset / 1000
+
+        if getattr(media, "TYPE", None) == "episode":
+            media = PA.server.createPlayQueue(media.show().episodes(), startItem=media)
+
         # Play the selected media on the selected device.
         if client:
             _LOGGER.debug("Client: %s", player)
             player.proxyThroughServer()
-            plex_c = player
-            plex_c.playMedia(media)
+            player.playMedia(media, currentTime=offset)
         else:
             _LOGGER.debug("Cast: %s", player.name)
             plex_c = PlexController()
             player.register_handler(plex_c)
             player.wait()
-            plex_c.block_until_playing(media)
+            plex_c.block_until_playing(media, offset=offset)
 
         update_sensor(hass, PA)
 
@@ -283,9 +290,6 @@ class PlexAssistant:
     def update_devices(self):
         """Update currently connected cast and client devices."""
         from pychromecast import get_chromecasts
-        import logging
-
-        _LOGGER = logging.getLogger(__name__)
 
         def cc_callback(chromecast):
             self.chromecasts[chromecast.device.friendly_name] = chromecast
@@ -294,4 +298,3 @@ class PlexAssistant:
             blocking=False, callback=cc_callback, zeroconf_instance=self.zconf
         )
         self.plex_clients = self.server.clients()
-        _LOGGER.warning("update devices")

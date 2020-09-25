@@ -80,16 +80,11 @@ def video_selection(PA, option, media, lib):
             if isinstance(media, list):
                 media.sort(key=lambda x: x.addedAt or x.updatedAt)
         if media.type in ["show", "season"]:
-            media = media.episodes()[-1]
-        if isinstance(media, list):
-            media = media[-1]
+            media = media.episodes()
 
     if getattr(media, "TYPE", None) == "show":
         unWatched = media.unwatched()
         return unWatched[0] if unWatched else media
-
-    if isinstance(media, list):
-        media = media[0]
 
     return media
 

@@ -63,15 +63,17 @@ plex_assistant:
 ```
 
 ## Cast Devices
-This component does not use HA's media_player entities, it automatically detects compatible devices (Google Cast devices and Plex Clients). It will use the name from the devices themselves. Use the [companion sensor](#companion-sensor) to get a list of compatible devices with their names/IDs.
+This component does not use HA's media_player entities, it automatically detects compatible devices (Google cast devices and Plex clients). It will use the name from the devices themselves. Use the companion sensor (mentioned below) to get a list of compatible devices with their names and other info.
 
 ## Companion Sensor
 
-Plex Assistant adds a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting.
+To help with config and troubleshooting Plex Assistant automatically adds a sensor to display the names of connected Google cast devices and Plex clients. It will also display the machine ID and type of device for Plex clients.
 
-To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `"Hey Google, tell Plex to update sensor."`) or as a HA service call. The sensor is also updated any time Plex Assistant is sent a command. To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
+To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `"Hey Google, tell Plex to update sensor."`) or as a HA service call. The sensor will also update any time a command is sent to Plex Assistant.
 
-Plex clients must be open in order to be detected or recieve commands from this component, Plex can sometimes take around a minute to detect that a client is active/inactive.
+To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
+
+Note: Plex clients must be open in order to be detected or recieve commands from this component, Plex can sometimes take around a minute to detect that a client is active/inactive.
 
 ***You must restart after installation and configuration, but you may want to setup Google Assistant triggers or HA's conversation intergration first as they will also require a restart. Instructions for each below.*** 
 

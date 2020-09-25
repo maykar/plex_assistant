@@ -51,15 +51,15 @@ The sample config below contains some default values (noted above). Any option t
 
 ```yaml
 plex_assistant:
-  url: 'http://192.168.1.3:32400'
-  token: 'tH1s1Sy0uRT0k3n'
-  default_cast: 'Downstairs TV'
-  language: 'en'
+  url: "http://192.168.1.3:32400"
+  token: "tH1s1Sy0uRT0k3n"
+  default_cast: "Downstairs TV"
+  language: "en"
   tts_errors: true
   sensor: true
   aliases:
-    Downstairs TV: TV0565124
-    Upstairs TV: Samsung_66585
+    Downstairs TV: "TV0565124"
+    Upstairs TV: "Samsung_66585"
 ```
 
 ## Cast Devices
@@ -220,8 +220,8 @@ conversation:
   intents:
     PlexAssistant:
      # These trigger commands can be changed to suit your needs.
-     - Tell Plex to {command}
-     - {command} with Plex
+     - "Tell Plex to {command}"
+     - "{command} with Plex"
 
 intent_script:
   PlexAssistant:

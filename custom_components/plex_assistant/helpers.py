@@ -4,23 +4,22 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
 
 
-def update_sensor(hass, PA, sensor):
-    if sensor:
-        clients = [
-            {client.title: {"ID": client.machineIdentifier, "type": client.product}}
-            for client in PA.plex_clients
-        ]
-        devicelist = PA.chromecast_names
-        state = str(len(devicelist + clients)) + " connected devices."
-        attributes = {
-            "Connected Devices": {
-                "Cast Devices": devicelist or "None",
-                "Plex Clients": clients or "None",
-            },
-            "friendly_name": "Plex Assistant Devices",
-        }
-        pa_sensor = "sensor.plex_assistant_devices"
-        hass.states.async_set(pa_sensor, state, attributes)
+def update_sensor(hass, PA):
+    clients = [
+        {client.title: {"ID": client.machineIdentifier, "type": client.product}}
+        for client in PA.plex_clients
+    ]
+    devicelist = PA.chromecast_names
+    state = str(len(devicelist + clients)) + " connected devices."
+    attributes = {
+        "Connected Devices": {
+            "Cast Devices": devicelist or "None",
+            "Plex Clients": clients or "None",
+        },
+        "friendly_name": "Plex Assistant Devices",
+    }
+    pa_sensor = "sensor.plex_assistant_devices"
+    hass.states.async_set(pa_sensor, state, attributes)
 
 
 def fuzzy(media, lib, scorer=fuzz.QRatio):
@@ -52,8 +51,11 @@ def video_selection(PA, option, media, lib):
             media = list(
                 filter(
                     lambda x: (x.type == "movie" and x.title == media.title)
-                    or (media.title == x.show().title)
-                    or (media.show().title == x.show().title),
+                    or (getattr(x, "show", None) and media.title == x.show().title)
+                    or (
+                        getattr(media, "show", None)
+                        and media.show().title == x.show().title
+                    ),
                     ondeck,
                 )
             )
@@ -64,12 +66,11 @@ def video_selection(PA, option, media, lib):
 
     if option["unwatched"]:
         if not media and not lib:
-            recent = PA.plex.recentlyAdded()
-            media = list(filter(lambda x: not x.isWatched, recent))
+            media = list(filter(lambda x: not x.isWatched, PA.plex.recentlyAdded()))
         elif not media:
             media = list(filter(lambda x: not x.isWatched, lib))
         else:
-            media = list(filter(lambda x: not x.isWatched, media))
+            media = media.unwatched()
 
     if option["latest"]:
         if not option["unwatched"]:
@@ -83,9 +84,12 @@ def video_selection(PA, option, media, lib):
         if isinstance(media, list):
             media = media[-1]
 
-    if media.type == "show":
+    if getattr(media, "TYPE", None) == "show":
         unWatched = media.unwatched()
         return unWatched[0] if unWatched else media
+
+    if isinstance(media, list):
+        media = media[0]
 
     return media
 
@@ -217,6 +221,7 @@ def _find(item, command):
 
 def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
+    command = " " + command + " "
     if replace != "":
         replace = " " + replace + " "
     for keyword in item["keywords"]:
@@ -330,7 +335,10 @@ def process_speech(command, localize, default_cast, PA):
                 return {"device": device, "control": control}
             else:
                 fuzz_client = fuzzy(control_check, PA.device_names)
-                if fuzz_client[1] > 80 and fuzz_client[0] in PA.device_names:
+                if fuzz_client[0] in ["watched", "deck"]:
+                    remote = ""
+                    device = ""
+                elif fuzz_client[1] > 80 and fuzz_client[0] in PA.device_names:
                     device = fuzz_client[0]
                     return {"device": device, "control": control}
 

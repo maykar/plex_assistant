@@ -18,7 +18,6 @@ CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
 CONF_ALIASES = "aliases"
-CONF_SENSOR = "sensor"
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -29,7 +28,6 @@ CONFIG_SCHEMA = vol.Schema(
             vol.Optional(CONF_LANG, default="en"): cv.string,
             vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
             vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
-            vol.Optional(CONF_SENSOR, default=True): cv.boolean,
         }
     },
     extra=vol.ALLOW_EXTRA,
@@ -54,8 +52,8 @@ async def async_setup(hass, config):
         fuzzy,
         media_error,
         video_selection,
-        update_sensor,
         process_speech,
+        update_sensor,
     )
 
     _LOGGER = logging.getLogger(__name__)
@@ -67,7 +65,6 @@ async def async_setup(hass, config):
     lang = conf.get(CONF_LANG)
     tts_errors = conf.get(CONF_TTS_ERROR)
     aliases = conf.get(CONF_ALIASES)
-    sensor = conf.get(CONF_SENSOR)
     zconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
 
@@ -76,18 +73,27 @@ async def async_setup(hass, config):
     if tts_errors and not os.path.exists(dir):
         os.makedirs(dir, mode=0o777)
 
-    def pa_executor(url, token, aliases, zconf):
-        return PlexAssistant(url, token, aliases, zconf)
+    def pa_executor(zconf, url, token, aliases):
+        return PlexAssistant(zconf, url, token, aliases)
 
-    PA = await hass.async_add_executor_job(pa_executor, url, token, aliases, zconf)
+    PA = await hass.async_add_executor_job(pa_executor, zconf, url, token, aliases)
+
+    # async def timers():
+    #     # Update devices every 2 mins and sensor 10 secs after that.
+    #     from threading import Timer
+    #     Timer(30, PA.update_devices).start()
+    #     Timer(40, update_sensor).start()
+
+    # hass.async_create_task(timers())
+
+    update_sensor(hass, PA)
 
     # First update of sensor.
     def sensor_executor():
         time.sleep(5)
-        update_sensor(hass, PA, sensor)
+        update_sensor(hass, PA)
 
-    if sensor:
-        await hass.async_add_executor_job(sensor_executor)
+    await hass.async_add_executor_job(sensor_executor)
 
     def handle_input(call):
         player = None
@@ -104,7 +110,7 @@ async def async_setup(hass, config):
         _LOGGER.debug("Command: %s", command)
 
         if localize["controls"]["update_sensor"] in command:
-            update_sensor(hass, PA, True)
+            update_sensor(hass, PA)
             return
 
         # Return a dict of the options processed from the speech command.
@@ -207,7 +213,7 @@ async def async_setup(hass, config):
             player.wait()
             plex_c.block_until_playing(media)
 
-        update_sensor(hass, PA, sensor)
+        update_sensor(hass, PA)
 
     hass.services.async_register(DOMAIN, "command", handle_input)
     return True
@@ -236,7 +242,7 @@ class PlexAssistant:
         device_names (list): Combined list of alias, chromecast, and plex client names.
     """
 
-    def __init__(self, url, token, aliases, zconf):
+    def __init__(self, zconf, url, token, aliases):
         from plexapi.server import PlexServer
 
         self.zconf = zconf
@@ -268,22 +274,9 @@ class PlexAssistant:
         """Return list of devices and aliases names"""
         return self.chromecast_names + self.plex_client_names + self.alias_names
 
-    def update_devices(self):
-        """Update currently connected cast and client devices."""
-        from pychromecast import get_chromecasts
-
-        def cc_callback(chromecast):
-            self.chromecasts[chromecast.device.friendly_name] = chromecast
-
-        get_chromecasts(
-            blocking=False, callback=cc_callback, zeroconf_instance=self.zconf
-        )
-        self.plex_clients = self.server.clients()
-
     def get_libraries(self):
-        from datetime import datetime
-
         """Update library contents, media titles, & set time updated."""
+        from datetime import datetime
 
         self.plex.reload()
         movies = self.plex.search(libtype="movie", sort="addedAt:desc")
@@ -296,3 +289,19 @@ class PlexAssistant:
             "show_titles": [show.title for show in shows],
             "updated": datetime.now(),
         }
+
+    def update_devices(self):
+        """Update currently connected cast and client devices."""
+        from pychromecast import get_chromecasts
+        import logging
+
+        _LOGGER = logging.getLogger(__name__)
+
+        def cc_callback(chromecast):
+            self.chromecasts[chromecast.device.friendly_name] = chromecast
+
+        get_chromecasts(
+            blocking=False, callback=cc_callback, zeroconf_instance=self.zconf
+        )
+        self.plex_clients = self.server.clients()
+        _LOGGER.warning("update devices")

@@ -45,17 +45,21 @@ def video_selection(PA, option, media, lib):
     if option["season"]:
         media = media.season(title=int(option["season"]))
 
+    def get_title(item, deep=False):
+        if item.type == "movie":
+            return item.title
+        elif getattr(item, "show", None):
+            return item.show().title if deep else item.title
+        return None
+
     if option["ondeck"]:
         if option["media"]:
             ondeck = PA.plex.onDeck()
             media = list(
                 filter(
-                    lambda x: (x.type == "movie" and x.title == media.title)
-                    or (getattr(x, "show", None) and media.title == x.show().title)
-                    or (
-                        getattr(media, "show", None)
-                        and media.show().title == x.show().title
-                    ),
+                    lambda x: (get_title(x) == media.title)
+                    or (get_title(media) == x.show().title)
+                    or (get_title(media, True) == x.show().title),
                     ondeck,
                 )
             )
@@ -76,9 +80,8 @@ def video_selection(PA, option, media, lib):
         if not option["unwatched"]:
             if not media:
                 media = PA.plex.recentlyAdded() if not lib else lib
-                media.sort(key=lambda x: x.addedAt or x.updatedAt)
             if isinstance(media, list):
-                media.sort(key=lambda x: x.addedAt or x.updatedAt)
+                media.sort(key=lambda x: getattr(x, "addedAt", None))
         if media.type in ["show", "season"]:
             media = media.episodes()
 

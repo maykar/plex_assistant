@@ -73,17 +73,29 @@ def filter_media(PA, option, media, lib):
             media = list(filter(lambda x: not x.isWatched, PA.plex.recentlyAdded()))
         elif not media:
             media = list(filter(lambda x: not x.isWatched, lib))
-        else:
+        elif getattr(media, "unwatched", None):
             media = media.unwatched()
 
     if option["latest"]:
         if not option["unwatched"]:
             if not media:
-                media = PA.plex.recentlyAdded() if not lib else lib
-            if isinstance(media, list):
-                media.sort(key=lambda x: getattr(x, "addedAt", None))
-        if media.type in ["show", "season"]:
-            media = media.episodes()
+                if not lib:
+                    tvID = PA.lib["shows"][0].librarySectionID
+                    movieID = PA.lib["movies"][0].librarySectionID
+                    media = (
+                        PA.plex.sectionByID(tvID).recentlyAdded()
+                        + PA.plex.sectionByID(movieID).recentlyAdded()
+                    )
+                    media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
+                else:
+                    media = PA.plex.sectionByID(
+                        option["library"][0].librarySectionID
+                    ).recentlyAdded()
+        else:
+            if getattr(media, "type", None) in ["show", "season"]:
+                media = media.episodes()[-1]
+            elif isinstance(media, list):
+                media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
 
     if getattr(media, "TYPE", None) == "show":
         unWatched = media.unwatched()

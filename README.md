@@ -69,11 +69,11 @@ This component does not use HA's media_player entities, it automatically detects
 
 To help with config and troubleshooting Plex Assistant automatically adds a sensor to display the names of connected Google cast devices and Plex clients. It will also display the machine ID and type of device for Plex clients.
 
-To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `"Hey Google, tell Plex to update sensor."`) or as a HA service call. The sensor will also update any time a command is sent to Plex Assistant.
+To update the sensor send the command "update sensor" to Plex Assistant either through your voice assistant (e.g. `"Hey Google, tell Plex to update sensor."`) or as a HA service call. The sensor will also update any time a command is sent to Plex Assistant and at HA startup.
 
 To view the sensor results, navigate to "Developer Tools" in HA's sidebar and click "States", then find `sensor.plex_assistant_devices` in the list below.
 
-Note: Plex clients must be open in order to be detected or recieve commands from this component, Plex can sometimes take around a minute to detect that a client is active/inactive.
+Note: Plex clients must be open in order to be detected by the sensor or recieve commands from this component, Plex can sometimes take around a minute to detect that a client is active/inactive.
 
 ***You must restart after installation and configuration, but you may want to setup Google Assistant triggers or HA's conversation intergration first as they will also require a restart. Instructions for each below.*** 
 

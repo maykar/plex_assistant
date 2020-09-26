@@ -30,7 +30,7 @@ def fuzzy(media, lib, scorer=fuzz.QRatio):
         return ["", 0]
 
 
-def video_selection(PA, option, media, lib):
+def filter_media(PA, option, media, lib):
     """Return media item.
     Narrow it down if season, episode, unwatched, or latest is used
     """

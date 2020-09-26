@@ -51,7 +51,7 @@ async def async_setup(hass, config):
         find_media,
         fuzzy,
         media_error,
-        video_selection,
+        filter_media,
         process_speech,
         update_sensor,
     )
@@ -176,7 +176,7 @@ async def async_setup(hass, config):
         # Look for the requested media and apply user's filters (onDeck, unwatched, etc.) to them.
         try:
             result = find_media(command, command["media"], PA.lib)
-            media = video_selection(PA, command, result["media"], result["library"])
+            media = filter_media(PA, command, result["media"], result["library"])
         except Exception:
             error = media_error(command, localize)
             if tts_errors:
@@ -192,9 +192,12 @@ async def async_setup(hass, config):
 
         _LOGGER.debug("Media: %s", str(media))
 
-        if getattr(media, "viewOffset", 0) > 10000:
-            offset = media.viewOffset if client else media.viewOffset / 1000
+        # Set the offset if media already in progress. Clients use seconds Cast devices use milliseconds.
+        # Cast devices always start 5 secs before offset, but we subtract the 5 for Clients.
+        if getattr(media, "viewOffset", 0) > 10:
+            offset = media.viewOffset - 5 if client else media.viewOffset / 1000
 
+        # If it's an episode create a playqueue of the whole show and start on the selected episode.
         if getattr(media, "TYPE", None) == "episode":
             media = PA.server.createPlayQueue(media.show().episodes(), startItem=media)
 
@@ -202,7 +205,7 @@ async def async_setup(hass, config):
         if client:
             _LOGGER.debug("Client: %s", player)
             player.proxyThroughServer()
-            player.playMedia(media, currentTime=offset)
+            player.playMedia(media, offset=offset)
         else:
             _LOGGER.debug("Cast: %s", player.name)
             plex_c = PlexController()

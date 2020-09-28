@@ -7,6 +7,7 @@ cast device names.
 
 https://github.com/maykar/plex_assistant
 """
+import logging
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
@@ -17,6 +18,7 @@ CONF_TOKEN = "token"
 CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
+REMOTE_SERVER = "remote_server"
 CONF_ALIASES = "aliases"
 
 CONFIG_SCHEMA = vol.Schema(
@@ -27,17 +29,19 @@ CONFIG_SCHEMA = vol.Schema(
             vol.Optional(CONF_DEFAULT_CAST): cv.string,
             vol.Optional(CONF_LANG, default="en"): cv.string,
             vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
+            vol.Optional(REMOTE_SERVER, default=False): cv.boolean,
             vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
         }
     },
     extra=vol.ALLOW_EXTRA,
 )
 
+_LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup(hass, config):
     """Called when Home Assistant is loading our component."""
 
-    import logging
     import os
     import time
 
@@ -56,14 +60,13 @@ async def async_setup(hass, config):
         update_sensor,
     )
 
-    _LOGGER = logging.getLogger(__name__)
-
     conf = config[DOMAIN]
     url = conf.get(CONF_URL)
     token = conf.get(CONF_TOKEN)
     default_device = conf.get(CONF_DEFAULT_CAST)
     lang = conf.get(CONF_LANG)
     tts_errors = conf.get(CONF_TTS_ERROR)
+    remote_server = conf.get(REMOTE_SERVER)
     aliases = conf.get(CONF_ALIASES)
     zconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
@@ -73,10 +76,12 @@ async def async_setup(hass, config):
     if tts_errors and not os.path.exists(dir):
         os.makedirs(dir, mode=0o777)
 
-    def pa_executor(zconf, url, token, aliases):
-        return PlexAssistant(zconf, url, token, aliases)
+    def pa_executor(zconf, url, token, aliases, remote_server):
+        return PlexAssistant(zconf, url, token, aliases, remote_server)
 
-    PA = await hass.async_add_executor_job(pa_executor, zconf, url, token, aliases)
+    PA = await hass.async_add_executor_job(
+        pa_executor, zconf, url, token, aliases, remote_server
+    )
 
     # First update of sensor.
     def sensor_executor():
@@ -244,11 +249,14 @@ class PlexAssistant:
         device_names (list): Combined list of alias, chromecast, and plex client names.
     """
 
-    def __init__(self, zconf, url, token, aliases):
+    def __init__(self, zconf, url, token, aliases, remote_server):
         from plexapi.server import PlexServer
 
         self.zconf = zconf
         self.server = PlexServer(url, token)
+        self.resources = None
+        # self.remote_clients = []
+        self.remote_server = remote_server
         self.chromecasts = {}
         self.update_devices()
         self.plex = self.server.library
@@ -265,6 +273,11 @@ class PlexAssistant:
     def plex_client_names(self):
         """Returns list of Plex client names"""
         return [client.title for client in self.plex_clients]
+
+    # @property
+    # def remote_client_names(self):
+    #     """Returns list of Plex client names"""
+    #     return [client.title for client in self.remote_clients]
 
     @property
     def plex_client_ids(self):
@@ -303,3 +316,35 @@ class PlexAssistant:
             blocking=False, callback=cc_callback, zeroconf_instance=self.zconf
         )
         self.plex_clients = self.server.clients()
+
+        if self.remote_server:
+            self.update_remote_devices()
+
+    def update_remote_devices(self):
+        """Create clients from plex.tv remote endpoint."""
+        from plexapi.client import PlexClient
+
+        try:
+            self.resources = self.server.myPlexAccount().resources()
+        except Exception:
+            _LOGGER.warning("Remote endpoint plex.tv not responding. Try again later.")
+
+        if self.resources is not None:
+            # self.remote_clients = []
+
+            for r_client in [r for r in self.resources if r.presence]:
+                for connection in [c for c in r_client.connections if c.local]:
+                    if r_client.name not in self.plex_client_names:
+                        rc = PlexClient(
+                            server=self.server,
+                            baseurl=connection.httpuri,
+                            token=self.token,
+                        )
+                        rc.__setattr__("machineIdentifier", r_client.clientIdentifier)
+                        rc.__setattr__("address", r_client.productVersion)
+                        rc.__setattr__("address", connection.address)
+                        rc.__setattr__("product", r_client.product)
+                        rc.__setattr__("port", connection.port)
+                        rc.__setattr__("title", r_client.name)
+                        # self.remote_clients.append(rc)
+                        self.plex_clients.append(rc)

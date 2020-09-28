@@ -254,6 +254,7 @@ class PlexAssistant:
 
         self.zconf = zconf
         self.server = PlexServer(url, token)
+        self.token = token
         self.resources = None
         # self.remote_clients = []
         self.remote_server = remote_server
@@ -324,6 +325,7 @@ class PlexAssistant:
         """Create clients from plex.tv remote endpoint."""
         from plexapi.client import PlexClient
 
+        self.resources = None
         try:
             self.resources = self.server.myPlexAccount().resources()
         except Exception:
@@ -332,9 +334,13 @@ class PlexAssistant:
         if self.resources is not None:
             # self.remote_clients = []
 
-            for r_client in [r for r in self.resources if r.presence]:
+            for r_client in [
+                r for r in self.resources if r.presence and r.publicAddressMatches
+            ]:
                 for connection in [c for c in r_client.connections if c.local]:
                     if r_client.name not in self.plex_client_names:
+                        if r_client.product == "Plex Media Server":
+                            continue
                         rc = PlexClient(
                             server=self.server,
                             baseurl=connection.httpuri,

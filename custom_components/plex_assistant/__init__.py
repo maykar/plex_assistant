@@ -204,6 +204,8 @@ async def async_setup(hass, config):
         # Play the selected media on the selected device.
         if client:
             _LOGGER.debug("Client: %s", player)
+            if isinstance(media, list):
+                media = PA.server.createPlayQueue(media)
             player.proxyThroughServer()
             player.playMedia(media, offset=offset)
         else:

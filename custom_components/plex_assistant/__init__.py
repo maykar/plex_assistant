@@ -321,35 +321,39 @@ class PlexAssistant:
         """Create clients from plex.tv remote endpoint."""
         from plexapi.client import PlexClient
 
+        def setattrs(_self, **kwargs):
+            for k, v in kwargs.items():
+                setattr(_self, k, v)
+
         self.resources = None
-        rc = None
+        remote_client = None
 
         try:
             self.resources = self.server.myPlexAccount().resources()
         except Exception:
             _LOGGER.warning("Remote endpoint plex.tv not responding. Try again later.")
 
-        if self.resources is not None:
-            for r_client in [
-                r for r in self.resources if r.presence and r.publicAddressMatches
-            ]:
-                for connection in [c for c in r_client.connections if c.local]:
-                    if r_client.name not in self.plex_client_names:
-                        if r_client.product == "Plex Media Server":
-                            continue
-                        try:
-                            rc = PlexClient(
-                                server=self.server,
-                                baseurl=connection.httpuri,
-                                token=self.token,
-                            )
-                        except Exception:
-                            continue
-                        rc.__setattr__("machineIdentifier", r_client.clientIdentifier)
-                        rc.__setattr__("address", r_client.productVersion)
-                        rc.__setattr__("address", connection.address)
-                        rc.__setattr__("product", r_client.product)
-                        rc.__setattr__("port", connection.port)
-                        rc.__setattr__("title", r_client.name)
-                        rc.__setattr__("remote", True)
-                        self.plex_clients.append(rc)
+        if self.resources is None:
+            return
+
+        for rc in [r for r in self.resources if r.presence and r.publicAddressMatches]:
+            if rc.name not in self.plex_client_names:
+                if rc.product == "Plex Media Server":
+                    continue
+                for connection in [c for c in rc.connections if c.local]:
+                    remote_client = PlexClient(
+                        server=self.server,
+                        baseurl=connection.httpuri,
+                        token=self.token,
+                    )
+                    setattrs(
+                        remote_client,
+                        machineIdentifier=rc.clientIdentifier,
+                        version=rc.productVersion,
+                        address=connection.address,
+                        product=rc.product,
+                        port=connection.port,
+                        title=rc.name,
+                        remote=True,
+                    )
+                    self.plex_clients.append(remote_client)

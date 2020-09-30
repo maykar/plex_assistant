@@ -160,7 +160,8 @@ async def async_setup(hass, config):
         if command["control"]:
             control = command["control"]
             if client:
-                player.proxyThroughServer()
+                if not getattr(player, "remote", None):
+                    player.proxyThroughServer()
                 controller = player
             else:
                 controller = PlexController()
@@ -211,7 +212,8 @@ async def async_setup(hass, config):
             _LOGGER.debug("Client: %s", player)
             if isinstance(media, list):
                 media = PA.server.createPlayQueue(media)
-            player.proxyThroughServer()
+            if not getattr(player, "remote", None):
+                player.proxyThroughServer()
             player.playMedia(media, offset=offset)
         else:
             _LOGGER.debug("Cast: %s", player.name)
@@ -256,7 +258,6 @@ class PlexAssistant:
         self.server = PlexServer(url, token)
         self.token = token
         self.resources = None
-        # self.remote_clients = []
         self.remote_server = remote_server
         self.chromecasts = {}
         self.update_devices()
@@ -274,11 +275,6 @@ class PlexAssistant:
     def plex_client_names(self):
         """Returns list of Plex client names"""
         return [client.title for client in self.plex_clients]
-
-    # @property
-    # def remote_client_names(self):
-    #     """Returns list of Plex client names"""
-    #     return [client.title for client in self.remote_clients]
 
     @property
     def plex_client_ids(self):
@@ -326,14 +322,14 @@ class PlexAssistant:
         from plexapi.client import PlexClient
 
         self.resources = None
+        rc = None
+
         try:
             self.resources = self.server.myPlexAccount().resources()
         except Exception:
             _LOGGER.warning("Remote endpoint plex.tv not responding. Try again later.")
 
         if self.resources is not None:
-            # self.remote_clients = []
-
             for r_client in [
                 r for r in self.resources if r.presence and r.publicAddressMatches
             ]:
@@ -341,16 +337,19 @@ class PlexAssistant:
                     if r_client.name not in self.plex_client_names:
                         if r_client.product == "Plex Media Server":
                             continue
-                        rc = PlexClient(
-                            server=self.server,
-                            baseurl=connection.httpuri,
-                            token=self.token,
-                        )
+                        try:
+                            rc = PlexClient(
+                                server=self.server,
+                                baseurl=connection.httpuri,
+                                token=self.token,
+                            )
+                        except Exception:
+                            continue
                         rc.__setattr__("machineIdentifier", r_client.clientIdentifier)
                         rc.__setattr__("address", r_client.productVersion)
                         rc.__setattr__("address", connection.address)
                         rc.__setattr__("product", r_client.product)
                         rc.__setattr__("port", connection.port)
                         rc.__setattr__("title", r_client.name)
-                        # self.remote_clients.append(rc)
+                        rc.__setattr__("remote", True)
                         self.plex_clients.append(rc)

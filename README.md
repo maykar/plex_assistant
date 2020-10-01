@@ -173,8 +173,9 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 * At the top of the page enter "Plex" for the intent name and hit "Save"
 * On the left side of the page hit "Integrations", then "Integration Settings"
 * Click the space under "Explicit invocation", select "Plex"
-* Type "Plex" in "Implicit invocation", then click "Manage assistant app"
-* Click "Decide how your action is invoked"
+* Type "Plex" in "Implicit invocation"
+* You may need to hit the test button and accept terms of service before next step
+* Click "Manage assistant app", then "Decide how your action is invoked"
 * Under "Display Name" type "Plex" then hit save in the top right (it may give an error, but thats okay).
 
 #### In Home Assistant

@@ -159,7 +159,7 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 
 * Click on Create Agent and Type "Plex_Assistant" as the agent name and select "Create"
 * Now select "Fulfillment" in the sidebar and enable "Webhook"
-* Enter the "URL" Home Assistant provided us earlier, scroll down and click "Save"
+* Enter the URL Home Assistant provided us earlier, scroll down and click "Save"
 * Now select "Intents" in the sidebar and hit the "Create Intent" button.
 * Select "ADD PARAMETERS AND ACTION" and enter "Plex" as the action name.
 * Check the checkbox under "Required"

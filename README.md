@@ -172,7 +172,7 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 * Turn on "Enable webhook call for this intent"
 * Expand "Responses" turn on “Set this intent as end of conversation”
 * At the top of the page enter "Plex" for the intent name and hit "Save"
-* On the lef side of the page hit "Integrations", then "Integration Settings"
+* On the left side of the page hit "Integrations", then "Integration Settings"
 * Click the space under "Explicit invocation", select "Plex", then hit "Close"
 * Type "Plex" in "Implicit invocation", then click "Manage assistant app"
 * Click "Decide how your action is invoked"

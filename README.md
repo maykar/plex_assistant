@@ -154,7 +154,7 @@ If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Fl
 
 #### In DialogFlow
 
-Visit https://dialogflow.com/ and sign up or sign in.
+Visit https://dialogflow.cloud.google.com/ and sign up or sign in.
 Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent" in the sidebar.
 
 * Click on Create Agent and Type "Plex_Assistant" as the agent name and select "Create"
@@ -171,8 +171,8 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 * Turn on "Enable webhook call for this intent"
 * Expand "Responses" turn on “Set this intent as end of conversation”
 * At the top of the page enter "Plex" for the intent name and hit "Save"
-* On the right side of the page hit "Set-up Google Assistant integration"
-* Click the space under "Explicit invocation", select "Plex", then hit "Close"
+* On the left side of the page hit "Integrations", then "Integration Settings"
+* Click the space under "Explicit invocation", select "Plex"
 * Type "Plex" in "Implicit invocation", then click "Manage assistant app"
 * Click "Decide how your action is invoked"
 * Under "Display Name" type "Plex" then hit save in the top right (it may give an error, but thats okay).

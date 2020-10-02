@@ -40,9 +40,10 @@ Add config to your configuration.yaml file.
 | url          |         | **Required** | The full url to your Plex instance including port.
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
-| language     | 'en'    | Optional     | Language code ([Supported Languages](#supported-languages)).
+| language     | 'en'    | Optional     | Language code ([Supported Languages](#currently-supported-languages)).
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.
+| remote_server| false   | Optional     | If the Plex server used is not on your local network, set this to true. [More info below.](#remote-server-setting)
 
 <hr>
 
@@ -118,19 +119,19 @@ Finally, add the following automation to your Home Assistant configuration.yaml:
 
 ```yaml
 automation:
-  - alias: Plex Assistant Automation
-    trigger:
-    - event_data:
-        action: call_service
-      event_type: ifttt_webhook_received
-      platform: event
-    condition:
-      condition: template
-      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-    action:
-    - data_template:
-        command: "{{ trigger.event.data.command }}"
-      service_template: '{{ trigger.event.data.service }}'
+  - alias: Plex Assistant Automation
+    trigger:
+    - event_data:
+        action: call_service
+      event_type: ifttt_webhook_received
+      platform: event
+    condition:
+      condition: template
+      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
+    action:
+    - service: "{{ trigger.event.data.service }}"
+      data:
+        command: "{{ trigger.event.data.command }}"
 ```
 
 If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Flow](https://github.com/maykar/plex_assistant/issues/34) to do this.
@@ -153,12 +154,12 @@ If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Fl
 
 #### In DialogFlow
 
-Visit https://dialogflow.com/ and sign up or sign in.
+Visit https://dialogflow.cloud.google.com/ and sign up or sign in.
 Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent" in the sidebar.
 
 * Click on Create Agent and Type "Plex_Assistant" as the agent name and select "Create"
 * Now select "Fulfillment" in the sidebar and enable "Webhook"
-* Enter the "URL" Home Assistant provided us earlier, scroll down and click "Save"
+* Enter the URL Home Assistant provided us earlier, scroll down and click "Save"
 * Now select "Intents" in the sidebar and hit the "Create Intent" button.
 * Select "ADD PARAMETERS AND ACTION" and enter "Plex" as the action name.
 * Check the checkbox under "Required"
@@ -170,10 +171,11 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 * Turn on "Enable webhook call for this intent"
 * Expand "Responses" turn on “Set this intent as end of conversation”
 * At the top of the page enter "Plex" for the intent name and hit "Save"
-* On the right side of the page hit "Set-up Google Assistant integration"
-* Click the space under "Explicit invocation", select "Plex", then hit "Close"
-* Type "Plex" in "Implicit invocation", then click "Manage assistant app"
-* Click "Decide how your action is invoked"
+* On the left side of the page hit "Integrations", then "Integration Settings"
+* Click the space under "Explicit invocation", select "Plex"
+* Type "Plex" in "Implicit invocation"
+* You may need to hit the test button and accept terms of service before next step
+* Click "Manage assistant app", then "Decide how your action is invoked"
 * Under "Display Name" type "Plex" then hit save in the top right (it may give an error, but thats okay).
 
 #### In Home Assistant
@@ -184,10 +186,10 @@ Add the following to your `configuration.yaml` file
 intent_script:
   Plex:
     speech:
-      text: Command sent to Plex.
+      text: "Command sent to Plex."
     action:
-      - service_template: plex_assistant.command
-        data_template:
+      - service: plex_assistant.command
+        data:
           command: "{{command}}"
 ```
 
@@ -228,17 +230,17 @@ conversation:
 intent_script:
   PlexAssistant:
     speech:
-      text: Command sent to Plex.
+      text: "Command sent to Plex."
     action:
       service: plex_assistant.command
-      data_template:
+      data:
         command: "{{command}}"
 ```
 
 ## Commands
 
 #### Fuzzy Matching
-A show or movie's title and the Chromecast device used in your phrase are processed using a fuzzy search. Meaning it will select the closest match using your Plex media titles and available cast device names. `"play walk in deed on the dawn tee"` would become `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches. `play Pets 2` will match `The Secret Life of Pets 2`.
+A show or movie's title and the cast device used in your phrase are processed using a fuzzy search. Meaning it will select the closest match using your Plex media titles and available cast device names. `"play walk in deed on the dawn tee"` would become `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches. `play Pets 2` will match `The Secret Life of Pets 2`.
 
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`
@@ -262,3 +264,9 @@ Be sure to add the name of the device to control commands if it is not the defau
 If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
+
+### Remote Server Setting:
+
+In order to cast to Plex clients while using this integration with a remote Plex server (one not on your local network) you need to use the config option `remote_server: true`.
+
+This finds your Plex clients by using a remote API call to plex.tv . This can increase loading/call times and requires the plex.tv API to be up and available, but this is the only way to allow casting between a remote Plex server and a Plex client on your local network.

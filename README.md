@@ -115,7 +115,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 #### In Home Assistant
 
-Finally, add the following automation to your Home Assistant configuration.yaml:
+Finally, add the following automation to your Home Assistant configuration.yaml, if you already have an `automation:` section in your config just copy and paste everything after `automation:` into that section:
 
 ```yaml
 automation:
@@ -180,7 +180,7 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 
 #### In Home Assistant
 
-Add the following to your `configuration.yaml` file
+Add the following to your `configuration.yaml` file, if you already have an `intent_script:` section in your config just copy and paste everything after `intent_script:` into that section:
 
 ```yaml
 intent_script:
@@ -219,6 +219,8 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the languages from the table above.
 
+If you already have an `conversation:`section in your config just copy and paste everything after `conversation:` into that section or if you already have an `intents:` section in the `conversation:` section copy everything under `intents:` and paste it into the `intents:` section:
+
 ```yaml
 conversation:
   intents:
@@ -226,7 +228,11 @@ conversation:
      # These trigger commands can be changed to suit your needs.
      - "Tell Plex to {command}"
      - "{command} with Plex"
+```
 
+If you already have an `intent_script:`section in your config just copy and paste everything after `intent_script:` into that section:
+
+```
 intent_script:
   PlexAssistant:
     speech:

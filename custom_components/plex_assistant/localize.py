@@ -1045,7 +1045,7 @@ LOCALIZE = {
             ],
         },
     },
-     "nb": {
+    "nb": {
         "play": "spille",
         "not_found": "finnes ikke",
         "cast_device": "cast enhet",
@@ -1111,6 +1111,7 @@ LOCALIZE = {
         },
         "episode": {
             "keywords": [
+                "episoder",
                 "episode",
             ],
             "pre": [

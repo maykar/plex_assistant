@@ -16,6 +16,8 @@ data:
   command: Play Breaking Bad
 ```
 
+I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
+
 ***Music and audio aren't built in yet, only shows and movies at the moment.***
 
 ## Supporting Development
@@ -65,6 +67,8 @@ plex_assistant:
 
 ## Cast Devices
 This component does not use HA's media_player entities, it automatically detects compatible devices (Google cast devices and Plex clients). It will use the name from the devices themselves. Use the companion sensor (mentioned below) to get a list of compatible devices with their names and other info.
+
+If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 ## Companion Sensor
 
@@ -268,10 +272,6 @@ A show or movie's title and the cast device used in your phrase are processed us
 * `jump back`
 
 Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"`.
-
-If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
-
-I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
 
 ### Remote Server Setting:
 

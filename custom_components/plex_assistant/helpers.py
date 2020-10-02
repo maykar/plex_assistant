@@ -2,6 +2,7 @@ import re
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
+from random import shuffle
 
 
 def update_sensor(hass, PA):
@@ -36,6 +37,8 @@ def filter_media(PA, option, media, lib):
     """
     if media and lib:
         media = next(m for m in lib if m.title == media)
+    elif lib:
+        media = lib
 
     if option["season"] and option["episode"]:
         return media.episode(
@@ -71,8 +74,8 @@ def filter_media(PA, option, media, lib):
     if option["unwatched"]:
         if not media and not lib:
             media = list(filter(lambda x: not x.isWatched, PA.plex.recentlyAdded()))
-        elif not media:
-            media = list(filter(lambda x: not x.isWatched, lib))
+        elif isinstance(media, list):
+            media = list(filter(lambda x: not x.isWatched, media))
         elif getattr(media, "unwatched", None):
             media = media.unwatched()
 
@@ -98,10 +101,24 @@ def filter_media(PA, option, media, lib):
                 media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
 
     if getattr(media, "TYPE", None) == "show":
-        unWatched = media.unwatched()
-        return unWatched[0] if unWatched else media
+        unwatched = media.unwatched()
+        if option["random"] and unwatched:
+            return random(unwatched)
+        return unwatched[0] if unwatched else media
+
+    if option["random"]:
+        return random(media)
 
     return media
+
+
+def random(media):
+    if isinstance(media, list):
+        return shuffle(media)
+    elif getattr(media, "episodes", None):
+        return shuffle(media.episodes())
+    elif getattr(media, "TYPE", None) == "episode":
+        media = shuffle(media.show().episodes())
 
 
 def find_media(selected, media, lib):
@@ -331,10 +348,10 @@ def process_speech(command, localize, default_cast, PA):
     latest = False
     unwatched = False
     ondeck = False
+    random = False
     library = None
     episode = ""
     season = ""
-    remote = ""
     device = ""
 
     controls = localize["controls"]
@@ -346,7 +363,6 @@ def process_speech(command, localize, default_cast, PA):
             else:
                 fuzz_client = fuzzy(control_check, PA.device_names)
                 if fuzz_client[0] in ["watched", "deck"]:
-                    remote = ""
                     device = ""
                 elif fuzz_client[1] > 80 and fuzz_client[0] in PA.device_names:
                     device = fuzz_client[0]
@@ -369,6 +385,10 @@ def process_speech(command, localize, default_cast, PA):
     if _find(localize["unwatched"], command):
         unwatched = True
         command = _remove(localize["unwatched"], command)
+
+    if _find(localize["random"], command):
+        random = True
+        command = _remove(localize["random"], command)
 
     if _find(localize["season"], command):
         library = lib["shows"]
@@ -395,6 +415,7 @@ def process_speech(command, localize, default_cast, PA):
         "episode": episode,
         "latest": latest,
         "unwatched": unwatched,
+        "random": random,
         "library": library,
         "ondeck": ondeck,
         "control": "",

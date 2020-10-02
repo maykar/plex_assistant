@@ -94,7 +94,8 @@ async def async_setup(hass, config):
         offset = 0
         player = None
         alias = ["", 0]
-        startItem = None
+        media = None
+        result = None
 
         # Update devices at start of call in case new ones have appeared.
         PA.update_devices()
@@ -118,7 +119,7 @@ async def async_setup(hass, config):
 
         # Update libraries if the latest item was added after last lib update.
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
-            PA.get_libraries()
+            PA.update_libraries()
 
         # Get the closest name match to device in command, fuzzy returns its name and score.
         devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
@@ -160,7 +161,7 @@ async def async_setup(hass, config):
         if command["control"]:
             control = command["control"]
             if client:
-                if not getattr(player, "remote", None):
+                if not hasattr(player, "remote"):
                     player.proxyThroughServer()
                 controller = player
             else:
@@ -200,7 +201,7 @@ async def async_setup(hass, config):
 
         # Set the offset if media already in progress. Clients use seconds Cast devices use milliseconds.
         # Cast devices always start 5 secs before offset, but we subtract the 5 for Clients.
-        if getattr(media, "viewOffset", 0) > 10:
+        if getattr(media, "viewOffset", 0) > 10 and not result["random"]:
             offset = media.viewOffset - 5 if client else media.viewOffset / 1000
 
         # If it's an episode create a playqueue of the whole show and start on the selected episode.
@@ -212,7 +213,7 @@ async def async_setup(hass, config):
             _LOGGER.debug("Client: %s", player)
             if isinstance(media, list):
                 media = PA.server.createPlayQueue(media)
-            if not getattr(player, "remote", None):
+            if not hasattr(player, "remote"):
                 player.proxyThroughServer()
             player.playMedia(media, offset=offset)
         else:
@@ -262,7 +263,7 @@ class PlexAssistant:
         self.chromecasts = {}
         self.update_devices()
         self.plex = self.server.library
-        self.get_libraries()
+        self.update_libraries()
         self.aliases = aliases
         self.alias_names = list(aliases.keys()) if aliases else []
 
@@ -286,7 +287,7 @@ class PlexAssistant:
         """Return list of devices and aliases names"""
         return self.chromecast_names + self.plex_client_names + self.alias_names
 
-    def get_libraries(self):
+    def update_libraries(self):
         """Update library contents, media titles, & set time updated."""
         from datetime import datetime
 

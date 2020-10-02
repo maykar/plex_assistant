@@ -3,6 +3,7 @@ LOCALIZE = {
     "en": {
         # Generic Terms
         "play": "play",
+        "random": "random",
         "movies": [
             "movie",
             "film",

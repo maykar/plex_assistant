@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-[Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Google Assistant Triggers](#google-assistant-triggers) | [Commands](#commands) | [HA Conversation Setup](#home-assistant-conversation-setup)<br><hr>
+[Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Google Assistant Triggers](#google-assistant-triggers) ｜ [Commands](#commands) ｜ [HA Conversation Setup](#home-assistant-conversation-setup)<br><hr>
 
 Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well (see the automations in the [Google Assistant trigger guides](](#google-assistant-triggers)) for IFTTT and DialogFlow as a starting point).
 

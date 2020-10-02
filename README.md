@@ -115,7 +115,8 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 #### In Home Assistant
 
-Finally, add the following automation to your Home Assistant configuration.yaml, if you already have an `automation:` section in your config just copy and paste everything after `automation:` into that section:
+Finally, add the following automation to your Home Assistant configuration.yaml.
+**Note**: If you already have an `automation:` section in your config just copy and paste everything after `automation:` into that section:
 
 ```yaml
 automation:
@@ -180,7 +181,8 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 
 #### In Home Assistant
 
-Add the following to your `configuration.yaml` file, if you already have an `intent_script:` section in your config just copy and paste everything after `intent_script:` into that section:
+Add the following to your `configuration.yaml` file.
+**Note**: If you already have an `intent_script:` section in your config just copy and paste everything after `intent_script:` into that section:
 
 ```yaml
 intent_script:
@@ -217,9 +219,9 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 ## Home Assistant Conversation Setup
 
-To use Plex Assistant with Home Assistant's conversation integration simply add the code below to your configuration.yaml file. Using the conversation integration will work with any of the languages from the table above.
+To use Plex Assistant with Home Assistant's conversation integration simply add both the code blocks below to your configuration.yaml file. Using the conversation integration will work with any of the languages from the table above.
 
-If you already have an `conversation:`section in your config just copy and paste everything after `conversation:` into that section or if you already have an `intents:` section in the `conversation:` section copy everything under `intents:` and paste it into the `intents:` section:
+**Note**: If you already have an `conversation:`section in your config just copy and paste everything after `conversation:` into that section or if you already have an `intents:` section in the `conversation:` section copy everything under `intents:` and paste it into the `intents:` section:
 
 ```yaml
 conversation:
@@ -230,7 +232,7 @@ conversation:
      - "{command} with Plex"
 ```
 
-If you already have an `intent_script:`section in your config just copy and paste everything after `intent_script:` into that section:
+**Note**: If you already have an `intent_script:`section in your config just copy and paste everything after `intent_script:` into that section:
 
 ```
 intent_script:
@@ -273,6 +275,6 @@ I've tried to take into account many different ways that commands could be phras
 
 ### Remote Server Setting:
 
-In order to cast to Plex clients while using this integration with a remote Plex server (one not on your local network) you need to use the config option `remote_server: true`.
+In order to cast to local Plex clients while using this integration with a remote Plex server (one not on your local network) you need to use the config option `remote_server: true`.
 
 This finds your Plex clients by using a remote API call to plex.tv . This can increase loading/call times and requires the plex.tv API to be up and available, but this is the only way to allow casting between a remote Plex server and a Plex client on your local network.

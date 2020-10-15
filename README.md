@@ -235,16 +235,16 @@ conversation:
      - "{command} with Plex"
 ```
 
-**Note**: If you already have an `intent_script:`section in your config just copy and paste everything after `intent_script:` into that section:
+**Note**: If you already have an `intent_script:`section in your config just copy and paste everything after `intent_script:` into that section or if you have already setup the intent script for Dialog flow, this is the same intent script (no need to add it again).
 
 ```
 intent_script:
-  PlexAssistant:
+  Plex:
     speech:
-      text: "Command sent to Plex."
+      text: Command sent to Plex.
     action:
       service: plex_assistant.command
-      data:
+      data_template:
         command: "{{command}}"
 ```
 

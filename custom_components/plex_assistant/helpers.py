@@ -251,7 +251,7 @@ def _find(item, command):
 def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
     if isinstance(item, str):
-        item = {"keywords", item}
+        item = {"keywords": [item]}
     command = " " + command + " "
     if replace != "":
         replace = " " + replace + " "

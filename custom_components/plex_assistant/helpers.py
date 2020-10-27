@@ -243,11 +243,15 @@ def get_season_episode_num(command, item, ordinals):
 
 def _find(item, command):
     """ Return true if any of the item's keywords is in the command string. """
+    if isinstance(item, str):
+        return item in command
     return any(keyword in command for keyword in item["keywords"])
 
 
 def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
+    if isinstance(item, str):
+        item = {"keywords", item}
     command = " " + command + " "
     if replace != "":
         replace = " " + replace + " "

@@ -110,8 +110,8 @@ async def async_setup(hass, config):
         command = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command)
 
+        update_sensor(hass, PA)
         if localize["controls"]["update_sensor"] in command:
-            update_sensor(hass, PA)
             return
 
         # Return a dict of the options processed from the speech command.
@@ -145,13 +145,12 @@ async def async_setup(hass, config):
             or (alias[1] < 60 and device[1] < 60)
         ) and start_script:
             pre_device = command["device"] or default_device
-            if start_script[pre_device]:
+            if start_script[pre_device]["script"]:
                 attempts = 0
                 while (
-                    alias[1] < 60
-                    and device[1] < 60
-                    and attempts < (start_script[pre_device]["attempts"] or 5)
-                ):
+                    (aliases and aliases[alias[0]] not in devices)
+                    or (alias[1] < 60 and device[1] < 60)
+                ) and attempts < (start_script[pre_device]["attempts"] or 2):
                     hass.services.call(
                         "script",
                         start_script[pre_device]["script"].replace("script.", ""),
@@ -200,6 +199,18 @@ async def async_setup(hass, config):
                     player = c
                     break
 
+            try:
+                player.connect()
+            except:
+                _LOGGER.warning(
+                    '{0} {1}: "{2}"'.format(
+                        localize["cast_device"].capitalize(),
+                        localize["not_found"],
+                        command["device"].title(),
+                    )
+                )
+                return
+
         # Remote control operations.
         if command["control"]:
             control = command["control"]
@@ -246,7 +257,7 @@ async def async_setup(hass, config):
 
         # Set the offset if media already in progress. Clients use seconds Cast devices use milliseconds.
         # Cast devices always start 5 secs before offset, but we subtract the 5 for Clients.
-        if getattr(media, "viewOffset", 0) > 10 and not result["random"]:
+        if getattr(media, "viewOffset", 0) > 10 and not command["random"]:
             offset = media.viewOffset - 5 if client else media.viewOffset / 1000
 
         # If it's an episode create a playqueue of the whole show and start on the selected episode.
@@ -265,8 +276,6 @@ async def async_setup(hass, config):
             player.register_handler(plex_c)
             player.wait()
             plex_c.block_until_playing(media, offset=offset)
-
-        update_sensor(hass, PA)
 
     hass.services.async_register(DOMAIN, "command", handle_input)
     return True

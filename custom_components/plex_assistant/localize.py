@@ -21,6 +21,8 @@ LOCALIZE = {
             "stop": "stop",
             "jump_forward": "jump forward",
             "jump_back": "jump back",
+            "skip": "skip",
+            "previous": "previous",
             "update_sensor": "update sensor",
         },
 

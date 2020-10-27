@@ -319,7 +319,7 @@ def get_media_and_device(PA, localize, command, lib, library, default_cast):
             media = command.replace(separator + split[-1], "")
             device = split[-1]
 
-    media = media if media else command
+    media = media or command
     return {"media": media, "device": device}
 
 

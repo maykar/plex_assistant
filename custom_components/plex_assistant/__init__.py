@@ -131,6 +131,7 @@ async def async_setup(hass, config):
                     localize["not_found"],
                 )
             )
+            return
 
         device = fuzzy(command["device"] or default_device, devices)
         if aliases:
@@ -185,6 +186,10 @@ async def async_setup(hass, config):
                 controller.stepForward()
             elif control == "jump_back":
                 controller.stepBack()
+            elif control == "skip":
+                controller.next()
+            elif control == "previous":
+                controller.previous()
             return
 
         # Look for the requested media and apply user's filters (onDeck, unwatched, etc.) to them.

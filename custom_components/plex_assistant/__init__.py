@@ -123,12 +123,12 @@ async def async_setup(hass, config):
 
         # Get the closest name match to device in command, fuzzy returns its name and score.
         devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
+
         if not command["device"] and not default_device:
             _LOGGER.warning(
-                '{0} {1}: "{2}"'.format(
+                "{0} {1}.".format(
                     localize["cast_device"].capitalize(),
                     localize["not_found"],
-                    command["device"].title(),
                 )
             )
 

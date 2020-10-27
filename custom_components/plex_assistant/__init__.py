@@ -20,6 +20,7 @@ CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
 REMOTE_SERVER = "remote_server"
 CONF_ALIASES = "aliases"
+CONF_START_SCRIPT = "start_script"
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -31,6 +32,7 @@ CONFIG_SCHEMA = vol.Schema(
             vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
             vol.Optional(REMOTE_SERVER, default=False): cv.boolean,
             vol.Optional(CONF_ALIASES, default={}): vol.Any(dict),
+            vol.Optional(CONF_START_SCRIPT, default={}): vol.Any(dict),
         }
     },
     extra=vol.ALLOW_EXTRA,
@@ -68,6 +70,7 @@ async def async_setup(hass, config):
     tts_errors = conf.get(CONF_TTS_ERROR)
     remote_server = conf.get(REMOTE_SERVER)
     aliases = conf.get(CONF_ALIASES)
+    start_script = conf.get(CONF_START_SCRIPT)
     zconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
 
@@ -121,9 +124,6 @@ async def async_setup(hass, config):
         if PA.lib["updated"] < PA.plex.search(sort="addedAt:desc", limit=1)[0].addedAt:
             PA.update_libraries()
 
-        # Get the closest name match to device in command, fuzzy returns its name and score.
-        devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
-
         if not command["device"] and not default_device:
             _LOGGER.warning(
                 "{0} {1}.".format(
@@ -133,9 +133,42 @@ async def async_setup(hass, config):
             )
             return
 
+        # Get the closest name match to device in command, fuzzy returns its name and score.
+        devices = PA.chromecast_names + PA.plex_client_names + PA.plex_client_ids
         device = fuzzy(command["device"] or default_device, devices)
         if aliases:
             alias = fuzzy(command["device"] or default_device, PA.alias_names)
+
+        # Call start_script if set for device and device not found
+        if (
+            (aliases and aliases[alias[0]] not in devices)
+            or (alias[1] < 60 and device[1] < 60)
+        ) and start_script:
+            pre_device = command["device"] or default_device
+            if start_script[pre_device]:
+                attempts = 0
+                while (
+                    alias[1] < 60
+                    and device[1] < 60
+                    and attempts < (start_script[pre_device]["attempts"] or 5)
+                ):
+                    hass.services.call(
+                        "script",
+                        start_script[pre_device]["script"].replace("script.", ""),
+                    )
+                    time.sleep(3)
+                    PA.plex_clients = PA.server.clients()
+                    if PA.remote_server:
+                        PA.update_remote_devices()
+                    time.sleep(2)
+                    device = fuzzy(
+                        command["device"] or default_device, PA.plex_client_names
+                    )
+                    if aliases:
+                        alias = fuzzy(
+                            command["device"] or default_device, PA.alias_names
+                        )
+                    attempts += 1
 
         # If the fuzzy score is less than 60, we can't find the device.
         if alias[1] < 60 and device[1] < 60:

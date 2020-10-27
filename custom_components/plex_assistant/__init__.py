@@ -161,8 +161,6 @@ async def async_setup(hass, config):
         if command["control"]:
             control = command["control"]
             if client:
-                if not hasattr(player, "remote"):
-                    player.proxyThroughServer()
                 controller = player
             else:
                 controller = PlexController()
@@ -213,8 +211,6 @@ async def async_setup(hass, config):
             _LOGGER.debug("Client: %s", player)
             if isinstance(media, list):
                 media = PA.server.createPlayQueue(media)
-            if not hasattr(player, "remote"):
-                player.proxyThroughServer()
             player.playMedia(media, offset=offset)
         else:
             _LOGGER.debug("Cast: %s", player.name)
@@ -355,6 +351,5 @@ class PlexAssistant:
                         product=rc.product,
                         port=connection.port,
                         title=rc.name,
-                        remote=True,
                     )
                     self.plex_clients.append(remote_client)

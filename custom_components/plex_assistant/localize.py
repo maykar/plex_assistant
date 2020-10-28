@@ -5,10 +5,14 @@ LOCALIZE = {
         "play": "play",
         "random": "random",
         "movies": [
+            "movies",
+            "films",
             "movie",
             "film",
         ],
         "shows": [
+            "episodes",
+            "shows"
             "episode",
             "tv",
             "show"
@@ -41,6 +45,8 @@ LOCALIZE = {
             "play tv",
             "play show",
             "play the",
+            "play an"
+            "play a",
             "play",
         ],
 

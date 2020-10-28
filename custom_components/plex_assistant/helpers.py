@@ -3,6 +3,9 @@ import re
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
 from random import shuffle
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def update_sensor(hass, PA):
@@ -103,22 +106,25 @@ def filter_media(PA, option, media, lib):
     if getattr(media, "TYPE", None) == "show":
         unwatched = media.unwatched()
         if option["random"] and unwatched:
-            return random(unwatched)
+            shuffle(unwatched)
+            return unwatched
         return unwatched[0] if unwatched else media
 
     if option["random"]:
-        return random(media)
+        media = random(media)
+        shuffle(media)
+        return media
 
     return media
 
 
 def random(media):
     if isinstance(media, list):
-        return shuffle(media)
+        return media
     elif getattr(media, "episodes", None):
-        return shuffle(media.episodes())
+        return media.episodes()
     elif getattr(media, "TYPE", None) == "episode":
-        media = shuffle(media.show().episodes())
+        return media.show().episodes()
 
 
 def find_media(selected, media, lib):
@@ -251,15 +257,15 @@ def _find(item, command):
 def _remove(item, command, replace=""):
     """ Remove key, pre, and post words from command string. """
     if isinstance(item, str):
-        item = {"keywords", item}
+        item = {"keywords": [item]}
     command = " " + command + " "
     if replace != "":
         replace = " " + replace + " "
     for keyword in item["keywords"]:
-        if item["pre"]:
+        if "pre" in item:
             for pre in item["pre"]:
                 command = command.replace("%s %s" % (pre, keyword), replace)
-        if item["post"]:
+        if "post" in item:
             for post in item["post"]:
                 command = command.replace("%s %s" % (keyword, post), replace)
         if keyword in command:
@@ -411,6 +417,18 @@ def process_speech(command, localize, default_cast, PA):
         command = result["command"]
 
     result = get_media_and_device(PA, localize, command, lib, library, default_cast)
+
+    tv_keywords = (
+        localize["shows"]
+        + localize["season"]["keywords"]
+        + localize["episode"]["keywords"]
+    )
+    for word in tv_keywords:
+        if result["media"].lower().strip() == word:
+            result["media"] = ""
+    for word in localize["movies"]:
+        if result["media"].lower().strip() == word:
+            result["media"] = ""
 
     return {
         "media": result["media"],

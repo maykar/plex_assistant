@@ -145,7 +145,7 @@ async def async_setup(hass, config):
             or (alias[1] < 60 and device[1] < 60)
         ) and start_script:
             pre_device = command["device"] or default_device
-            if start_script[pre_device]["script"]:
+            if pre_device in start_script:
                 attempts = 0
                 while (
                     (aliases and aliases[alias[0]] not in devices)
@@ -198,7 +198,6 @@ async def async_setup(hass, config):
                 if c.title == player or c.machineIdentifier == player:
                     player = c
                     break
-
             try:
                 player.connect()
             except:

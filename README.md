@@ -1,5 +1,7 @@
 # ❱ Plex Assistant
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-yellow.svg)](https://github.com/custom-components/hacs) [![hacs_badge](https://img.shields.io/badge/Buy-Me%20a%20Coffee-critical)](https://www.buymeacoffee.com/FgwNR2l)
+
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Commands](#commands)<br>
 [Google Assistant Triggers](#google-assistant-triggers) ｜ [HA Conversation Setup](#home-assistant-conversation-setup)<br><hr>
 
@@ -17,13 +19,6 @@ data:
 ```
 
 ***Music and audio aren't built in yet, only shows and movies at the moment.***
-
-## Supporting Development
-- :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
-- :1st_place_medal:&nbsp;&nbsp;[Tip some Crypto](https://github.com/sponsors/maykar)
-- :heart:&nbsp;&nbsp;[Sponsor me on GitHub](https://github.com/sponsors/maykar)
-- :keyboard:&nbsp;&nbsp;Help with [translation](translation.md), development, or documentation
-  <br><br>
 
 ## Installation
 Install by using one of the methods below:

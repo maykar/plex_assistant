@@ -1095,9 +1095,20 @@ LOCALIZE = {
             "ottende": "8",
             "niende": "9",
             "tiende": "10",
+            "ellevte": "11",
+            "tolvte": "12",
+            "trettende": "13",
+            "fjortende": "14",
+            "femtende": "15",
+            "sekstende": "16",
+            "syttende": "17",
+            "attende": "18",
+            "nittende": "19",
+            "tyvende": "20",
             # Do not edit the keys of pre and post
             "pre": [
                 "den",
+                "det",
             ],
             "post": [],
         },
@@ -1108,16 +1119,10 @@ LOCALIZE = {
                 "sæsonnen",
             ],
             "pre": [
-                'første',
-                'anden',
-                'tredje',
-                'fjerde',
-                'femte',
-                'sjette',
-                'syvende',
-                'ottende',
-                'niende',
-                'tiende',
+                'te',
+                'en',
+                'je',
+                'de',
             ],
             "post": [
                 "nummer",
@@ -1133,16 +1138,10 @@ LOCALIZE = {
                 "episoder",
             ],
             "pre": [
-                'første',
-                'anden',
-                'tredje',
-                'fjerde',
-                'femte',
-                'sjette',
-                'syvende',
-                'ottende',
-                'niende',
-                'tiende',
+                'te',
+                'en',
+                'je',
+                'de',
             ],
             "post": [
                 "nummer",
@@ -1174,14 +1173,15 @@ LOCALIZE = {
         },
         "unwatched": {
             "keywords": [
-                "ej udvalgt",
-                "udvalgte",
+                "usete",
+                "efterfølgende",
                 "næste",
             ],
             "pre": [],
             "post": [
                 "film",
                 "filmen",
+                "episode",
                 "episoder",
                 "episoden",
                 "tv",
@@ -1193,11 +1193,12 @@ LOCALIZE = {
         "ondeck": {
             "keywords": [
                 "igangværende",
-                "i gang",
-                "fortsæt",
+                "fortsat",
+                "on desk",
+                "ondesk"
             ],
             "pre": [
-                "fortsæt",
+                "fortsat",
             ],
             "post": [
                 "film",

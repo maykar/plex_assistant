@@ -1045,6 +1045,193 @@ LOCALIZE = {
             ],
         },
     },
+        "da": {
+        # Generic Terms
+        "play": [
+            "afspil",
+            "spil",
+            "start"
+        ],
+        "movies": [
+            "film",
+        ],
+        "shows": [
+            "episode",
+            "afsnit",
+            "tv",
+            "program"
+        ],
+
+        # Controls
+        "controls": {
+            "play": "afspil",
+            "pause": "pause",
+            "stop": "stop",
+            "jump_forward": "hop fremad",
+            "jump_back": "hop tilbage",
+            "update_sensor": "opdater sensor",
+        },
+
+        # Text for errors
+        "not_found": "ikke fundet",
+        "cast_device": "cast enhed",
+        "no_call": "Ingen kommando modtaget.",
+
+        # Invoke Command
+        "play_start": [
+            "afspil filmen",
+            "afspil film",
+            "afspil tv-showet",
+            "afspil tv",
+            "afspil episoden",
+            "afspil tv",
+            "afspil afsnittet",
+            "afspil tvprogram",
+            "afspil afsnit",
+            "afspil"
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "første": "1",
+            "anden": "2",
+            "tredje": "3",
+            "fjerde": "4",
+            "femte": "5",
+            "sjette": "6",
+            "syvende": "7",
+            "ottende": "8",
+            "niende": "9",
+            "tiende": "10",
+            # Do not edit the keys of pre and post
+            "pre": [
+                "the",
+            ],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "sæson",
+                "sæsonnen",
+            ],
+            "pre": [
+                'første',
+                'anden',
+                'tredje',
+                'fjerde',
+                'femte',
+                'sjette',
+                'syvende',
+                'ottende',
+                'niende',
+                'tiende',
+            ],
+            "post": [
+                "nummer",
+                "af",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episode",
+                "afsnit",
+                "afsnittene",
+                "afsnittet",
+                "episoder",
+            ],
+            "pre": [
+               'første',
+                'anden',
+                'tredje',
+                'fjerde',
+                'femte',
+                'sjette',
+                'syvende',
+                'ottende',
+                'niende',
+                'tiende',
+            ],
+            "post": [
+                "nummer",
+                "af",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "seneste",
+                "sidste",
+                "nyeste",
+                "aktuelle",
+                "nye",
+            ],
+            "pre": [
+                "den",
+            ],
+            "post": [
+                "film",
+                "filmen",
+                "episoder",
+                "episoden",
+                "episoden",
+                "tv",
+                "afsnit",
+                "afsnittet",
+                "af",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "ej udvalgt",
+                "udvalgte",
+                "næste",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "filmen",
+                "episoder",
+                "episoden",
+                "tv",
+                "afsnit",
+                "afsnittet",
+                "af",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "igangværende",
+                "i gang",
+                "fortsæt",
+            ],
+            "pre": ["fortsæt"],
+            "post": [
+                "film",
+                "filmen",
+                "episoder",
+                "episoden",
+                "tv",
+                "afsnit",
+                "afsnittet",
+                "af",
+            ],
+        },
+        # This is the separator word used at the end of the command
+        # To let us know it is a cast device.
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
+        "separator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "på",
+                "via",
+                "med",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",

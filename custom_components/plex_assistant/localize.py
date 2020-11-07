@@ -1045,13 +1045,8 @@ LOCALIZE = {
             ],
         },
     },
-        "da": {
-        # Generic Terms
-        "play": [
-            "afspil",
-            "spil",
-            "start"
-        ],
+    "da": {
+        "play": "afspil",
         "movies": [
             "film",
         ],
@@ -1062,7 +1057,6 @@ LOCALIZE = {
             "program"
         ],
 
-        # Controls
         "controls": {
             "play": "afspil",
             "pause": "pause",
@@ -1072,12 +1066,10 @@ LOCALIZE = {
             "update_sensor": "opdater sensor",
         },
 
-        # Text for errors
         "not_found": "ikke fundet",
         "cast_device": "cast enhed",
         "no_call": "Ingen kommando modtaget.",
 
-        # Invoke Command
         "play_start": [
             "afspil filmen",
             "afspil film",
@@ -1091,7 +1083,6 @@ LOCALIZE = {
             "afspil"
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
             # Edit the keys for translation, not the integers.
             "første": "1",
@@ -1106,12 +1097,11 @@ LOCALIZE = {
             "tiende": "10",
             # Do not edit the keys of pre and post
             "pre": [
-                "the",
+                "den",
             ],
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "sæson",
@@ -1143,7 +1133,7 @@ LOCALIZE = {
                 "episoder",
             ],
             "pre": [
-               'første',
+                'første',
                 'anden',
                 'tredje',
                 'fjerde',
@@ -1206,7 +1196,9 @@ LOCALIZE = {
                 "i gang",
                 "fortsæt",
             ],
-            "pre": ["fortsæt"],
+            "pre": [
+                "fortsæt",
+            ],
             "post": [
                 "film",
                 "filmen",
@@ -1218,11 +1210,7 @@ LOCALIZE = {
                 "af",
             ],
         },
-        # This is the separator word used at the end of the command
-        # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "separator": {
-            # Only use one keyword for this one.
             "keywords": [
                 "på",
                 "via",

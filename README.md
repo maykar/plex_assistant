@@ -32,10 +32,10 @@ Add config to your configuration.yaml file.
 
 | Key          | Default | Necessity    | Description
 | :--          | :------ | :--------    | :----------
-| url          |         | **Required** | The full url to your Plex instance including port.
+| url          |         | **Required** | The full url to your Plex instance including port. [Info for SSL connections here](#ssl-url).
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
-| language     | 'en'    | Optional     | Language code ([Supported Languages](#supported-languages)).
+| language     | 'en'    | Optional     | Language code ([Supported Languages](#currently-supported-languages)).
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
 | aliases      |         | Optional     | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.
 
@@ -260,3 +260,15 @@ Be sure to add the name of the device to control commands if it is not the defau
 If no cast device is specified in your command, the `default_cast` device set in your config is used. A cast device will only be found if at the end of the command and when preceded with the word `"on"` or words `"on the"`. Example: *"play friends **ON** downstairs tv"*
 
 I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
+
+### SSL URL
+If you use the Plex server network setting of "Required" for "Secure Connections" and do not provide a custom certificate, you need to use your plex.direct URL in the settings. You can find it using the steps below:
+
+* Go to https://app.plex.tv/ and sign in.
+* Hit the vertical 3 dots in the bottom right of any media item (episode, movie, etc)
+* Select "Get Info", then click "View XML"
+* The URL field of your browser now contains your plex.direct URL
+* Copy everything before "library"
+* It will look something like this: `https://192-168-10-25.xxxxxxxxxxxxxxxxx.plex.direct:32400/`
+
+If you use a custom certificate, use the URL that the certificate is for.

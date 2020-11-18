@@ -268,7 +268,7 @@ If you use the Plex server network setting of "Required" for "Secure Connections
 * Hit the vertical 3 dots in the bottom right of any media item (episode, movie, etc)
 * Select "Get Info", then click "View XML"
 * The URL field of your browser now contains your plex.direct URL
-* Copy everything before "library"
-* It will look something like this: `https://192-168-10-25.xxxxxxxxxxxxxxxxx.plex.direct:32400/`
+* Copy everything before "/library"
+* It will look something like this: `https://192-168-10-25.xxxxxxxxxxxxxxxxx.plex.direct:32400`
 
 If you use a custom certificate, use the URL that the certificate is for.

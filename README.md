@@ -38,7 +38,7 @@ Add config to your configuration.yaml file.
 
 | Key          | Default | Necessity    | Description
 | :--          | :------ | :--------    | :----------
-| url          |         | **Required** | The full url to your Plex instance including port.
+| url          |         | **Required** | The full url to your Plex instance including port. [Info for SSL connections here](#ssl-url).
 | token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
 | language     | 'en'    | Optional     | Language code ([Supported Languages](#currently-supported-languages)).
@@ -277,3 +277,16 @@ Be sure to add the name of the device to control commands if it is not the defau
 In order to cast to local Plex clients while using this integration with a remote Plex server (one not on your local network) you need to use the config option `remote_server: true`.
 
 This finds your Plex clients by using a remote API call to plex.tv . This can increase loading/call times and requires the plex.tv API to be up and available, but this is the only way to allow casting between a remote Plex server and a Plex client on your local network.
+
+### SSL URL
+
+If you use the Plex server network setting of "Required" for "Secure Connections" and do not provide a custom certificate, you need to use your plex.direct URL in the settings. You can find it using the steps below:
+
+* Go to https://app.plex.tv/ and sign in.
+* Hit the vertical 3 dots in the bottom right of any media item (episode, movie, etc)
+* Select "Get Info", then click "View XML"
+* The URL field of your browser now contains your plex.direct URL
+* Copy everything before "/library"
+* It will look something like this: `https://192-168-10-25.xxxxxxxxxxxxxxxxx.plex.direct:32400`
+
+If you use a custom certificate, use the URL that the certificate is for.

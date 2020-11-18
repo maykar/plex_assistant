@@ -1194,8 +1194,8 @@ LOCALIZE = {
             "keywords": [
                 "igangværende",
                 "fortsat",
-                "on desk",
-                "ondesk"
+                "on deck",
+                "ondeck"
             ],
             "pre": [
                 "fortsat",

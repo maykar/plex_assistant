@@ -1045,6 +1045,182 @@ LOCALIZE = {
             ],
         },
     },
+    "da": {
+        "play": "afspil",
+        "movies": [
+            "film",
+        ],
+        "shows": [
+            "episode",
+            "afsnit",
+            "tv",
+            "program"
+        ],
+
+        "controls": {
+            "play": "afspil",
+            "pause": "pause",
+            "stop": "stop",
+            "jump_forward": "hop fremad",
+            "jump_back": "hop tilbage",
+            "update_sensor": "opdater sensor",
+        },
+
+        "not_found": "ikke fundet",
+        "cast_device": "cast enhed",
+        "no_call": "Ingen kommando modtaget.",
+
+        "play_start": [
+            "afspil filmen",
+            "afspil film",
+            "afspil tv-showet",
+            "afspil tv",
+            "afspil episoden",
+            "afspil tv",
+            "afspil afsnittet",
+            "afspil tvprogram",
+            "afspil afsnit",
+            "afspil"
+        ],
+
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "første": "1",
+            "anden": "2",
+            "tredje": "3",
+            "fjerde": "4",
+            "femte": "5",
+            "sjette": "6",
+            "syvende": "7",
+            "ottende": "8",
+            "niende": "9",
+            "tiende": "10",
+            "ellevte": "11",
+            "tolvte": "12",
+            "trettende": "13",
+            "fjortende": "14",
+            "femtende": "15",
+            "sekstende": "16",
+            "syttende": "17",
+            "attende": "18",
+            "nittende": "19",
+            "tyvende": "20",
+            # Do not edit the keys of pre and post
+            "pre": [
+                "den",
+                "det",
+            ],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "sæson",
+                "sæsonnen",
+            ],
+            "pre": [
+                'te',
+                'en',
+                'je',
+                'de',
+            ],
+            "post": [
+                "nummer",
+                "af",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episode",
+                "afsnit",
+                "afsnittene",
+                "afsnittet",
+                "episoder",
+            ],
+            "pre": [
+                'te',
+                'en',
+                'je',
+                'de',
+            ],
+            "post": [
+                "nummer",
+                "af",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "seneste",
+                "sidste",
+                "nyeste",
+                "aktuelle",
+                "nye",
+            ],
+            "pre": [
+                "den",
+            ],
+            "post": [
+                "film",
+                "filmen",
+                "episoder",
+                "episoden",
+                "episoden",
+                "tv",
+                "afsnit",
+                "afsnittet",
+                "af",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "usete",
+                "efterfølgende",
+                "næste",
+            ],
+            "pre": [],
+            "post": [
+                "film",
+                "filmen",
+                "episode",
+                "episoder",
+                "episoden",
+                "tv",
+                "afsnit",
+                "afsnittet",
+                "af",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "igangværende",
+                "fortsat",
+                "on deck",
+                "ondeck"
+            ],
+            "pre": [
+                "fortsat",
+            ],
+            "post": [
+                "film",
+                "filmen",
+                "episoder",
+                "episoden",
+                "tv",
+                "afsnit",
+                "afsnittet",
+                "af",
+            ],
+        },
+        "separator": {
+            "keywords": [
+                "på",
+                "via",
+                "med",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",

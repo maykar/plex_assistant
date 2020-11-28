@@ -215,13 +215,13 @@ To use Plex Assistant with Home Assistant's conversation integration simply add 
 ```yaml
 conversation:
   intents:
-    PlexAssistant:
+    Plex:
      # These trigger commands can be changed to suit your needs.
      - "Tell Plex to {command}"
      - "{command} with Plex"
 
 intent_script:
-  PlexAssistant:
+  Plex:
     speech:
       text: Command sent to Plex.
     action:

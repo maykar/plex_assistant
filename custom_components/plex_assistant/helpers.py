@@ -13,7 +13,7 @@ def cc_callback(chromecast):
     """
     PA.devices[chromecast.device.friendly_name] = chromecast
     if PA.client_update:
-        PA.clients = PA.server.clients() if PA.server else []
+        PA.clients = [c for c in PA.server.clients() if '127.0.0.1' not in c._baseurl] if PA.server else []
         PA.client_names = [client.title for client in PA.clients]
         PA.client_ids = [client.machineIdentifier for client in PA.clients]
         PA.client_update = False

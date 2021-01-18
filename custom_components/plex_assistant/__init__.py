@@ -7,14 +7,15 @@ cast device names.
 
 https://github.com/maykar/plex_assistant
 """
-import logging
 
+import logging
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 
 DOMAIN = "plex_assistant"
 CONF_URL = "url"
 CONF_TOKEN = "token"
+CONF_SERVER_NAME = "server_name"
 CONF_DEFAULT_CAST = "default_cast"
 CONF_LANG = "language"
 CONF_TTS_ERROR = "tts_errors"
@@ -25,8 +26,9 @@ CONF_START_SCRIPT = "start_script"
 CONFIG_SCHEMA = vol.Schema(
     {
         DOMAIN: {
-            vol.Required(CONF_URL): cv.url,
-            vol.Required(CONF_TOKEN): cv.string,
+            vol.Optional(CONF_URL): cv.url,
+            vol.Optional(CONF_TOKEN): cv.string,
+            vol.Optional(CONF_SERVER_NAME): cv.string,
             vol.Optional(CONF_DEFAULT_CAST): cv.string,
             vol.Optional(CONF_LANG, default="en"): cv.string,
             vol.Optional(CONF_TTS_ERROR, default=True): cv.boolean,
@@ -51,6 +53,8 @@ async def async_setup(hass, config):
     from homeassistant.helpers.network import get_url
     from homeassistant.components.zeroconf import async_get_instance
     from pychromecast.controllers.plex import PlexController
+    from homeassistant.components.plex.services import get_plex_server
+    from plexapi.server import PlexServer
 
     from .localize import LOCALIZE
     from .helpers import (
@@ -65,6 +69,7 @@ async def async_setup(hass, config):
     conf = config[DOMAIN]
     url = conf.get(CONF_URL)
     token = conf.get(CONF_TOKEN)
+    server_name = conf.get(CONF_SERVER_NAME)
     default_device = conf.get(CONF_DEFAULT_CAST)
     lang = conf.get(CONF_LANG)
     tts_errors = conf.get(CONF_TTS_ERROR)
@@ -73,25 +78,32 @@ async def async_setup(hass, config):
     start_script = conf.get(CONF_START_SCRIPT)
     zconf = await async_get_instance(hass)
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
+    server = None
 
     # Find or create the directory to hold TTS error MP3s.
     dir = hass.config.path() + "/www/plex_assist_tts/"
     if tts_errors and not os.path.exists(dir):
         os.makedirs(dir, mode=0o777)
 
-    def pa_executor(zconf, url, token, aliases, remote_server):
-        return PlexAssistant(zconf, url, token, aliases, remote_server)
 
-    PA = await hass.async_add_executor_job(
-        pa_executor, zconf, url, token, aliases, remote_server
-    )
-
-    # First update of sensor.
-    def sensor_executor():
+    async def pa_executor(zconf, url, token, aliases, remote_server, server):
+        if url and token:
+            server = PlexServer(url, token)
+        else:
+            await hass.helpers.discovery.async_discover(None, None, "plex", config)
+            server = get_plex_server(hass, server_name or None)._plex_server
+        PA = PlexAssistant(zconf, token, aliases, remote_server, server)
         time.sleep(5)
         update_sensor(hass, PA)
+        return PA
 
-    await hass.async_add_executor_job(sensor_executor)
+    PA = await hass.async_add_executor_job(
+        pa_executor, zconf, url, token, aliases, remote_server, server
+    )
+
+    if not server:
+        _LOGGER.warning("Plex Assistant: Plex server not found.")
+        return False
 
     def handle_input(call):
         offset = 0
@@ -106,14 +118,12 @@ async def async_setup(hass, config):
         if not call.data.get("command").strip():
             _LOGGER.warning(localize["no_call"])
             return
-
         command = call.data.get("command").strip().lower()
         _LOGGER.debug("Command: %s", command)
 
         update_sensor(hass, PA)
         if localize["controls"]["update_sensor"] in command:
             return
-
         # Return a dict of the options processed from the speech command.
         command = process_speech(command, localize, default_device, PA)
 
@@ -198,17 +208,17 @@ async def async_setup(hass, config):
                 if c.title == player or c.machineIdentifier == player:
                     player = c
                     break
-            try:
-                player.connect()
-            except:
-                _LOGGER.warning(
-                    '{0} {1}: "{2}"'.format(
-                        localize["cast_device"].capitalize(),
-                        localize["not_found"],
-                        command["device"].title(),
-                    )
+        try:
+            player.connect()
+        except:
+            _LOGGER.warning(
+                '{0} {1}: "{2}"'.format(
+                    localize["cast_device"].capitalize(),
+                    localize["not_found"],
+                    command["device"].title(),
                 )
-                return
+            )
+            return
 
         # Remote control operations.
         if command["control"]:
@@ -251,7 +261,6 @@ async def async_setup(hass, config):
                     media_con.play_media(mp3, "audio/mpeg")
                     media_con.block_until_active()
                     return
-
         _LOGGER.debug("Media: %s", str(media))
 
         # Set the offset if media already in progress. Clients use seconds Cast devices use milliseconds.
@@ -303,11 +312,9 @@ class PlexAssistant:
         device_names (list): Combined list of alias, chromecast, and plex client names.
     """
 
-    def __init__(self, zconf, url, token, aliases, remote_server):
-        from plexapi.server import PlexServer
-
+    def __init__(self, zconf, token, aliases, remote_server, server):
         self.zconf = zconf
-        self.server = PlexServer(url, token)
+        self.server = server
         self.token = token
         self.resources = None
         self.remote_server = remote_server

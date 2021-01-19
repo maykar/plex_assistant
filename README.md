@@ -20,6 +20,8 @@ data:
 
 ***Music and audio aren't built in yet, only shows and movies at the moment.***
 
+## [Troubleshooting Guide](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)
+
 ## Installation
 Install by using one of the methods below:
 
@@ -115,19 +117,19 @@ Finally, add the following automation to your Home Assistant configuration.yaml:
 
 ```yaml
 automation:
-  - alias: Plex Assistant Automation
-    trigger:
-    - event_data:
-        action: call_service
-      event_type: ifttt_webhook_received
-      platform: event
-    condition:
-      condition: template
-      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-    action:
-    - data_template:
-        command: "{{ trigger.event.data.command }}"
-      service_template: '{{ trigger.event.data.service }}'
+  - alias: Plex Assistant Automation
+    trigger:
+    - event_data:
+        action: call_service
+      event_type: ifttt_webhook_received
+      platform: event
+    condition:
+      condition: template
+      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
+    action:
+    - service: "{{ trigger.event.data.service }}"
+      data:
+        command: "{{ trigger.event.data.command }}"
 ```
 
 If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Flow](https://github.com/maykar/plex_assistant/issues/34) to do this.
@@ -182,10 +184,10 @@ Add the following to your `configuration.yaml` file
 intent_script:
   Plex:
     speech:
-      text: Command sent to Plex.
+      text: "Command sent to Plex."
     action:
-      - service_template: plex_assistant.command
-        data_template:
+      - service: plex_assistant.command
+        data:
           command: "{{command}}"
 ```
 
@@ -226,7 +228,7 @@ intent_script:
       text: Command sent to Plex.
     action:
       service: plex_assistant.command
-      data_template:
+      data:
         command: "{{command}}"
 ```
 

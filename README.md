@@ -103,13 +103,13 @@ You can either use IFTTT or DialogFlow to trigger Plex Assistant with Google Ass
 
 Visit [ifttt.com](https://ifttt.com/) and sign up or sign in.
 
-* Click "Explore" in the top right, then hit the plus sign to make your own applet from scratch
-* Press the plus sign next to "If". Search for and select "Google Assistant"
+* Create a new applet
+* Click "Add" next to "If This". Search for and select "Google Assistant"
 * Select "Say phrase with text ingredient"
 
 Now you can select how you want to trigger this service, you can select up to 3 ways to invoke it. I use things like `tell plex to $` or `have plex $`. The dollar sign will be the phrase sent to this component. See currently supported [commands below](#commands)). You can also set a response from the Google Assistant if you'd like. Select your language (as long as it's supported, see list above), then hit "Create Trigger" to continue.
 
-* Press the plus sign next to "Then"
+* Click "Add" next to "Then That"
 * Search for and select "Webhooks", then select "Make a web request"
 * In the URL field enter the webhook URL HA provided you earlier
 * Select method "Post" and content type "application/json"

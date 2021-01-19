@@ -237,7 +237,7 @@ conversation:
 
 **Note**: If you already have an `intent_script:`section in your config just copy and paste everything after `intent_script:` into that section or if you have already setup the intent script for Dialog flow, this is the same intent script (no need to add it again).
 
-```
+```yaml
 intent_script:
   Plex:
     speech:

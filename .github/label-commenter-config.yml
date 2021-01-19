@@ -1,0 +1,24 @@
+labels:
+  - name: bug
+    labeled:
+      issue:
+        body: |
+          ## Important:
+          **Issues that don't provide the information requested in the [troubleshooting docs](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md) may not get a reply and may be closed until the info is provided. Please, include as much of the requested info as possible so that I can replicate and investigate your issue.**<br><br>
+
+          **When pasting in your config/code/errors always place 3 backticks <code>```</code> above the first line and after the last line. Doing this will format it correctly.**<br>
+  - name: missing info
+    labeled:
+      issue:
+        body: In order for me to recreate and troubleshoot your issue, please read the bot's previous reply. Follow the post's steps and provide the info requested. This issue will remain closed until more information is provided.
+        action: close
+  - name: stale
+    labeled:
+      issue:
+        body: This issue has become inactive and is being closed as stale. Please, provide more info if it has been requested or ask for the issue to be reopened if it hasn't been resolved. 
+        action: close
+  - name: duplicate
+    labeled:
+      issue:
+        body: This issue is a duplicate of another issue. Please, search open and closed issues before posting. 
+        action: close

@@ -19,9 +19,10 @@ I've tried to take into account many different ways that commands could be phras
 
 ***Music and audio aren't built in yet, only shows and movies at the moment.***
 
+## [Troubleshooting Guide](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)
+
 ## Supporting Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
-- :1st_place_medal:&nbsp;&nbsp;[Tip some Crypto](https://github.com/sponsors/maykar)
 - :heart:&nbsp;&nbsp;[Sponsor me on GitHub](https://github.com/sponsors/maykar)
 - :keyboard:&nbsp;&nbsp;Help with [translation](translation.md), development, or documentation
   <br><br>

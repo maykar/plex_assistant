@@ -8,6 +8,15 @@ Whenever posting an issue always include the following info:
 * If you're able to use HA's built in Plex Integration without issue
 * Any helpful info from the troubleshooting methods below
 
+## Test via services
+
+Test to see if everything works via services:
+* In your HA sidebar select "Developer Tools"
+* Then click "Services"
+* Type "plex_assistant.command" into the service field
+* Click "Fill Example Data" at the bottom
+* Modify the example data to fit your needs and hit "Call Service"
+
 ## Enable debug logs for the component
 
 Add the following to your configuration.yaml file, restart, ask plex assistant to do something, go to your logs and view full logs.

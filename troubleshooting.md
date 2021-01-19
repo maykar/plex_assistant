@@ -13,7 +13,7 @@ Whenever posting an issue always include the following info:
 Test to see if everything works via services:
 * In your HA sidebar select "Developer Tools"
 * Then click "Services"
-* Type "plex_assistant.command" into the service field
+* Type `plex_assistant.command` into the service field
 * Click "Fill Example Data" at the bottom
 * Modify the example data to fit your needs and hit "Call Service"
 

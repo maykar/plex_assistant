@@ -22,6 +22,12 @@ data:
 
 ## [Troubleshooting Guide](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)
 
+## Supporting Development
+- :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
+- :heart:&nbsp;&nbsp;[Sponsor me on GitHub](https://github.com/sponsors/maykar)
+- :keyboard:&nbsp;&nbsp;Help with [translation](translation.md), development, or documentation
+  <br><br>
+
 ## Installation
 Install by using one of the methods below:
 

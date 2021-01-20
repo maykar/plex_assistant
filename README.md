@@ -39,8 +39,7 @@ Add config to your configuration.yaml file.
 
 | Key          | Default | Necessity    | Description
 | :--          | :------ | :--------    | :----------
-| url          |         | **Required** | The full url to your Plex instance including port. [Info for SSL connections here](#ssl-url).
-| token        |         | **Required** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
+| server_name  |         | Optional     | Name of the server to use. Only needed if you have more than one server setup in HA.
 | default_cast |         | Optional     | The name of the cast device to use if none is specified.
 | language     | 'en'    | Optional     | Language code ([Supported Languages](#currently-supported-languages)).
 | tts_errors   | true    | Optional     | Will speak errors on the selected cast device. For example: when the specified media wasn't found.
@@ -54,8 +53,7 @@ The sample config below contains some default values (noted above). Any option t
 
 ```yaml
 plex_assistant:
-  url: "http://192.168.1.3:32400"
-  token: "tH1s1Sy0uRT0k3n"
+  server_name: "Home"
   default_cast: "Downstairs TV"
   language: "en"
   tts_errors: true

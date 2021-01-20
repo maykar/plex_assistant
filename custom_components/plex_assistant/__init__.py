@@ -81,20 +81,23 @@ async def async_setup(hass, config):
     localize = LOCALIZE[lang] if lang in LOCALIZE.keys() else LOCALIZE["en"]
     server = None
 
+    if url or token:
+        _LOGGER.warning("Plex Assistant config options have changed, please read the change log found here:.")
+        return False
+
     # Find or create the directory to hold TTS error MP3s.
     dir = hass.config.path() + "/www/plex_assist_tts/"
     if tts_errors and not os.path.exists(dir):
         os.makedirs(dir, mode=0o777)
 
-    if url and token:
-        server = PlexServer(url, token)
-    else:
-        await hass.helpers.discovery.async_discover(None, None, "plex", config)
-        server = get_plex_server(hass, server_name or None)._plex_server
+    await hass.helpers.discovery.async_discover(None, None, "plex", config)
+    server = get_plex_server(hass, server_name)
 
     if not server:
         _LOGGER.warning("Plex Assistant: Plex server not found.")
         return False
+    else:
+        server = server._plex_server
 
     def pa_executor(zconf, url, token, aliases, remote_server, server):
         PA = PlexAssistant(zconf, token, aliases, remote_server, server)

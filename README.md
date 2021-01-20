@@ -129,7 +129,7 @@ Finally, add the automation either by using the YAML code below or the Blueprint
 * Paste this into the URL field `https://gist.github.com/maykar/11f46cdfab0562e683557403b2aa88b4`
 * Click "Preview Blueprint", then "Import Blueprint"
 * Find "Plex Assistant IFTTT Automation" in the list and click "Create Automation"
-* Select any item from the dropdown menu, doesn't matter which one (HA currently requires any change to save.)
+* Type anything on the last line (HA currently requires any interaction to save)
 * Hit "Save"
 
 </details>

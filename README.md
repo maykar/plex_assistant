@@ -138,10 +138,10 @@ Finally, add the automation either by using the YAML code below or the Blueprint
 ```yaml
 alias: Plex Assistant Automation
 trigger:
-- event_data:
-    action: call_service
+- platform: event
   event_type: ifttt_webhook_received
-  platform: event
+  event_data:
+    action: call_service
 condition:
   condition: template
   value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"

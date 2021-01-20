@@ -106,6 +106,14 @@ async def async_setup(hass, config):
         pa_executor, zconf, url, token, aliases, remote_server, server
     )
 
+    def proxyClient(client):
+        try:
+            if "127.0.0.1" in client.url("/"):
+                client.proxyThroughServer()
+        except plexapi.exceptions.BadRequest:
+            client.proxyThroughServer()
+        return client
+
     def handle_input(call):
         offset = 0
         player = None
@@ -227,7 +235,7 @@ async def async_setup(hass, config):
         if command["control"]:
             control = command["control"]
             if client:
-                controller = player
+                controller = proxyClient(player)
             else:
                 controller = PlexController()
                 player.register_handler(controller)
@@ -280,6 +288,7 @@ async def async_setup(hass, config):
             _LOGGER.debug("Client: %s", player)
             if isinstance(media, list):
                 media = PA.server.createPlayQueue(media)
+            player = proxyClient(player)
             player.playMedia(media, offset=offset)
         else:
             _LOGGER.debug("Cast: %s", player.name)

@@ -119,24 +119,41 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 #### In Home Assistant
 
-Finally, add the following automation to your Home Assistant configuration.yaml:
+Finally, add the automation either by using the YAML code below or the Blueprint.
+
+<details>
+  <summary><b>Automation Blueprint</b></summary>
+
+* Go to "Configuration" in your sidebar
+* Click "Blueprints", then "Import Blueprint"
+* Paste this into the URL field `https://gist.github.com/maykar/11f46cdfab0562e683557403b2aa88b4`
+* Click "Preview Blueprint", then "Import Blueprint"
+* Find "Plex Assistant IFTTT Automation" in the list and click "Create Automation"
+* Select any item from the dropdown menu, doesn't matter which one (HA currently requires any change to save.)
+* Hit "Save"
+
+</details>
+
+<details>
+  <summary><b>Automation YAML</b></summary>
 
 ```yaml
-automation:
-  - alias: Plex Assistant Automation
-    trigger:
-    - event_data:
-        action: call_service
-      event_type: ifttt_webhook_received
-      platform: event
-    condition:
-      condition: template
-      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-    action:
-    - service: "{{ trigger.event.data.service }}"
-      data:
-        command: "{{ trigger.event.data.command }}"
+alias: Plex Assistant Automation
+trigger:
+- event_data:
+    action: call_service
+  event_type: ifttt_webhook_received
+  platform: event
+condition:
+  condition: template
+  value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
+action:
+- service: "{{ trigger.event.data.service }}"
+  data:
+    command: "{{ trigger.event.data.command }}"
 ```
+
+</details>
 
 If you prefer Node Red to HA's automations, @1h8fulkat has shared a [Node Red Flow](https://github.com/maykar/plex_assistant/issues/34) to do this.
 

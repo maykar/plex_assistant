@@ -15,7 +15,7 @@ labels:
   - name: stale
     labeled:
       issue:
-        body: This issue has become inactive and is being closed as stale. Please, provide more info if it has been requested or ask for the issue to be reopened if it hasn't been resolved. 
+        body: There has been no activity on this issue in quite some time or more info was requested and not given. Please, provide the requested info or ask for the issue to be reopened if it hasn't been resolved. 
         action: close
   - name: duplicate
     labeled:

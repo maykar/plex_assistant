@@ -166,6 +166,8 @@ async def async_setup(hass, config):
         if command["control"]:
             control = command["control"]
             if client:
+                if "127.0.0.1" in cast.url("/"):
+                    cast.proxyThroughServer()
                 plex_c = cast
             else:
                 plex_c = PlexController()
@@ -205,6 +207,8 @@ async def async_setup(hass, config):
 
         if client:
             _LOGGER.debug("Client: %s", cast)
+            if "127.0.0.1" in cast.url("/"):
+                cast.proxyThroughServer()
             plex_c = cast
             plex_c.playMedia(media)
         else:

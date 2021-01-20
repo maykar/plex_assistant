@@ -166,7 +166,10 @@ async def async_setup(hass, config):
         if command["control"]:
             control = command["control"]
             if client:
-                if "127.0.0.1" in cast.url("/"):
+                try:
+                    if "127.0.0.1" in cast.url("/"):
+                        cast.proxyThroughServer()
+                except plexapi.exceptions.BadRequest:
                     cast.proxyThroughServer()
                 plex_c = cast
             else:
@@ -207,7 +210,10 @@ async def async_setup(hass, config):
 
         if client:
             _LOGGER.debug("Client: %s", cast)
-            if "127.0.0.1" in cast.url("/"):
+            try:
+                if "127.0.0.1" in cast.url("/"):
+                    cast.proxyThroughServer()
+            except plexapi.exceptions.BadRequest:
                 cast.proxyThroughServer()
             plex_c = cast
             plex_c.playMedia(media)

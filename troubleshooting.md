@@ -34,26 +34,26 @@ Add a line to your Plex Assistant automation or intent script that will post the
 #### IFTTT Automation
 
 ```
-  - alias: Plex Assistant Automation
-    trigger:
-    - event_data:
-        action: call_service
-      event_type: ifttt_webhook_received
-      platform: event
-    condition:
-      condition: template
-      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-    action:
-    - service: "{{ trigger.event.data.service }}"
-      data:
-        command: "{{ trigger.event.data.command }}"
-      ###################################################
-      # The following 4 lines are the added debug lines #
-      ###################################################
-    - service: system_log.write
-      data:
-        message: "{{ trigger.event.data.command }}"
-        level: warning
+alias: Plex Assistant Automation
+trigger:
+- event_data:
+    action: call_service
+  event_type: ifttt_webhook_received
+  platform: event
+condition:
+  condition: template
+  value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
+action:
+- service: "{{ trigger.event.data.service }}"
+  data:
+    command: "{{ trigger.event.data.command }}"
+  ###################################################
+  # The following 4 lines are the added debug lines #
+  ###################################################
+- service: system_log.write
+  data:
+    message: "{{ trigger.event.data.command }}"
+    level: warning
 ```
 
 #### DialogFlow Intent Script

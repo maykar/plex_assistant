@@ -18,36 +18,9 @@ logger:
     custom_components.plex_assistant: debug
 ```
 
-## Add a debug line to your Plex Assistant triggers:
-
-Add a line to your Plex Assistant automation or intent script that will post the command it recieves to your logs:
-
-#### IFTTT Automation
-
-```
-  - alias: Plex Assistant Automation
-    trigger:
-    - event_data:
-        action: call_service
-      event_type: ifttt_webhook_received
-      platform: event
-    condition:
-      condition: template
-      value_template: "{{ trigger.event.data.service == 'plex_assistant.command' }}"
-    action:
-    - service: "{{ trigger.event.data.service }}"
-      data:
-        command: "{{ trigger.event.data.command }}"
-      ###################################################
-      # The following 4 lines are the added debug lines #
-      ###################################################
-    - service: system_log.write
-      data:
-        message: "{{ trigger.event.data.command }}"
-        level: warning
-```
 
 #### DialogFlow Intent Script
+If you use DialogFlow, add a line to your Plex Assistant intent script that will post the command it recieves to your logs:
 
 ```
 intent_script:
@@ -58,11 +31,9 @@ intent_script:
       - service: plex_assistant.command
         data:
           command: "{{command}}"
-        ###################################################
-        # The following 4 lines are the added debug lines #
-        ###################################################
+####### The following 4 lines are for the debug service.
       - service: system_log.write
         data:
-          message: "{{ command }}"
+          message: "Plex Assistant Command: {{ command }}"
           level: warning
 ```

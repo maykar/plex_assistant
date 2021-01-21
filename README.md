@@ -119,7 +119,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 #### In Home Assistant
 
-Finally, add the automation either by using the YAML code below or the Blueprint.
+Finally, add the automation either by using the YAML code or the Blueprint below:
 
 <details>
   <summary><b>Automation Blueprint</b></summary>

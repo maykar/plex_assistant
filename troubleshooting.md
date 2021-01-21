@@ -12,7 +12,7 @@ Whenever posting an issue always include the following info:
 
 Add the following to your configuration.yaml file, restart, ask plex assistant to do something, go to your logs and view full logs.
 
-```
+```yaml
 logger:
   logs:
     custom_components.plex_assistant: debug
@@ -22,7 +22,7 @@ logger:
 #### DialogFlow Intent Script
 If you use DialogFlow, add a line to your Plex Assistant intent script that will post the command it recieves to your logs:
 
-```
+```yaml
 intent_script:
   Plex:
     speech:

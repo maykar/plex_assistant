@@ -99,8 +99,14 @@ async def async_setup(hass, config):
     else:
         server = server._plex_server
 
+    def handle_IFTTT_webhook(event):
+        if event.data["service"] == "plex_assistant.command":
+            _LOGGER.debug("IFTTT Call: %s", event.data["command"])
+            hass.services.call("plex_assistant", "command", {"command": event.data["command"]})
+
     def pa_executor(zconf, url, token, aliases, remote_server, server):
         PA = PlexAssistant(zconf, token, aliases, remote_server, server)
+        hass.bus.listen("ifttt_webhook_received", handle_IFTTT_webhook)
         time.sleep(5)
         update_sensor(hass, PA)
         return PA

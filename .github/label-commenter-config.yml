@@ -15,7 +15,7 @@ labels:
   - name: stale
     labeled:
       issue:
-        body: There has been no activity on this issue in quite some time or more info was requested and not given. Please, provide the requested info or ask for the issue to be reopened if it hasn't been resolved. 
+        body: There has been no recent activity on this issue and/or more info was requested and not given. Please, ask for the issue to be reopened if it hasn't been resolved and provide the requested info. 
         action: close
   - name: duplicate
     labeled:

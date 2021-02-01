@@ -5,9 +5,9 @@
   "dependencies": [],
   "codeowners": ["@maykar"],
   "requirements": [
-    "gTTs",
+    "gTTs>=2.0.4",
     "pychromecast>=7.4.1",
-    "fuzzywuzzy",
+    "fuzzywuzzy=0.18.0",
     "plexapi>=4.1.1"
   ]
 }

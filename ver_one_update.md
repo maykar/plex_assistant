@@ -121,7 +121,7 @@ After setup you can click "Options" on Plex Assistant's card for more config opt
 * Media automatically resumes where you left off
 * Continuous play when playing a show, ondeck, latest, etc.
 * New commands "skip forward" and "skip back" to go to next or previous media item
-* New random command to play a random item from selected items
+* New random command to play a random item or selected items in a random order
 * New "Start Script" feature to start Plex Clients that aren't currently open
 * Replace any word or phrase in command with a replacement of your preference
 * Jump forward/back works for all devices and amount (in seconds) is configurable

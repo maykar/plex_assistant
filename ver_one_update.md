@@ -98,8 +98,8 @@ intent_script: # Keep this line if you have other intent scripts below
 
 # Configuration
 
-**You need to have the Home Assistant's [Plex integration](https://www.home-assistant.io/integrations/plex/) setup in order to use Plex Assistant.**<br><br>
-This will help with configuration, support, will allow for more improvements as Plex Assistant progresses, and requires less processing than the old method.
+**You need to have Home Assistant's [Plex integration](https://www.home-assistant.io/integrations/plex/) setup in order to use Plex Assistant.**<br><br>
+This will help with configuration and support, will allow for more improvements as Plex Assistant progresses, and requires less processing than the old method.
 
 **Configuration is now handled through the UI**:
 * In your sidebar click "Configuration"

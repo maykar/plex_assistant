@@ -17,7 +17,7 @@ You can use the component's service (`plex_assistant.command`) to call the comma
 
 There have been many changes in version 1.0.0, follow the [1.0.0 Update Guide](https://github.com/maykar/plex_assistant/blob/master/ver_one_update.md) if updating from a lower version.
 
-1.0.0 requires Home Assistant 2021.2.0 or higher. Use [version 0.3.4](https://github.com/maykar/plex_assistant/releases/tag/0.3.4) if you are on lower versions of HA and find the [old readme here](https://github.com/maykar/plex_assistant/blob/master/OLD_README.md).
+This version requires Home Assistant 2021.2.0+. Use [version 0.3.4](https://github.com/maykar/plex_assistant/releases/tag/0.3.4) if you are on lower versions of HA and find the [old readme here](https://github.com/maykar/plex_assistant/blob/master/OLD_README.md).
 
 ## Supporting Development
 - :coffee:&nbsp;&nbsp;[Buy me a coffee](https://www.buymeacoffee.com/FgwNR2l)
@@ -229,7 +229,7 @@ Another use example would be if you have multiple Star Trek series, but want a s
 
 ### Start Scripts
 
-This option will trigger a script to start a Plex client if it is currently unavailable. For example, you have a Roku with the Plex app, but need it to be open for Plex Assistant to control it. The formatting needed is the friendly name of the client that you want to open in quotes (case sensitive) followed by a colon then the HA script to start the client in quotes. Seperate multiple entries with a comma.
+This option will trigger a script to start a Plex client if it is currently unavailable. For example: You have a Roku with the Plex app, but need it to be open for Plex Assistant to control it.<br><br>The formatting needed is the friendly name of the client that you want to open in quotes (case sensitive) followed by a colon then the HA script to start the client in quotes. Seperate multiple entries with a comma.
 ```
 "LivingRoom TV":"script.start_lr_plex", "Bedroom TV":"script.open_br_plex"
 ```

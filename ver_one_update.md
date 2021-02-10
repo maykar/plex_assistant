@@ -6,8 +6,8 @@
 
 # Breaking Changes
 
-The automation, intent, intent script, and sensor are no longer required to be setup by the user.<br>The component handles all of it automatically and there is no need for a sensor anymore.<br>
-This means you need to remove those items from HA.<br>If you don't remove them it may cause issues and duplicate commands.<br>
+The automation, intent, intent script, and sensor are no longer required to be setup by the user.<br>The component handles all of it automatically and there is no need for a sensor anymore.<br><br>
+This means you need to remove those items from HA.<br>If you don't remove them it may cause issues and duplicate commands.<br><br>
 Configuration is now handled in the UI so the old config method is no longer needed as well.
 
 ### Remove these things if they exist:
@@ -98,7 +98,7 @@ intent_script: # Keep this line if you have other intent scripts below
 
 # Configuration
 
-**You need to have the [HA's Plex integration](https://www.home-assistant.io/integrations/plex/) setup in order to use Plex Assistant.**<br>
+**You need to have the Home Assistant's [Plex integration](https://www.home-assistant.io/integrations/plex/) setup in order to use Plex Assistant.**<br><br>
 This will help with configuration, support, will allow for more improvements as Plex Assistant progresses, and requires less processing than the old method.
 
 **Configuration is now handled through the UI**:

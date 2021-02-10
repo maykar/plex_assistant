@@ -1,312 +1,100 @@
 import re
-from datetime import datetime
+import time
+from random import shuffle
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
+from gtts import gTTS
+from homeassistant.components.plex.services import get_plex_server
 
-from . import PA
-
-
-def cc_callback(chromecast):
-    """ Callback for pychromecast's non-blocking get_chromecasts function.
-    Adds all cast devices and their friendly names to PA.
-    """
-    PA.devices[chromecast.device.friendly_name] = chromecast
-    if PA.client_update:
-        PA.clients = [c for c in PA.server.clients() if '127.0.0.1' not in c._baseurl] if PA.server else []
-        PA.client_names = [client.title for client in PA.clients]
-        PA.client_ids = [client.machineIdentifier for client in PA.clients]
-        PA.client_update = False
+from .const import DOMAIN, _LOGGER
 
 
-def get_libraries(plex):
-    """ Return Plex libraries, their contents, media titles, & time updated """
-    plex.reload()
-    movies = plex.search(libtype="movie")
-    movies.sort(key=lambda x: x.addedAt or x.updatedAt)
-    shows = plex.search(libtype="show")
-    shows.sort(key=lambda x: x.addedAt or x.updatedAt)
-
-    return {
-        "movies": movies,
-        "movie_titles": [movie.title for movie in movies],
-        "shows": shows,
-        "show_titles": [show.title for show in shows],
-        "updated": datetime.now(),
-    }
-
-
-def fuzzy(media, lib, scorer=fuzz.QRatio):
-    """  Use Fuzzy Wuzzy to return highest scoring item. """
-    if isinstance(lib, list) and len(lib) > 0:
-        return fw.extractOne(media, lib, scorer=scorer)
-    else:
-        return ["", 0]
-
-
-def video_selection(option, media, lib):
-    """ Return media item.
-    Narrow it down if season, episode, unwatched, or latest is used
-    """
-    if media and lib:
-        media = next(m for m in lib if m.title == media)
-
-    if option["season"] and option["episode"]:
-        return media.episode(season=int(
-            option["season"]), episode=int(option["episode"]))
-
-    if option["season"]:
-        media = media.season(title=int(option["season"]))
-
-    if option["ondeck"]:
-        if option["media"]:
-            ondeck = PA.plex.onDeck()
-            media = list(
-                filter(lambda x:
-                       (x.type == "movie" and x.title == media.title) or
-                       (getattr(x, "show", None) and media.title == x.show().title) or
-                       (getattr(media, "show", None) and media.show().title == x.show().title), ondeck))
-        elif option["library"]:
-            media = PA.plex.sectionByID(
-                option["library"][0].librarySectionID).onDeck()
-        else:
-            media = PA.plex.onDeck()
-
-    if option["unwatched"]:
-        if not media and not lib:
-            media = list(filter(lambda x: not x.isWatched, PA.plex.recentlyAdded()))
-        elif not media:
-            media = list(filter(lambda x: not x.isWatched, lib))
-        else:
-            media = media.unwatched()
-
-    if option["latest"]:
-        if not option["unwatched"]:
-            if not media:
-                media = PA.plex.recentlyAdded() if not lib else lib
-                media.sort(key=lambda x: x.addedAt or x.updatedAt)
-            if isinstance(media, list):
-                media.sort(key=lambda x: x.addedAt or x.updatedAt)
-        if media.type in ["show", "season"]:
-            media = media.episodes()[-1]
-        if isinstance(media, list):
-            media = media[-1]
-
-    if getattr(media, "TYPE", None) == "show":
-        unWatched = media.unwatched()
-        return unWatched[0] if unWatched else media
-    
-    if isinstance(media, list):
-        media = media[0]
-
-    return media
-
-
-def find_media(selected, media, lib):
-    """ Return media item and the library it resides in.
-    If no library was given/found search both and find the closest title match.
-    """
-    result = ""
-    library = ""
-    if selected["library"]:
-        if selected["library"][0].type == 'show':
-            section = "show_titles"
-        else:
-            section = "movie_titles"
-
-        result = "" if not media else fuzzy(
-            media, lib[section], fuzz.WRatio)[0]
-        library = selected["library"]
-    else:
-        if not media:
-            result = ""
-        else:
-            show_test = fuzzy(media, lib["show_titles"], fuzz.WRatio)
-            movie_test = fuzzy(media, lib["movie_titles"], fuzz.WRatio)
-            if show_test[1] > movie_test[1]:
-                result = show_test[0]
-                library = lib["shows"]
-            else:
-                result = movie_test[0]
-                library = lib["movies"]
-    return {"media": result, "library": library}
-
-
-def convert_ordinals(command, item, ordinals):
-    """ Find ordinal numbers (first, second, third).
-    Convert ordinals to int and replace the phrase in command string.
-    Example: "third season of Friends" becomes "season 3 Friends"
-    """
-    match = ""
-    replacement = ""
-    for word in item["keywords"]:
-        for ordinal in ordinals.keys():
-            if ordinal not in ('pre', 'post') and ordinal in command:
-                match_before = re.search(
-                    r"(" + ordinal + r")\s*(" + word + r")", command)
-                match_after = re.search(
-                    r"(" + word + r")\s*(" + ordinal + r")", command)
-                if match_before:
-                    match = match_before
-                    matched = match.group(1)
-                if match_after:
-                    match = match_after
-                    matched = match.group(2)
-                if match:
-                    replacement = match.group(0).replace(
-                        matched, ordinals[matched])
-                    command = command.replace(match.group(0), replacement)
-                    for pre in ordinals["pre"]:
-                        if "%s %s" % (pre, match.group(0)) in command:
-                            command = command.replace("%s %s" % (
-                                match.group(0), pre), replacement)
-                    for post in ordinals["post"]:
-                        if "%s %s" % (match.group(0), post) in command:
-                            command = command.replace("%s %s" % (
-                                match.group(0), post), replacement)
-    return command.strip()
-
-
-def get_season_episode_num(command, item, ordinals):
-    """ Find and return season/episode number.
-    Then remove keyword and number from command string.
-    """
-    command = convert_ordinals(command, item, ordinals)
-    phrase = ""
-    number = None
-    for keyword in item["keywords"]:
-        if keyword in command:
-            phrase = keyword
-            for pre in item["pre"]:
-                if pre in command:
-                    regex = r'(\d+\s+)(' + pre + r'\s+)(' + phrase + r'\s+)'
-                    if re.search(regex, command):
-                        command = re.sub(regex,
-                                         "%s %s " % (phrase, r'\1'), command)
-                    else:
-                        command = re.sub(
-                            r'(' + pre + r'\s+)(' + phrase + r'\s+)(\d+\s+)',
-                            "%s %s" % (phrase, r'\3'),
-                            command
-                        )
-                        command = re.sub(
-                            r'(' + phrase + r'\s+)(\d+\s+)(' + pre + r'\s+)',
-                            "%s %s" % (phrase, r'\2'),
-                            command
-                        )
-            for post in item["post"]:
-                if post in command:
-                    regex = r'(' + phrase + r'\s+)(' + post + r'\s+)(\d+\s+)'
-                    if re.search(regex, command):
-                        command = re.sub(regex,
-                                         "%s %s" % (phrase, r'\3'), command)
-                    else:
-                        command = re.sub(
-                            r'(\d+\s+)(' + phrase + r'\s+)(' + post + r'\s+)',
-                            "%s %s" % (phrase, r'\1'),
-                            command
-                        )
-                        command = re.sub(
-                            r'(' + phrase + r'\s+)(\d+\s+)(' + post + r'\s+)',
-                            "%s %s" % (phrase, r'\2'), command
-                        )
-
-    match = re.search(
-        r"(\d+)\s*(" + phrase + r"|^)|(" + phrase + r"|^)\s*(\d+)",
-        command
-    )
-    if match:
-        number = match.group(1) or match.group(4)
-        command = command.replace(match.group(0), "").strip()
-
-    return {"number": number, "command": command}
-
-
-def _find(item, command):
-    """ Return true if any of the item's keywords is in the command string. """
-    return any(keyword in command for keyword in item["keywords"])
-
-
-def _remove(item, command, replace=""):
-    """ Remove key, pre, and post words from command string. """
-    command = " " + command + " "
-    if replace != "":
-        replace = " " + replace + " "
-    for keyword in item["keywords"]:
-        if item["pre"]:
-            for pre in item["pre"]:
-                command = command.replace("%s %s" % (pre, keyword), replace)
-        if item["post"]:
-            for post in item["post"]:
-                command = command.replace("%s %s" % (
-                    keyword, post), replace)
-        if keyword in command:
-            command = command.replace(" " + keyword + " ", replace)
-    return ' '.join(command.split())
-
-
-def get_library(phrase, lib, localize, devices):
-    """ Return the library type if the phrase contains related keywords. """
-    for device in devices:
-        if device.lower() in phrase:
-            phrase = phrase.replace(device.lower(), "")
-    tv_keywords = localize["shows"] + \
-        localize["season"]["keywords"] + localize["episode"]["keywords"]
-    if any(word in phrase for word in tv_keywords):
-        return lib["shows"]
-    elif any(word in phrase for word in localize["movies"]):
-        return lib["movies"]
-    return None
-
-
-def is_device(command, media_list, separator):
-    """ Return true if string is a cast device.
-    Uses fuzzy wuzzy to score media titles against cast device names.
-    """
-    split = command.split(separator)
-    full_score = fuzzy(command, media_list)[1]
-    split_score = fuzzy(command.replace(split[-1], "")[0], media_list)[1]
-    cast_score = fuzzy(split[-1], PA.device_names +
-                       PA.client_names + PA.alias_names)[1]
-    return full_score < split_score or full_score < cast_score
-
-
-def get_media_and_device(localize, command, lib, library, default_cast):
-    """ Find and return the media item and cast device. """
-    media = None
-    device = default_cast
-    separator = localize["separator"]["keywords"][0]
-    command = _remove(localize["separator"], command, separator)
-
-    if command.strip().startswith(separator + " "):
-        device = command.replace(separator, "").strip()
-        return {"media": "", "device": device}
-
-    separator = " " + separator + " "
-    if separator in command:
-        device = False
-        if library == lib["shows"]:
-            device = is_device(command, lib["show_titles"], separator)
-        elif library == lib["movies"]:
-            device = is_device(command, lib["movie_titles"], separator)
-        else:
-            device = is_device(
-                command,
-                lib["movie_titles"] + lib["show_titles"],
-                separator
+async def get_server(hass, config, server_name):
+    try:
+        await hass.helpers.discovery.async_discover(None, None, "plex", config)
+        return get_plex_server(hass, server_name)._plex_server
+    except Exception as ex:
+        if ex.args[0] == "No Plex servers available":
+            server_name_str = ", the server_name is correct," if server_name else ""
+            _LOGGER.warning(
+                f"Plex Assistant: Plex server not found. Ensure that you've setup the HA Plex integration{server_name_str} and the server is reachable."
             )
+        else:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            _LOGGER.warning(message)
 
-        if device:
-            split = command.split(separator)
-            media = command.replace(separator + split[-1], "")
-            device = split[-1]
 
-    media = media if media else command
-    return {"media": media, "device": device}
+def get_devices(hass, pa):
+    for entity in list(hass.data["media_player"].entities):
+        info = str(entity.device_info["identifiers"]) if entity.device_info else ""
+        dev_type = "plex" if "plex" in info else "cast" if "cast" in info else None
+        if not dev_type:
+            continue
+        try:
+            name = hass.states.get(entity.entity_id).attributes.get("friendly_name")
+        except:
+            continue
+        pa.devices[name] = {"entity_id": entity.entity_id, "device_type": dev_type}
+
+
+def device_responding(hass, pa, device):
+    get_devices(hass, pa)
+    if device in pa.device_names:
+        try:
+            hass.data["media_player"].get_entity(pa.devices[device]["entity_id"]).device.connect(2)
+            _LOGGER.warning("responding")
+            return True
+        except:
+            _LOGGER.warning("not responding")
+            return False
+
+
+async def listeners(hass):
+    def ifttt_webhook_callback(event):
+        if event.data["service"] == "plex_assistant.command":
+            _LOGGER.debug("IFTTT Call: %s", event.data["command"])
+            hass.services.call(DOMAIN, "command", {"command": event.data["command"]})
+
+    listener = hass.bus.async_listen("ifttt_webhook_received", ifttt_webhook_callback)
+    await hass.services.async_call("conversation", "process", {"text": "tell plex to initialize_plex_intent"})
+    return listener
+
+
+def media_service(hass, entity_id, call, payload=None):
+    args = {"entity_id": entity_id}
+    if call == "play_media":
+        args = {**args, **{"media_content_type": "video", "media_content_id": payload}}
+    elif call == "media_seek":
+        args = {**args, **{"seek_position": payload}}
+    hass.services.call("media_player", call, args)
+
+
+def jump(hass, device, amount):
+    if device["device_type"] == "plex":
+        media_service(hass, device["entity_id"], "media_pause")
+        time.sleep(0.5)
+
+    offset = hass.states.get(device["entity_id"]).attributes.get("media_position", 0) + amount
+    media_service(hass, device["entity_id"], "media_seek", offset)
+
+    if device["device_type"] == "plex":
+        media_service(hass, device["entity_id"], "media_play")
+
+
+def no_device_error(localize, device=None):
+    device = f': "{device.title()}".' if device else "."
+    _LOGGER.warning(
+        "{0} {1}{2}".format(
+            localize["cast_device"].capitalize(),
+            localize["not_found"],
+            device,
+        )
+    )
 
 
 def media_error(command, localize):
-    """ Return error string. """
     error = ""
     if command["latest"]:
         error += localize["latest"]["keywords"][0] + " "
@@ -317,12 +105,157 @@ def media_error(command, localize):
     if command["media"]:
         error += "%s " % command["media"].capitalize()
     if command["season"]:
-        error += "%s %s " % (
-            localize["season"]["keywords"][0], command["season"]
-        )
+        error += "%s %s " % (localize["season"]["keywords"][0], command["season"])
     if command["episode"]:
-        error += "%s %s " % (
-            localize["episode"]["keywords"][0], command["episode"]
-        )
+        error += "%s %s " % (localize["episode"]["keywords"][0], command["episode"])
     error += localize["not_found"] + "."
     return error.capitalize()
+
+
+def play_tts_error(hass, tts_dir, device, error, lang):
+    tts = gTTS(error, lang=lang)
+    tts.save(tts_dir + "error.mp3")
+    hass.services.call(
+        "media_player",
+        "play_media",
+        {
+            "entity_id": device,
+            "media_content_type": "audio/mp3",
+            "media_content_id": tts_dir + "error.mp3",
+        },
+    )
+
+
+def fuzzy(media, lib, scorer=fuzz.QRatio):
+    if isinstance(lib, list) and len(lib) > 0:
+        return fw.extractOne(media, lib, scorer=scorer)
+    return ["", 0]
+
+
+def randomize(media):
+    if getattr(media, "episodes", None):
+        return media.episodes()
+    elif getattr(media, "TYPE", None) == "episode":
+        return media.show().episodes()
+    return media
+
+
+def get_title(item, deep=False):
+    if item.type == "movie":
+        return item.title
+    elif getattr(item, "show", None):
+        return item.show().title if deep else item.title
+    return None
+
+
+def filter_media(pa, option, media, lib):
+    if media and lib:
+        media = next(m for m in lib if m.title == media)
+    elif lib:
+        media = lib
+
+    if option["season"] and option["episode"]:
+        return media.episode(season=int(option["season"]), episode=int(option["episode"]))
+
+    if option["season"]:
+        media = media.season(title=int(option["season"]))
+
+    if option["ondeck"]:
+        if option["media"]:
+            ondeck = pa.library.onDeck()
+            media = list(
+                filter(
+                    lambda x: (get_title(x) == media.title)
+                    or (get_title(media) == x.show().title)
+                    or (get_title(media, True) == x.show().title),
+                    ondeck,
+                )
+            )
+        elif option["library"]:
+            media = pa.library.sectionByID(option["library"][0].librarySectionID).onDeck()
+        else:
+            media = pa.library.onDeck()
+    if option["unwatched"]:
+        if not media and not lib:
+            media = list(filter(lambda x: not x.isWatched, pa.library.recentlyAdded()))
+        elif isinstance(media, list):
+            media = list(filter(lambda x: not x.isWatched, media))
+        elif getattr(media, "unwatched", None):
+            media = media.unwatched()
+    if option["latest"]:
+        if not option["unwatched"]:
+            if not media:
+                if not lib:
+                    tv_id = pa.media["shows"][0].librarySectionID
+                    movie_id = pa.media["movies"][0].librarySectionID
+                    media = (
+                        pa.library.sectionByID(tv_id).recentlyAdded() + pa.library.sectionByID(movie_id).recentlyAdded()
+                    )
+                    media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
+                else:
+                    media = pa.library.sectionByID(option["library"][0].librarySectionID).recentlyAdded()
+        else:
+            if getattr(media, "type", None) in ["show", "season"]:
+                media = media.episodes()[-1]
+            elif isinstance(media, list):
+                media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
+    if getattr(media, "TYPE", None) == "show":
+        unwatched = media.unwatched()
+        if option["random"] and unwatched:
+            shuffle(unwatched)
+            return unwatched
+        return unwatched[0] if unwatched else media
+    if option["random"]:
+        media = randomize(media)
+        shuffle(media)
+        return media
+    return media
+
+
+def roman_numeral_test(media, lib):
+    regex = re.compile(r"\b(\d|(10))\b")
+    replacements = {
+        "1": "I",
+        "2": "II",
+        "3": "III",
+        "4": "IV",
+        "5": "V",
+        "6": "VI",
+        "7": "VII",
+        "8": "VIII",
+        "9": "IX",
+        "10": "X",
+    }
+
+    if len(re.findall(regex, media)) > 0:
+        replaced = re.sub(regex, lambda m: replacements[m.group(1)], media)
+        return fuzzy(replaced, lib, fuzz.WRatio)
+    return ["", 0]
+
+
+def find_media(selected, media, lib):
+    result = ""
+    library = ""
+    if selected["library"]:
+        library = selected["library"]
+        section = f"{library[0].type}_titles"
+        if media:
+            result = fuzzy(media, lib[section], fuzz.WRatio)
+            roman_test = roman_numeral_test(media, lib[section])
+            result = result[0] if result[1] > roman_test[1] else roman_test[0]
+    elif media:
+        show_test = fuzzy(media, lib["show_titles"], fuzz.WRatio)
+        roman_show_test = roman_numeral_test(media, lib["show_titles"])
+        show_test = show_test if show_test[1] > roman_show_test[1] else roman_show_test
+        movie_test = fuzzy(media, lib["movie_titles"], fuzz.WRatio)
+        roman_movie_test = roman_numeral_test(media, lib["movie_titles"])
+        movie_test = movie_test if movie_test[1] > roman_movie_test[1] else roman_movie_test
+
+        if show_test[1] > movie_test[1]:
+            result = show_test[0]
+            library = lib["shows"]
+        else:
+            result = movie_test[0]
+            library = lib["movies"]
+
+    return {"media": result, "library": library}

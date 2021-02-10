@@ -174,4 +174,4 @@ This is the word that seperates the media from cast device. In English it is "on
 
 There is a commented out template at the end of the file that you may copy and paste from.
 
-Please, also consider translating the `README.md` file to a new file with the language code added to the file name. Example: `README_EN.md`
+Please, also consider translating the `README.md` file and `translations/en.json` to a new file with the language code added to the file name. Example: `README_NL.md` and `nl.json`.

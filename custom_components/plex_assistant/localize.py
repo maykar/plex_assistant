@@ -1,12 +1,18 @@
-LOCALIZE = {
+# fmt: off
+translations = {
     "en": {
         # Generic Terms
         "play": "play",
+        "random": "random",
         "movies": [
+            "movies",
+            "films",
             "movie",
             "film",
         ],
         "shows": [
+            "episodes",
+            "shows"
             "episode",
             "tv",
             "show"
@@ -17,9 +23,10 @@ LOCALIZE = {
             "play": "play",
             "pause": "pause",
             "stop": "stop",
+            "next_track": "next",
+            "previous_track": "previous", 
             "jump_forward": "jump forward",
             "jump_back": "jump back",
-            "update_sensor": "update sensor",
         },
 
         # Text for errors
@@ -37,6 +44,8 @@ LOCALIZE = {
             "play tv",
             "play show",
             "play the",
+            "play an"
+            "play a",
             "play",
         ],
 
@@ -185,7 +194,6 @@ LOCALIZE = {
             "stop": "sluta",
             "jump_forward": "hoppa framåt",
             "jump_back": "hoppa tillbaka",
-            "update_sensor": "update sensor",
         },
         "no_call": "Inget kommando mottogs.",
 
@@ -300,7 +308,6 @@ LOCALIZE = {
             "stop": "stop",
             "jump_forward": "spring naar voren",
             "jump_back": "spring naar achter",
-            "update_sensor": "update sensor",
         },
 
         "not_found": "niet gevonden",
@@ -430,7 +437,6 @@ LOCALIZE = {
             "stop": "interrompi",
             "jump_forward": "vai avanti",
             "jump_back": "vai indietro",
-            "update_sensor": "update sensor",
         },
 
         "not_found": "non trovato",
@@ -571,7 +577,6 @@ LOCALIZE = {
             "stop": "arrête",
             "jump_forward": "avance",
             "jump_back": "recule",
-            "update_sensor": "update sensor",
         },
         "not_found": "je n'ai pas trouvé",
         "cast_device": "sur",
@@ -787,7 +792,6 @@ LOCALIZE = {
             "stop": "stop",
             "jump_forward": "para a frente",
             "jump_back": "para trás",
-            "update_sensor": "update sensor",
         },
 
         "not_found": "não encontrado",
@@ -928,7 +932,6 @@ LOCALIZE = {
             "stop": "stoppe",
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
-            "update_sensor": "aktualisiere sensor",
         },
         "not_found": "nicht gefunden",
         "cast_device": "cast gerät",
@@ -1063,7 +1066,6 @@ LOCALIZE = {
             "stop": "stop",
             "jump_forward": "hop fremad",
             "jump_back": "hop tilbage",
-            "update_sensor": "opdater sensor",
         },
 
         "not_found": "ikke fundet",

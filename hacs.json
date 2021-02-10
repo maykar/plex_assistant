@@ -1,3 +1,4 @@
 {
-    "name": "Plex Assistant"
+    "name": "Plex Assistant",
+    "homeassistant": "2021.2.0"
 }

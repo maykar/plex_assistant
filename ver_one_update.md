@@ -125,7 +125,7 @@ After setup you can click "Options" on Plex Assistant's card for more config opt
 * New "Start Script" feature to start Plex Clients that aren't currently open
 * Replace any word or phrase in command with a replacement of your preference
 * Jump forward/back works for all devices and amount (in seconds) is configurable
-* Component listens for IFTTT and DialogFlows automatically (no more intents, scripts, or automations needed)
+* Component listens for IFTTT and DialogFlow calls automatically (no more intents, scripts, or automations needed)
 * Roman numerals are now handled
 * DialogFlow instructions improved with uploadable template action
 * Remote server support

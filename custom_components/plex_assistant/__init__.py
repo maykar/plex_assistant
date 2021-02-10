@@ -68,7 +68,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             if start_script:
                 for script in start_script.keys():
                     _LOGGER.debug(f"Script {script}: {start_script[script][0]}, {start_script[script][1]}")
-            # "Downstairs TV": ["script.test", 3], "Living Room": ["script.living", 5]
         except:
             start_script = None
             _LOGGER.warning("Plex Assistant: There is a formatting issue with your client start script config.")
@@ -79,7 +78,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             keyword_replace = json.loads("{" + keyword_replace + "}")
             for word in keyword_replace.keys():
                 _LOGGER.debug(f"Replace '{word}' with '{keyword_replace[word]}'")
-            # "jump forward": "skip ahead", "jump back": "go back"
         except:
             keyword_replace = None
             _LOGGER.warning("Plex Assistant: There is a formatting issue with your keyword replacement config.")

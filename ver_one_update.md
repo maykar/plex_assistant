@@ -129,3 +129,5 @@ After setup you can click "Options" on Plex Assistant's card for more config opt
 * Roman numerals are now handled
 * DialogFlow instructions improved with uploadable template action
 * Remote server support
+
+A huge thank you goes out to @jjlawren for their work on Python-PlexAPI and HA's Plex integration. In addition to patiently providing me with answers to my endless questions: the ability to use media player entities, continuous playing of media items, and more wouldn't be possible without their work. Thank you!

@@ -23,6 +23,7 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
 ```
         # Generic Terms
         "play": "play",
+        "random": "random",
         "movies": [
             "movie",
             "film",
@@ -43,6 +44,8 @@ These are the media player controls.
             "play": "play",
             "pause": "pause",
             "stop": "stop",
+            "next_track": "next",
+            "previous_track": "previous", 
             "jump_forward": "jump forward",
             "jump_back": "jump back",
         },
@@ -174,4 +177,4 @@ This is the word that seperates the media from cast device. In English it is "on
 
 There is a commented out template at the end of the file that you may copy and paste from.
 
-Please, also consider translating the `README.md` file and `translations/en.json` to a new file with the language code added to the file name. Example: `README_NL.md` and `nl.json`.
+Please, also consider translating the `README.md` file and `translations/en.json` to a new file with the language code added to the file name. Example: `README_NL.md` and `translations/nl.json`.

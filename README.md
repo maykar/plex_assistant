@@ -227,6 +227,8 @@ Another use example would be if you have multiple Star Trek series, but want a s
 "star trek":"star trek the next generation"
 ```
 
+And yet another use would be to improve translations, for example: If there is a feminine and masculine way to say something in your language you can now add those variations.
+
 ### Start Scripts
 
 This option will trigger a script to start a Plex client if it is currently unavailable. For example: You have a Roku with the Plex app, but need it to be open for Plex Assistant to control it.<br><br>The formatting needed is the friendly name of the client that you want to open in quotes (case sensitive) followed by a colon then the HA script to start the client in quotes. Seperate multiple entries with a comma.

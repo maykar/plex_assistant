@@ -44,10 +44,8 @@ def device_responding(hass, pa, device):
     if device in pa.device_names:
         try:
             hass.data["media_player"].get_entity(pa.devices[device]["entity_id"]).device.connect(2)
-            _LOGGER.warning("responding")
             return True
         except:
-            _LOGGER.warning("not responding")
             return False
 
 

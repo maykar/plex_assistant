@@ -100,7 +100,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 #### In Home Assistant
 
-DialogFlow requires Home Assistant's [Conversation integration](https://www.home-assistant.io/integrations/conversation/) to be enabled.
+The DialogFlow trigger requires Home Assistant's [Conversation integration](https://www.home-assistant.io/integrations/conversation/) to be enabled.
 
 * Go to "Configuration" in your HA sidebar and select "Integrations"
 * Hit the add button and search for "Dialogflow".
@@ -114,7 +114,7 @@ Download [Plex_Assistant_DialogFlow.zip](https://github.com/maykar/plex_assistan
 * Click on Create Agent and Type "Plex" as the agent name and hit "Create"
 * Now click the settings icon next to "Plex" in the sidebar
 * Navigate to "Export and Import" and click "Restore from ZIP"
-* Select the `Plex_Assistant_DialogFlow.zip` file we downloaded earlier
+* Select the `Plex_Assistant_DialogFlow.zip` file we downloaded earlier and restore
 * Click "Fulfillment" in the sidebar and change the URL to the one HA gave us for DialogFlow
 * Scroll down and hit "Save"
 

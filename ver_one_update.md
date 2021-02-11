@@ -1,7 +1,6 @@
 # Plex Assistant Version 1.0.0
 ### Version 1.0.0 requires Home Assistant 2021.2.0 or higher.
 
-**Follow this guide when updating from any version less than v1.0.0**
 **This release has many new features, improvements, and breaking changes.**
 
 # Breaking Changes
@@ -101,16 +100,7 @@ intent_script: # Keep this line if you have other intent scripts below
 **You need to have Home Assistant's [Plex integration](https://www.home-assistant.io/integrations/plex/) setup in order to use Plex Assistant.**<br><br>
 This will help with configuration and support, will allow for more improvements as Plex Assistant progresses, and requires less processing than the old method.
 
-**Configuration is now handled through the UI**:
-* In your sidebar click "Configuration"
-* Go to "Integrations" and click "Add Integration"
-* Search for "Plex Assistant" and click it
-* If you want a Plex Client as your default device, make sure it is open/reachable
-* Follow the steps shown to select intial config options
-
-Your Plex server is automatically retrieved from Home Assistant's Plex integration, if you have more than one server setup it will ask which one to use.
-
-After setup you can click "Options" on Plex Assistant's card for more config options.
+Configuration is now handled in the UI. [Find the configuration docs in the updated readme.](https://github.com/maykar/plex_assistant#configuration)
 
 
 # New Features

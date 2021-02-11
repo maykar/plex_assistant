@@ -1,12 +1,18 @@
-LOCALIZE = {
+# fmt: off
+translations = {
     "en": {
         # Generic Terms
         "play": "play",
+        "random": "random",
         "movies": [
+            "movies",
+            "films",
             "movie",
             "film",
         ],
         "shows": [
+            "episodes",
+            "shows"
             "episode",
             "tv",
             "show"
@@ -17,9 +23,10 @@ LOCALIZE = {
             "play": "play",
             "pause": "pause",
             "stop": "stop",
+            "next_track": "next",
+            "previous_track": "previous", 
             "jump_forward": "jump forward",
             "jump_back": "jump back",
-            "update_sensor": "update sensor",
         },
 
         # Text for errors
@@ -37,6 +44,8 @@ LOCALIZE = {
             "play tv",
             "play show",
             "play the",
+            "play an"
+            "play a",
             "play",
         ],
 
@@ -165,6 +174,7 @@ LOCALIZE = {
     },
     "sv": {
         "play": "spela",
+        "random": "slumpmässigt",
         "not_found": "finns ej",
         "cast_device": "cast enhet",
         "movies": [
@@ -183,9 +193,10 @@ LOCALIZE = {
             "play": "spela",
             "pause": "paus",
             "stop": "sluta",
+            "next_track": "nästa",
+            "previous_track": "föregående", 
             "jump_forward": "hoppa framåt",
             "jump_back": "hoppa tillbaka",
-            "update_sensor": "update sensor",
         },
         "no_call": "Inget kommando mottogs.",
 
@@ -287,6 +298,7 @@ LOCALIZE = {
     },
     "nl": {
         "play": "speel",
+        "random": "willekeurige",
         "movies": [
             "film"
         ],
@@ -298,9 +310,10 @@ LOCALIZE = {
             "play": "speel",
             "pause": "pauzeer",
             "stop": "stop",
+            "next_track": "volgende",
+            "previous_track": "vorig", 
             "jump_forward": "spring naar voren",
             "jump_back": "spring naar achter",
-            "update_sensor": "update sensor",
         },
 
         "not_found": "niet gevonden",
@@ -415,6 +428,7 @@ LOCALIZE = {
     },
     "it": {
         "play": "riproduci",
+        "random": "casuale",
         "movies": [
             "film",
         ],
@@ -428,9 +442,10 @@ LOCALIZE = {
             "play": "riproduci",
             "pause": "metti in pasa",
             "stop": "interrompi",
+            "next_track": "successivo",
+            "previous_track": "precedente", 
             "jump_forward": "vai avanti",
             "jump_back": "vai indietro",
-            "update_sensor": "update sensor",
         },
 
         "not_found": "non trovato",
@@ -549,6 +564,7 @@ LOCALIZE = {
     },
     "fr": {
         "play": "joue",
+        "random": "aléatoire",
         "movies": [
             "vidéo",
             "film",
@@ -569,9 +585,10 @@ LOCALIZE = {
             "play":  "joue",
             "pause": "pause",
             "stop": "arrête",
+            "next_track": "suivante",
+            "previous_track": "précédente", 
             "jump_forward": "avance",
             "jump_back": "recule",
-            "update_sensor": "update sensor",
         },
         "not_found": "je n'ai pas trouvé",
         "cast_device": "sur",
@@ -771,6 +788,7 @@ LOCALIZE = {
     },
     "pt": {
         "play": "ver",
+        "random": "aleatório",
         "movies": [
             "filmes",
         ],
@@ -785,9 +803,10 @@ LOCALIZE = {
             "play": "play",
             "pause": "pausa",
             "stop": "stop",
+            "next_track": "próximo",
+            "previous_track": "anterior", 
             "jump_forward": "para a frente",
             "jump_back": "para trás",
-            "update_sensor": "update sensor",
         },
 
         "not_found": "não encontrado",
@@ -914,6 +933,7 @@ LOCALIZE = {
     },
     "de": {
         "play": "spiele",
+        "random": "zufällige",
         "movies": [
             "film",
         ],
@@ -926,9 +946,10 @@ LOCALIZE = {
             "play": "spiele",
             "pause": "pausiere",
             "stop": "stoppe",
+            "next_track": "nächstes",
+            "previous_track": "vorheriges", 
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
-            "update_sensor": "aktualisiere sensor",
         },
         "not_found": "nicht gefunden",
         "cast_device": "cast gerät",
@@ -1047,6 +1068,7 @@ LOCALIZE = {
     },
     "da": {
         "play": "afspil",
+        "random": "tilfældig",
         "movies": [
             "film",
         ],
@@ -1061,9 +1083,10 @@ LOCALIZE = {
             "play": "afspil",
             "pause": "pause",
             "stop": "stop",
+            "next_track": "næste",
+            "previous_track": "forrige", 
             "jump_forward": "hop fremad",
             "jump_back": "hop tilbage",
-            "update_sensor": "opdater sensor",
         },
 
         "not_found": "ikke fundet",
@@ -1084,7 +1107,6 @@ LOCALIZE = {
         ],
 
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "første": "1",
             "anden": "2",
             "tredje": "3",
@@ -1105,7 +1127,6 @@ LOCALIZE = {
             "attende": "18",
             "nittende": "19",
             "tyvende": "20",
-            # Do not edit the keys of pre and post
             "pre": [
                 "den",
                 "det",
@@ -1221,9 +1242,136 @@ LOCALIZE = {
             "post": [],
         },
     },
+    "nb": {
+        "play": "spille",
+        "random": "tilfeldig",
+        "movies": [
+            "filmer",
+            "film",
+        ],
+        "shows": [
+            "avsnitt",
+            "tv program",
+            "tv",
+            "serien",
+            "serie",
+        ],
+
+        "controls": {
+            "play": "spille",
+            "pause": "pause",
+            "stop": "stopp",
+            "next_track": "neste",
+            "previous_track": "forrige", 
+            "jump_forward": "hopp fremover",
+            "jump_back": "hopp tilbake",
+        },
+
+        "not_found": "finnes ikke",
+        "cast_device": "cast enhet",
+        "no_call": "Ingen kommandoer mottatt.",
+
+        "play_start": [
+            "spill filmen",
+            "spill film",
+            "spill tv programmet",
+            "spill serien",
+            "spill serie",
+            "spill tv",
+            "spill",
+        ],
+
+        "ordinals": {
+            "første": "1",
+            "andre": "2",
+            "tredje": "3",
+            "fjerde": "4",
+            "femte": "5",
+            "sjette": "6",
+            "syvende": "7",
+            "åttende": "8",
+            "niende": "9",
+            "tiende": "10",
+            "pre": [],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "sesong",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episoder",
+                "episode",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "siste",
+                "nyligt",
+                "ny",
+            ],
+            "pre": [
+                "det",
+            ],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "usitt",
+            ],
+            "pre": [],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "kommende",
+            ],
+            "pre": [],
+            "post": [
+                "filmer",
+                "film",
+                "TV program",
+                "program",
+                "tv",
+            ],
+        },
+        "separator": {
+            "keywords": [
+                "på",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",
+    #     "random": "",
     #     "movies": [],
     #     "shows": [],
 
@@ -1232,6 +1380,8 @@ LOCALIZE = {
     #         "play": "",
     #         "pause": "",
     #         "stop": "",
+    #         "next_track": "",
+    #         "previous_track": "", 
     #         "jump_forward": "",
     #         "jump_back": "",
     #     },

@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "❱ Plex Assistant Setup",
+        "description": "[Documentation](https://github.com/maykar/plex_assistant)  |  [Forums](https://community.home-assistant.io/t/plex-assistant/)  |  [Troubleshooting](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)  |  [Support Development](https://github.com/sponsors/maykar)",
+        "data": {
+          "server_name": "Select Plex server",
+          "language": "Language",
+          "default_cast": "Default cast device",
+          "tts_errors": "Speak errors on cast device"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only a single instance is allowed.",
+      "no_plex_server": "No Plex servers were found, be sure that the Home Assistant Plex integration is setup and working.",
+      "ha_ver_unsupported": "This Plex Assistant version requires Home Assistant 2021.2.0 or higher."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "❱ Plex Assistant Advanced Options",
+        "description": "[Documentation](https://github.com/maykar/plex_assistant)  |  [Forums](https://community.home-assistant.io/t/plex-assistant/)  |  [Troubleshooting](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)  |  [Support Development](https://github.com/sponsors/maykar)\n\n**Read the [Advanced Config Docs](https://github.com/maykar/plex_assistant/tree/master#advanced-configuration) for how to format of the next 2 options.**",
+        "data": {
+          "start_script": "Run a script to start an unavailable Plex client",
+          "keyword_replace": "Replace keywords or phrases with your own",
+          "jump_f": "Default jump forward amount in seconds.",
+          "jump_b": "Default jump backward amount in seconds."
+        }
+      }
+    }
+  }
+}

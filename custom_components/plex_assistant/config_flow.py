@@ -61,7 +61,7 @@ class PlexAssistantFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         elif len(self.servers) < 1:
             return self.async_abort(reason="no_plex_server")
         elif user_input is not None:
-            server = user_input["server_name"] if "server_name" in user_input else None
+            server = user_input["server_name"] if "server_name" in user_input else self.servers[0]
             return self.async_create_entry(title=server, data=user_input)
 
         return await self._show_config_form(user_input)

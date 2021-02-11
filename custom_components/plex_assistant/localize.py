@@ -174,6 +174,7 @@ translations = {
     },
     "sv": {
         "play": "spela",
+        "random": "slumpmässigt",
         "not_found": "finns ej",
         "cast_device": "cast enhet",
         "movies": [
@@ -192,6 +193,8 @@ translations = {
             "play": "spela",
             "pause": "paus",
             "stop": "sluta",
+            "next_track": "nästa",
+            "previous_track": "föregående", 
             "jump_forward": "hoppa framåt",
             "jump_back": "hoppa tillbaka",
         },
@@ -295,6 +298,7 @@ translations = {
     },
     "nl": {
         "play": "speel",
+        "random": "willekeurige",
         "movies": [
             "film"
         ],
@@ -306,6 +310,8 @@ translations = {
             "play": "speel",
             "pause": "pauzeer",
             "stop": "stop",
+            "next_track": "volgende",
+            "previous_track": "vorig", 
             "jump_forward": "spring naar voren",
             "jump_back": "spring naar achter",
         },
@@ -422,6 +428,7 @@ translations = {
     },
     "it": {
         "play": "riproduci",
+        "random": "casuale",
         "movies": [
             "film",
         ],
@@ -435,6 +442,8 @@ translations = {
             "play": "riproduci",
             "pause": "metti in pasa",
             "stop": "interrompi",
+            "next_track": "successivo",
+            "previous_track": "precedente", 
             "jump_forward": "vai avanti",
             "jump_back": "vai indietro",
         },
@@ -555,6 +564,7 @@ translations = {
     },
     "fr": {
         "play": "joue",
+        "random": "aléatoire",
         "movies": [
             "vidéo",
             "film",
@@ -575,6 +585,8 @@ translations = {
             "play":  "joue",
             "pause": "pause",
             "stop": "arrête",
+            "next_track": "suivante",
+            "previous_track": "précédente", 
             "jump_forward": "avance",
             "jump_back": "recule",
         },
@@ -776,6 +788,7 @@ translations = {
     },
     "pt": {
         "play": "ver",
+        "random": "aleatório",
         "movies": [
             "filmes",
         ],
@@ -790,6 +803,8 @@ translations = {
             "play": "play",
             "pause": "pausa",
             "stop": "stop",
+            "next_track": "próximo",
+            "previous_track": "anterior", 
             "jump_forward": "para a frente",
             "jump_back": "para trás",
         },
@@ -918,6 +933,7 @@ translations = {
     },
     "de": {
         "play": "spiele",
+        "random": "zufällige",
         "movies": [
             "film",
         ],
@@ -930,6 +946,8 @@ translations = {
             "play": "spiele",
             "pause": "pausiere",
             "stop": "stoppe",
+            "next_track": "nächstes",
+            "previous_track": "vorheriges", 
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
         },
@@ -1050,6 +1068,7 @@ translations = {
     },
     "da": {
         "play": "afspil",
+        "random": "tilfældig",
         "movies": [
             "film",
         ],
@@ -1064,6 +1083,8 @@ translations = {
             "play": "afspil",
             "pause": "pause",
             "stop": "stop",
+            "next_track": "næste",
+            "previous_track": "forrige", 
             "jump_forward": "hop fremad",
             "jump_back": "hop tilbage",
         },
@@ -1086,7 +1107,6 @@ translations = {
         ],
 
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "første": "1",
             "anden": "2",
             "tredje": "3",
@@ -1107,7 +1127,6 @@ translations = {
             "attende": "18",
             "nittende": "19",
             "tyvende": "20",
-            # Do not edit the keys of pre and post
             "pre": [
                 "den",
                 "det",
@@ -1223,9 +1242,136 @@ translations = {
             "post": [],
         },
     },
+    "nb": {
+        "play": "spille",
+        "random": "tilfeldig",
+        "movies": [
+            "filmer",
+            "film",
+        ],
+        "shows": [
+            "avsnitt",
+            "tv program",
+            "tv",
+            "serien",
+            "serie",
+        ],
+
+        "controls": {
+            "play": "spille",
+            "pause": "pause",
+            "stop": "stopp",
+            "next_track": "neste",
+            "previous_track": "forrige", 
+            "jump_forward": "hopp fremover",
+            "jump_back": "hopp tilbake",
+        },
+
+        "not_found": "finnes ikke",
+        "cast_device": "cast enhet",
+        "no_call": "Ingen kommandoer mottatt.",
+
+        "play_start": [
+            "spill filmen",
+            "spill film",
+            "spill tv programmet",
+            "spill serien",
+            "spill serie",
+            "spill tv",
+            "spill",
+        ],
+
+        "ordinals": {
+            "første": "1",
+            "andre": "2",
+            "tredje": "3",
+            "fjerde": "4",
+            "femte": "5",
+            "sjette": "6",
+            "syvende": "7",
+            "åttende": "8",
+            "niende": "9",
+            "tiende": "10",
+            "pre": [],
+            "post": [],
+        },
+
+        "season": {
+            "keywords": [
+                "sesong",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episoder",
+                "episode",
+            ],
+            "pre": [
+                "a",
+                "e",
+            ],
+            "post": [
+                "nummer",
+                "av",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "siste",
+                "nyligt",
+                "ny",
+            ],
+            "pre": [
+                "det",
+            ],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "usitt",
+            ],
+            "pre": [],
+            "post": [
+                "avsnitt",
+                "av",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "kommende",
+            ],
+            "pre": [],
+            "post": [
+                "filmer",
+                "film",
+                "TV program",
+                "program",
+                "tv",
+            ],
+        },
+        "separator": {
+            "keywords": [
+                "på",
+            ],
+            "pre": [],
+            "post": [],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",
+    #     "random": "",
     #     "movies": [],
     #     "shows": [],
 
@@ -1234,6 +1380,8 @@ translations = {
     #         "play": "",
     #         "pause": "",
     #         "stop": "",
+    #         "next_track": "",
+    #         "previous_track": "", 
     #         "jump_forward": "",
     #         "jump_back": "",
     #     },

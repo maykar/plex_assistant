@@ -29,7 +29,7 @@ Install by using one of the methods below:
 
 * **Install with [HACS](https://hacs.xyz/):** Search integrations for "Plex Assistant", select it, hit install, and restart.
 
-* **Install Manually:** Install this component by copying all of [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to `/custom_components/plex_assistant/` and restart.
+* **Install Manually:** Install this component by downloading the project and then copying the `/custom_components/plex_assistant/` folder to the `custom_components` folder in your config directory (create the folder if it doesn't exist) and restart.
 
 ## Configuration
 **You need to have [HA's Plex integration](https://www.home-assistant.io/integrations/plex/) setup in order to use Plex Assistant.**<br>

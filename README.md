@@ -208,7 +208,7 @@ If no cast device is specified in your command, the default device set in your c
 
 Control commands are the only ones that don't require the `"on"` or `"on the"` before the device name.
 
-I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue.
+I've tried to take into account many different ways that commands could be phrased. If you find a phrase that isn't working and you feel should be implemented, please make an issue or give the keyword replacement option a try (see below).
 
 ## Advanced Configuration
 

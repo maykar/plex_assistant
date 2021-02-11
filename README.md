@@ -150,7 +150,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 | <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/PT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Portuguese**  | `"pt"` |         :x:          |      :heavy_check_mark:    |
 | <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/SV%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Swedish**  | `"sv"` |         :x:          |      :heavy_check_mark:    |
 
-#### [Help add support for more languages.](translation.md)<hr>
+#### [Help add or improve support for more languages.](translation.md)<hr>
 
 ## Home Assistant Conversation Setup
 

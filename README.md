@@ -216,11 +216,11 @@ There are two advanced configuration options: keyword replacements and start scr
 
 This option could be used for a few different purposes. The formatting is the word/phrase you want to say in quotes followed by a colon and then the word/phrase you want replace it with in quotes. Seperate multiple replacements with a comma.
 
-Here's an example to replace the commands next and previous with alternatives:
+Here's an example to add to the commands "next" and "previous" with alternatives:
 ```
 "skip forward":"next", "skip back":"previous"
 ```
-Using this config would allow you to say "skip forward" to go to the next track and "skip back" to go to the previous.
+Using this config would allow you to say "skip forward" or "next" to go to the next track and "skip back" or "previous" to go to the previous.
 
 Another use example would be if you have multiple Star Trek series, but want a specific one to play when you just say "Star Trek":
 ```

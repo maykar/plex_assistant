@@ -120,4 +120,10 @@ Configuration is now handled in the UI. [Find the configuration docs in the upda
 * DialogFlow instructions improved with uploadable template action
 * Remote server support
 
-A huge thank you goes out to [@jjlawren](https://github.com/jjlawren) for their work on Python-PlexAPI and HA's Plex integration. In addition to patiently providing me answers to my endless questions: the ability to use media player entities, continuous playing of media items, and more wouldn't be possible without their hard work. Thank you!
+# Thank you
+
+For patiently answering my endless questions and putting up with my constant pestering/suggestions, I'd like to give a huge "Thank you!" to two individuals for their help in getting Plex Assistant to this point.
+
+[@jjlawren](https://github.com/jjlawren) for their guidance and their work on Python-PlexAPI and HA's Plex integration. The ability to use media player entities, continuous playing of media items, and more wouldn't be possible without them.
+
+[@ludeeus](https://github.com/ludeeus) for HACS, help with config flow, guidance on all things python, and always being willing to help.

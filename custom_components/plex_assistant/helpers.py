@@ -56,7 +56,12 @@ async def listeners(hass):
             hass.services.call(DOMAIN, "command", {"command": event.data["command"]})
 
     listener = hass.bus.async_listen("ifttt_webhook_received", ifttt_webhook_callback)
-    await hass.services.async_call("conversation", "process", {"text": "tell plex to initialize_plex_intent"})
+
+    try:
+        await hass.services.async_call("conversation", "process", {"text": "tell plex to initialize_plex_intent"})
+    except:
+        pass
+
     return listener
 
 

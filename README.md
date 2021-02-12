@@ -13,6 +13,8 @@ You can use the component's service (`plex_assistant.command`) to call the comma
 
 ***Music and audio aren't built in yet, only shows and movies at the moment.***
 
+## [Troubleshooting and Issues](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)
+
 ## Version 1.0.0+
 
 There have been many changes in version 1.0.0, follow the [1.0.0 Update Guide](https://github.com/maykar/plex_assistant/blob/master/ver_one_update.md) if updating from a lower version.

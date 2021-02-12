@@ -1369,7 +1369,6 @@ translations = {
         },
     },
     "es": {
-        # Generic Terms
         "play": "reproducir",
         "random": "aleatorio",
         "movies": [
@@ -1391,7 +1390,6 @@ translations = {
             "series de televisión"
         ],
 
-        # Controls
         "controls": {
             "play": "reproducir",
             "pause": "pausa",
@@ -1402,13 +1400,10 @@ translations = {
             "jump_back": "retroceder",
         },
 
-        # Text for errors
         "not_found": "no encontrado",
         "cast_device": "dispositivo cast",
-        # no_call error is for when no command was recieved
         "no_call": "ningún comando recibido",
 
-        # Invoke Command
         "play_start": [
             "empieza la película",
             "comienza la película",
@@ -1439,9 +1434,7 @@ translations = {
             "inicie"
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "primero": "1",
             "segundo": "2",
             "tercero": "3",
@@ -1452,7 +1445,6 @@ translations = {
             "octavo": "8",
             "noveno": "9",
             "décimo": "10",
-            # Do not edit the keys of pre and post
             "pre": [
                 "el",
                 "la"
@@ -1460,7 +1452,6 @@ translations = {
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "temporada"
@@ -1552,11 +1543,8 @@ translations = {
             ],
             "post": [],
         },
-        # This is the separator word used at the end of the command
-        # to let us know it is a cast device.
-        # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
+
         "separator": {
-            # Only use one keyword for this one.
             "keywords": [
                 "en"
             ],

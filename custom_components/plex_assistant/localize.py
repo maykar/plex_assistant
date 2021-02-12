@@ -17,7 +17,26 @@ translations = {
             "tv",
             "show"
         ],
-
+        "tracks": [
+            "track",
+            "song",
+            "album",
+            "record"
+        ],
+        "albums": [
+            "album",
+            "record",
+            "cd",
+            "vinyl"
+        ],
+        "artists": [
+            "artist",
+            "singer",
+            "composer",
+            "player",
+            "guitarist"
+        ],
+        
         # Controls
         "controls": {
             "play": "play",
@@ -157,6 +176,27 @@ translations = {
                 "show",
                 "of",
             ],
+        },
+        "music_album": {
+            "keywords": [
+                "album",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [
+                "artist",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [
+                "track",
+            ],
+            "pre": [],
+            "post": [],
         },
         # This is the separator word used at the end of the command
         # To let us know it is a cast device.

@@ -208,10 +208,10 @@ def filter_media(pa, option, media, lib):
             shuffle(unwatched)
             return unwatched
         return unwatched[0] if unwatched else media
-    if option["random"]:
-        media = randomize(media)
-        shuffle(media)
-        return media
+    #if option["random"]:
+    #    media = randomize(media)
+    #    shuffle(media)
+    #    return media
     return media
 
 

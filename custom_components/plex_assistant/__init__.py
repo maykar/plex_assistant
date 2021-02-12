@@ -127,6 +127,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
         command = ProcessSpeech(pa, localize, command, default_device)
         command = command.results
+        _LOGGER.warning(f"Dustin: {command}")
 
         command_debug = {i: command[i] for i in command if i != "library" and command[i]}
         command_debug = str(command_debug).replace("'", "").replace(":", " =")
@@ -178,7 +179,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
         try:
             result = find_media(command, command["media"], pa.media)
+            _LOGGER.warning(f"Dustin: {result}")
             media = filter_media(pa, command, result["media"], result["library"])
+            _LOGGER.warning(f"Dustin: {media}")
         except:
             error = media_error(command, localize)
             if tts_errors:
@@ -193,7 +196,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             media = pa.server.createPlayQueue(media.show().episodes(), startItem=media)
 
         if not getattr(media, "TYPE", None) == "playqueue":
-            media = pa.server.createPlayQueue(media)
+            if command["random"]:
+                media = pa.server.createPlayQueue(media, shuffle=1)
+            else:
+                media = pa.server.createPlayQueue(media)
 
         payload = '{"playqueue_id": %s, "type": "%s"}' % (
             media.playQueueID,

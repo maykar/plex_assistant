@@ -66,6 +66,13 @@ class ProcessSpeech:
             self.library_section = self.library["shows"]
             self.episode = self.get_season_episode_num(self.localize["episode"])
 
+        if self.find_replace("music_album"):
+            self.library_section = self.library["albums"]
+        if self.find_replace("music_artist"):
+            self.library_section = self.library["artists"]
+        if self.find_replace("music_track"):
+            self.library_section = self.library["tracks"]
+
         self.get_media_and_device()
 
     def get_library(self):
@@ -75,6 +82,12 @@ class ProcessSpeech:
                 cmd = cmd.replace(device.lower(), "")
         if any(word in cmd for word in self.tv_keys):
             return self.library["shows"]
+        elif any(word in cmd for word in self.localize["artists"]):
+            return self.library["artists"]
+        elif any(word in cmd for word in self.localize["albums"]):
+            return self.library["albums"]
+        elif any(word in cmd for word in self.localize["tracks"]):
+            return self.library["tracks"]
         elif any(word in self.command for word in self.localize["movies"]):
             return self.library["movies"]
 
@@ -99,6 +112,12 @@ class ProcessSpeech:
                 self.device = self.is_device(self.library["show_titles"], separator)
             elif self.library_section == self.library["movies"]:
                 self.device = self.is_device(self.library["movie_titles"], separator)
+            elif self.library_section == self.library["artists"]:
+                self.device = self.is_device(self.library["artist_titles"], separator)
+            elif self.library_section == self.library["albums"]:
+                self.device = self.is_device(self.library["album_titles"], separator)
+            elif self.library_section == self.library["tracks"]:
+                self.device = self.is_device(self.library["track_titles"], separator)
             else:
                 self.device = self.is_device(self.library["movie_titles"] + self.library["show_titles"], separator)
             if self.device:

@@ -19,11 +19,20 @@ class PlexAssistant:
         self.library.reload()
         movies = self.library.search(libtype="movie", sort="addedAt:desc")
         shows = self.library.search(libtype="show", sort="addedAt:desc")
+        artists = self.library.search(libtype="artist", sort="addedAt:desc")
+        albums = self.library.search(libtype="album", sort="addedAt:desc")
+        tracks = self.library.search(libtype="track", sort="addedAt:desc")
 
         self.media = {
             "movies": movies,
             "movie_titles": [movie.title for movie in movies],
             "shows": shows,
             "show_titles": [show.title for show in shows],
+            "artists": artists,
+            "artist_titles": [artist.title for artist in artists],
+            "albums": albums,
+            "album_titles": [album.title for album in albums],
+            "tracks": tracks,
+            "track_titles": [track.title for track in tracks],
             "updated": datetime.now(),
         }

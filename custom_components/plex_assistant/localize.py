@@ -24,7 +24,7 @@ translations = {
             "pause": "pause",
             "stop": "stop",
             "next_track": "next",
-            "previous_track": "previous", 
+            "previous_track": "previous",
             "jump_forward": "jump forward",
             "jump_back": "jump back",
         },
@@ -194,7 +194,7 @@ translations = {
             "pause": "paus",
             "stop": "sluta",
             "next_track": "nästa",
-            "previous_track": "föregående", 
+            "previous_track": "föregående",
             "jump_forward": "hoppa framåt",
             "jump_back": "hoppa tillbaka",
         },
@@ -311,7 +311,7 @@ translations = {
             "pause": "pauzeer",
             "stop": "stop",
             "next_track": "volgende",
-            "previous_track": "vorig", 
+            "previous_track": "vorig",
             "jump_forward": "spring naar voren",
             "jump_back": "spring naar achter",
         },
@@ -443,7 +443,7 @@ translations = {
             "pause": "metti in pasa",
             "stop": "interrompi",
             "next_track": "successivo",
-            "previous_track": "precedente", 
+            "previous_track": "precedente",
             "jump_forward": "vai avanti",
             "jump_back": "vai indietro",
         },
@@ -586,7 +586,7 @@ translations = {
             "pause": "pause",
             "stop": "arrête",
             "next_track": "suivante",
-            "previous_track": "précédente", 
+            "previous_track": "précédente",
             "jump_forward": "avance",
             "jump_back": "recule",
         },
@@ -804,7 +804,7 @@ translations = {
             "pause": "pausa",
             "stop": "stop",
             "next_track": "próximo",
-            "previous_track": "anterior", 
+            "previous_track": "anterior",
             "jump_forward": "para a frente",
             "jump_back": "para trás",
         },
@@ -947,7 +947,7 @@ translations = {
             "pause": "pausiere",
             "stop": "stoppe",
             "next_track": "nächstes",
-            "previous_track": "vorheriges", 
+            "previous_track": "vorheriges",
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
         },
@@ -1084,7 +1084,7 @@ translations = {
             "pause": "pause",
             "stop": "stop",
             "next_track": "næste",
-            "previous_track": "forrige", 
+            "previous_track": "forrige",
             "jump_forward": "hop fremad",
             "jump_back": "hop tilbage",
         },
@@ -1262,7 +1262,7 @@ translations = {
             "pause": "pause",
             "stop": "stopp",
             "next_track": "neste",
-            "previous_track": "forrige", 
+            "previous_track": "forrige",
             "jump_forward": "hopp fremover",
             "jump_back": "hopp tilbake",
         },
@@ -1368,6 +1368,204 @@ translations = {
             "post": [],
         },
     },
+    "es": {
+        # Generic Terms
+        "play": "reproducir",
+        "random": "aleatorio",
+        "movies": [
+            "película",
+            "películas",
+            "video",
+            "videos",
+            "vídeo",
+            "vídeos"
+        ],
+        "shows": [
+            "programa",
+            "programas"
+            "episodio",
+            "episodios",
+            "serie",
+            "series",
+            "serie de televisión",
+            "series de televisión"
+        ],
+
+        # Controls
+        "controls": {
+            "play": "reproducir",
+            "pause": "pausa",
+            "stop": "detener",
+            "next_track": "siguiente",
+            "previous_track": "anterior",
+            "jump_forward": "avanzar",
+            "jump_back": "retroceder",
+        },
+
+        # Text for errors
+        "not_found": "no encontrado",
+        "cast_device": "dispositivo cast",
+        # no_call error is for when no command was recieved
+        "no_call": "ningún comando recibido",
+
+        # Invoke Command
+        "play_start": [
+            "empieza la película",
+            "comienza la película",
+            "inicia la película",
+            "empieza la serie",
+            "comienza la serie",
+            "inicia la serie",
+            "empieza la serie de televisión",
+            "comienza la serie de televisión",
+            "inicia la serie de televisión",
+            "empieza el episodio",
+            "comienza el episodio",
+            "inicia el episodio",
+            "empieza el programa",
+            "comienza el programa",
+            "inicia el programa",
+            "empieza el video",
+            "comienza el video",
+            "inicia el video",
+            "empieza el vídeo",
+            "comienza el vídeo",
+            "inicia el vídeo",
+            "comienza",
+            "comienze"
+            "empieza",
+            "empiece",
+            "inicia",
+            "inicie"
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "primero": "1",
+            "segundo": "2",
+            "tercero": "3",
+            "cuarto": "4",
+            "quinto": "5",
+            "sexto": "6",
+            "séptimo": "7",
+            "octavo": "8",
+            "noveno": "9",
+            "décimo": "10",
+            # Do not edit the keys of pre and post
+            "pre": [
+                "el",
+                "la"
+            ],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "temporada"
+            ],
+            "pre": [
+                "la"
+            ],
+            "post": [
+                "numero",
+                "de"
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "episodio",
+                "episodios"
+            ],
+            "pre": [
+                "el",
+                "los"
+            ],
+            "post": [
+                "número",
+                "de"
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "último",
+                "última",
+                "últimos",
+                "últimas",
+                "reciente",
+                "nuevo",
+                "nueva",
+                "nuevos",
+                "nuevas"
+            ],
+            "pre": [
+                "el",
+                "los"
+                "la",
+                "las"
+            ],
+            "post": [
+                "película",
+                "películas"
+                "episodio",
+                "episodios"
+                "serie",
+                "series"
+                "video",
+                "vídeo",
+                "videos"
+                "vídeos"
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "no visto",
+                "siguiente",
+                "aún no visto"
+            ],
+            "pre": [
+                "película",
+                "películas",
+                "serie",
+                "series",
+                "video",
+                "vídeo",
+                "episodio",
+                "episodios"
+            ],
+            "post": [],
+        },
+        "ondeck": {
+            "keywords": [
+                "en progreso"
+            ],
+            "pre": [
+                "película",
+                "películas",
+                "serie",
+                "series",
+                "video",
+                "vídeo",
+                "episodio",
+                "episodios"
+            ],
+            "post": [],
+        },
+        # This is the separator word used at the end of the command
+        # to let us know it is a cast device.
+        # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
+        "separator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "en"
+            ],
+            "pre": [],
+            "post": [
+                "la"
+            ],
+        },
+    },
     # "template": {
     #     # Generic Terms
     #     "play": "",
@@ -1381,7 +1579,7 @@ translations = {
     #         "pause": "",
     #         "stop": "",
     #         "next_track": "",
-    #         "previous_track": "", 
+    #         "previous_track": "",
     #         "jump_forward": "",
     #         "jump_back": "",
     #     },

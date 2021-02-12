@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "❱ Configuración del Plex Assistant",
+        "description": "[Documentación](https://github.com/maykar/plex_assistant/)  |  [Foros](https://community.home-assistant.io/t/plex-assistant/)  |  [Solución de problemas](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)  |  [Support Development](https://github.com/sponsors/maykar)",
+        "data": {
+          "server_name": "Seleccione el servidor Plex",
+          "language": "Idioma",
+          "default_cast": "Dispositivo cast predeterminado",
+          "tts_errors": "Habla errores en el dispositivo cast"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Solo se permite una instancia.",
+      "no_plex_server": "No se encontraron servidores Plex, asegúrese de que la integración de Plex en Home Assistant esté configurada y funcionando.",
+      "ha_ver_unsupported": "Esta versión del Plex Assistant requiere una version 2021.2.0 o mayor de Home Assistant."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "❱ Opciones avanzadas del Plex Assistant",
+        "description": "[Documentación](https://github.com/maykar/plex_assistant)  |  [Foros](https://community.home-assistant.io/t/plex-assistant/)  |  [Solución de problemas](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)  |  [Support Development](https://github.com/sponsors/maykar)\n\n**Read the [Advanced Config Docs](https://github.com/maykar/plex_assistant/tree/master#advanced-configuration) for how to format of the next 2 options.**",
+        "data": {
+          "start_script": "Ejecute un script para iniciar un cliente Plex no disponible",
+          "keyword_replace": "Reemplace palabras claves o frases con las suyas",
+          "jump_f": "Cantidad predeterminada de segundos para avanzar.",
+          "jump_b": "Cantidad predeterminada de segundos para retroceder."
+        }
+      }
+    }
+  }
+}

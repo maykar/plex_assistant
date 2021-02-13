@@ -75,6 +75,8 @@ class ProcessSpeech:
             self.library_section = self.library["artists"]
         if self.find_replace("music_track"):
             self.library_section = self.library["tracks"]
+        if self.find_replace("music_playlist"):
+            self.library_section = self.library["playlists"]
 
         self.get_media_and_device()
 
@@ -91,6 +93,8 @@ class ProcessSpeech:
             return self.library["albums"]
         elif any(word in cmd for word in self.localize["tracks"]):
             return self.library["tracks"]
+        elif any(word in cmd for word in self.localize["playlists"]):
+            return self.library["playlists"]
         elif any(word in self.command for word in self.localize["movies"]):
             return self.library["movies"]
 
@@ -121,6 +125,8 @@ class ProcessSpeech:
                 self.device = self.is_device(self.library["album_titles"], separator)
             elif self.library_section == self.library["tracks"]:
                 self.device = self.is_device(self.library["track_titles"], separator)
+            elif self.library_section == self.library["playlists"]:
+                self.device = self.is_device(self.library["playlist_titles"], separator)
             else:
                 self.device = self.is_device(self.library["movie_titles"] + self.library["show_titles"], separator)
             if self.device:

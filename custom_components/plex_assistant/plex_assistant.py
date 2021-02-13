@@ -22,6 +22,7 @@ class PlexAssistant:
         artists = self.library.search(libtype="artist", sort="addedAt:desc")
         albums = self.library.search(libtype="album", sort="addedAt:desc")
         tracks = self.library.search(libtype="track", sort="addedAt:desc")
+        playlists = self.server.playlists()
 
         self.media = {
             "movies": movies,
@@ -34,5 +35,7 @@ class PlexAssistant:
             "album_titles": [album.title for album in albums],
             "tracks": tracks,
             "track_titles": [track.title for track in tracks],
+            "playlists": playlists,
+            "playlist_titles": [playlist.title for playlist in playlists],
             "updated": datetime.now(),
         }

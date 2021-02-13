@@ -36,6 +36,9 @@ translations = {
             "player",
             "guitarist"
         ],
+        "playlists": [
+            "playlist",
+        ],
         
         # Controls
         "controls": {
@@ -194,6 +197,13 @@ translations = {
         "music_track": {
             "keywords": [
                 "track",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [
+                "playlist",
             ],
             "pre": [],
             "post": [],

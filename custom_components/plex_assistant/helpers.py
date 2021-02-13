@@ -1,6 +1,5 @@
 import re
 import time
-from random import shuffle
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
@@ -135,14 +134,6 @@ def fuzzy(media, lib, scorer=fuzz.QRatio):
     return ["", 0]
 
 
-def randomize(media):
-    if getattr(media, "episodes", None):
-        return media.episodes()
-    elif getattr(media, "TYPE", None) == "episode":
-        return media.show().episodes()
-    return media
-
-
 def get_title(item, deep=False):
     if item.type == "movie":
         return item.title
@@ -204,14 +195,7 @@ def filter_media(pa, option, media, lib):
                 media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
     if getattr(media, "TYPE", None) == "show":
         unwatched = media.unwatched()
-        if option["random"] and unwatched:
-            shuffle(unwatched)
-            return unwatched
-        return unwatched[0] if unwatched else media
-    #if option["random"]:
-    #    media = randomize(media)
-    #    shuffle(media)
-    #    return media
+        return unwatched if unwatched and not option["random"] else media.episodes()
     return media
 
 

@@ -38,6 +38,7 @@ class ProcessSpeech:
 
     def process_command(self):
         controls = self.localize["controls"]
+        pre_command = self.command
         for control in controls:
             if self.command.startswith(controls[control]):
                 control_check = self.command.replace(controls[control], "").strip()
@@ -45,12 +46,14 @@ class ProcessSpeech:
                     self.control = control
                     return
                 device = fuzzy(control_check, self.pa.device_names)
+                self.find_replace("separator")
                 if device[0] in ["watched", "deck", "on watched", "on deck"]:
                     continue
-                elif device[1] > 60:
+                elif device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == controls[control]:
                     self.device = device[0]
                     self.control = control
                     return
+        self.command = pre_command
 
         self.library_section = self.get_library()
         self.find_replace("play_start")

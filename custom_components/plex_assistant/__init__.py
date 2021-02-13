@@ -189,14 +189,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         if getattr(media, "viewOffset", 0) > 10 and not command["random"]:
             offset = (media.viewOffset / 1000) - 5
 
+        shuffle = 1 if command["random"] else 0
+
         if getattr(media, "TYPE", None) == "episode":
-            media = pa.server.createPlayQueue(media.show().episodes(), startItem=media)
+            media = pa.server.createPlayQueue(media.show().episodes(), startItem=media, shuffle=shuffle)
 
         if not getattr(media, "TYPE", None) == "playqueue":
-            if command["random"]:
-                media = pa.server.createPlayQueue(media, shuffle=1)
-            else:
-                media = pa.server.createPlayQueue(media)
+            media = pa.server.createPlayQueue(media, shuffle=shuffle)
 
         payload = '{"playqueue_id": %s, "type": "%s"}' % (
             media.playQueueID,

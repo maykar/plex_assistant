@@ -1,5 +1,7 @@
 import re
 import time
+import uuid
+import pychromecast
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
@@ -83,6 +85,19 @@ def jump(hass, device, amount):
 
     if device["device_type"] == "plex":
         media_service(hass, device["entity_id"], "media_play")
+
+
+def cast_next_prev(hass, zeroconf, plex_c, device, direction):
+    for entity in list(hass.data["media_player"].entities):
+        if entity.entity_id == device["entity_id"]:
+            cast, browser = pychromecast.get_listed_chromecasts(uuids=[uuid.UUID(entity._cast_info.uuid)], zeroconf_instance=zeroconf)
+            cast[0].register_handler(plex_c)
+            cast[0].wait()
+            if direction == "next":
+                plex_c.next()
+            else:
+                plex_c.previous()
+            pychromecast.discovery.stop_discovery(browser)
 
 
 def no_device_error(localize, device=None):

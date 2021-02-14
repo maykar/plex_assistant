@@ -215,7 +215,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             media.playQueueType,
         )
 
-        if device["device_type"] == "cast":
+        if device["device_type"] in ["cast", "sonos"]:
             payload = "plex://" + payload
 
         media_service(hass, device["entity_id"], "play_media", payload)
@@ -226,7 +226,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                 time.sleep(0.25)
                 timeout += 1
 
-            if device["device_type"] == "cast":
+            if device["device_type"] in ["cast", "sonos"]:
                 timeout = 0
                 while hass.states.get(device["entity_id"]).attributes.get("media_position", 0) == 0 and timeout < 200:
                     time.sleep(0.25)

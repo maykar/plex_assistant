@@ -29,7 +29,6 @@ from .helpers import (
     find_media,
     fuzzy,
     get_devices,
-    get_plex_client,
     get_server,
     jump,
     listeners,

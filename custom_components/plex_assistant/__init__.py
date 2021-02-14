@@ -11,6 +11,8 @@ https://github.com/maykar/plex_assistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import Config, HomeAssistant
 from homeassistant.components.plex.services import get_plex_server
+from homeassistant.components.zeroconf import async_get_instance
+from pychromecast.controllers.plex import PlexController
 
 import os
 import json
@@ -21,6 +23,7 @@ from .plex_assistant import PlexAssistant
 from .process_speech import ProcessSpeech
 from .localize import translations
 from .helpers import (
+    cast_next_prev,
     device_responding,
     filter_media,
     find_media,
@@ -61,6 +64,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     start_script = entry.options.get("start_script")
     keyword_replace = entry.options.get("keyword_replace")
     jump_amount = [entry.options.get("jump_f") or 30, entry.options.get("jump_b") or 15]
+    zeroconf = await async_get_instance(hass)
+    plex_c = PlexController()
 
     if start_script:
         try:
@@ -174,6 +179,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         elif command["control"] == "jump_back":
             jump(hass, device, -jump_amount[1])
             return
+        elif command["control"] == "next_track" and device["device_type"] == "cast":
+            cast_next_prev(hass, zeroconf, plex_c, device, "next")
+            return
+        elif command["control"] == "previous_track" and device["device_type"] == "cast":
+            cast_next_prev(hass, zeroconf, plex_c, device, "previous")
+            return
         elif command["control"]:
             media_service(hass, device["entity_id"], f"media_{command['control']}")
             return
@@ -221,7 +232,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                     time.sleep(0.25)
                     timeout += 1
             else:
-                time.sleep(0.5)
+                time.sleep(0.75)
 
             if hass.states.is_state(device["entity_id"], "playing"):
                 media_service(hass, device["entity_id"], "media_seek", offset)

@@ -42,12 +42,16 @@ def get_devices(hass, pa):
 
 def device_responding(hass, pa, device):
     get_devices(hass, pa)
-    if device in pa.device_names:
+    if device in pa.devices:
+        entity_device = hass.data["media_player"].get_entity(pa.devices[device]["entity_id"]).device
         try:
-            hass.data["media_player"].get_entity(pa.devices[device]["entity_id"]).device.connect(2)
+            entity_device.query("/resources", timeout=5)
+            return True
+        except plexapi.exceptions.BadRequest:
             return True
         except:
             return False
+    return False
 
 
 async def listeners(hass):
@@ -88,16 +92,15 @@ def jump(hass, device, amount):
 
 
 def cast_next_prev(hass, zeroconf, plex_c, device, direction):
-    for entity in list(hass.data["media_player"].entities):
-        if entity.entity_id == device["entity_id"]:
-            cast, browser = pychromecast.get_listed_chromecasts(uuids=[uuid.UUID(entity._cast_info.uuid)], zeroconf_instance=zeroconf)
-            cast[0].register_handler(plex_c)
-            cast[0].wait()
-            if direction == "next":
-                plex_c.next()
-            else:
-                plex_c.previous()
-            pychromecast.discovery.stop_discovery(browser)
+    entity = hass.data["media_player"].get_entity(device["entity_id"])
+    cast, browser = pychromecast.get_listed_chromecasts(uuids=[uuid.UUID(entity._cast_info.uuid)], zeroconf_instance=zeroconf)
+    pychromecast.discovery.stop_discovery(browser)
+    cast[0].register_handler(plex_c)
+    cast[0].wait()
+    if direction == "next":
+        plex_c.next()
+    else:
+        plex_c.previous()
 
 
 def no_device_error(localize, device=None):

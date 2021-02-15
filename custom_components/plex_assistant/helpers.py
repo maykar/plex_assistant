@@ -30,7 +30,7 @@ async def get_server(hass, config, server_name):
 def get_devices(hass, pa):
     for entity in list(hass.data["media_player"].entities):
         info = str(entity.device_info.get("identifiers", "")) if entity.device_info else ""
-        dev_type = "plex" if "plex" in info else "cast" if "cast" in info else "sonos" if "sonos" in info else None
+        dev_type = [x for x in ["cast", "sonos", "plex", ""] if x in test][0]
         if not dev_type:
             continue
         try:

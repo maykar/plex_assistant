@@ -12,10 +12,10 @@ translations = {
         ],
         "shows": [
             "episodes",
-            "shows"
+            "shows",
             "episode",
             "tv",
-            "show"
+            "show",
         ],
 
         # Controls

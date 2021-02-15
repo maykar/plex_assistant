@@ -116,18 +116,14 @@ def no_device_error(localize, device=None):
 
 def media_error(command, localize):
     error = ""
-    if command["latest"]:
-        error += localize["latest"]["keywords"][0] + " "
-    if command["unwatched"]:
-        error += localize["unwatched"]["keywords"][0] + " "
-    if command["ondeck"]:
-        error += localize["ondeck"]["keywords"][0] + " "
+    for keyword in ["latest", "unwatched", "ondeck"]:
+        if command[keyword]:
+            error += localize[keyword]["keywords"][0] + " "
     if command["media"]:
         error += "%s " % command["media"].capitalize()
-    if command["season"]:
-        error += "%s %s " % (localize["season"]["keywords"][0], command["season"])
-    if command["episode"]:
-        error += "%s %s " % (localize["episode"]["keywords"][0], command["episode"])
+    for keyword in ["season", "episode"]:
+        if command[keyword]:
+            error += "%s %s " % (localize[keyword]["keywords"][0], command[keyword])
     error += localize["not_found"] + "."
     return error.capitalize()
 
@@ -141,7 +137,7 @@ def play_tts_error(hass, tts_dir, device, error, lang):
         {
             "entity_id": device,
             "media_content_type": "audio/mp3",
-            "media_content_id": tts_dir + "error.mp3",
+            "media_content_id": "/local/plex_assist_tts/error.mp3",
         },
     )
 

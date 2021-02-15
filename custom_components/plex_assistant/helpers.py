@@ -260,7 +260,7 @@ def find_media(selected, media, lib):
         album_test = album_test if album_test[1] > roman_album_test[1] else roman_album_test
         artist_test = fuzzy(media, lib["artist_titles"], fuzz.WRatio)
         roman_artist_test = roman_numeral_test(media, lib["artist_titles"])
-        artist_test = artist_test if artst_test[1] > roman_artist_test[1] else roman_artist_test
+        artist_test = artist_test if artist_test[1] > roman_artist_test[1] else roman_artist_test
         track_test = fuzzy(media, lib["track_titles"], fuzz.WRatio)
         roman_track_test = roman_numeral_test(media, lib["track_titles"])
         track_test = track_test if track_test[1] > roman_track_test[1] else roman_track_test
@@ -280,6 +280,5 @@ def find_media(selected, media, lib):
         elif track_test[1] > show_test[1] and track_test[1] > movie_test[1] and track_test[1] > artist_test[1] and track_test[1] > album_test[1]:
             result = track_test[0]
             library = lib["tracks"]
-        
 
     return {"media": result, "library": library}

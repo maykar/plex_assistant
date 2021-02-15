@@ -251,18 +251,16 @@ def find_media(selected, media, lib):
     elif media:
         item = {}
         score = {}
-
         for category in ["show", "movie", "album", "artist", "track"]:
             lib_titles = lib[f"{category}_titles"]
             standard = fuzzy(media, lib_titles, fuzz.WRatio) if lib_titles else ["", 0]
-            roman = roman_numeral_test(media, lib_titles)  if lib_titles else ["", 0]
+            roman = roman_numeral_test(media, lib_titles) if lib_titles else ["", 0]
 
             winner = standard if standard[1] > roman[1] else roman
             item[category] = winner[0]
             score[category] = winner[1]
 
         winning_category = max(score, key=score.get)
-
         result = item[winning_category]
         library = lib[f"{winning_category}s"]
 

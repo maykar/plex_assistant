@@ -152,12 +152,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                 timeout = 0
                 hass.services.call("script", start_script[device[0]].replace("script.", ""))
 
-                while timeout < 20 and not responding:
-                    if (timeout % 2) == 0:
-                        ha_plex_server._async_update_platforms()
+                while timeout < 40 and not responding:
+                    if (timeout % 10) == 0:
+                        hass.services.call("plex", "scan_for_clients")
                     responding = device_responding(hass, pa, device[0])
-                    timeout += 1
                     time.sleep(1)
+                    timeout += 1
 
                 if responding:
                     time.sleep(3)
@@ -205,7 +205,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         shuffle = 1 if command["random"] else 0
 
         if getattr(media, "TYPE", None) == "episode":
-            media = pa.server.createPlayQueue(media.show().episodes(), startItem=media, shuffle=shuffle)
+            episodes = media.show().episodes()
+            episodes = episodes[episodes.index(media):]
+            media = pa.server.createPlayQueue(episodes, shuffle=shuffle)
 
         if not getattr(media, "TYPE", None) == "playqueue":
             media = pa.server.createPlayQueue(media, shuffle=shuffle)

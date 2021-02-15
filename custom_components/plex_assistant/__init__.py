@@ -72,7 +72,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             start_script = json.loads("{" + start_script + "}")
             if start_script:
                 for script in start_script.keys():
-                    _LOGGER.debug(f"Script {script}: {start_script[script][0]}, {start_script[script][1]}")
+                    _LOGGER.debug(f"Script {script}: {start_script[script]}")
         except:
             start_script = None
             _LOGGER.warning("Plex Assistant: There is a formatting issue with your client start script config.")

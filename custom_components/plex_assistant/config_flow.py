@@ -23,7 +23,7 @@ def get_devices(_self):
 
 def get_servers(_self):
     try:
-        return [x._server_name for x in _self.hass.data["plex"]["servers"].values()]
+        return [x.title for x in _self.hass.config_entries.async_entries("plex")]
     except:
         return []
 

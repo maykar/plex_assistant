@@ -13,6 +13,7 @@ from homeassistant.core import Config, HomeAssistant
 from homeassistant.components.plex.services import get_plex_server
 from homeassistant.components.zeroconf import async_get_instance
 from pychromecast.controllers.plex import PlexController
+from datetime import timedelta
 
 import os
 import json
@@ -148,6 +149,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             started = False
             responding = False
             woken = False
+            start_time = time.time()
             while timeout < 30 and device[0] not in pa.devices:
                 started = True
                 if timeout == 0:
@@ -171,8 +173,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                         hass.services.call("script", start_script[device[0]].replace("script.", ""))
                     responding = device_responding(hass, pa, device[0])
                     stop = True
+            total_time = timedelta(seconds=time.time()) - timedelta(seconds=start_time)
 
-            if responding and not started:
+            if responding and not started and total_time > timedelta(seconds=1):
                 time.sleep(5)
 
             device = fuzzy(command["device"] or default_device, list(pa.devices.keys()))

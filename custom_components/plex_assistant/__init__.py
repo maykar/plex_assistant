@@ -152,7 +152,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                 started = True
                 if timeout == 0:
                     hass.services.call("script", start_script[device[0]].replace("script.", ""))
-                    time.sleep(3)
+                    time.sleep(5)
                     hass.services.call("plex", "scan_for_clients")
                 else:
                     time.sleep(1)

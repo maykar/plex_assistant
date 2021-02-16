@@ -173,7 +173,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                     stop = True
 
             if responding and not started:
-                time.sleep(3)
+                time.sleep(5)
 
             device = fuzzy(command["device"] or default_device, list(pa.devices.keys()))
 

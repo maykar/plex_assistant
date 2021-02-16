@@ -41,17 +41,15 @@ def get_devices(hass, pa):
 
 
 def device_responding(hass, pa, device):
-    get_devices(hass, pa)
-    if device in pa.devices:
-        entity_device = hass.data["media_player"].get_entity(pa.devices[device]["entity_id"]).device
-        try:
-            entity_device.query("/resources", timeout=5)
-            return True
-        except plexapi.exceptions.BadRequest:
-            return True
-        except:
-            return False
-    return False
+    responding = hass.services.call(
+                    "media_player",
+                    "media_play",
+                    {"entity_id": pa.devices[device]["entity_id"]},
+                    blocking = True,
+                    limit=30
+                 )
+    return responding
+
 
 
 async def listeners(hass):

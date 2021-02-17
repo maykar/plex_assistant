@@ -131,33 +131,36 @@ class ProcessSpeech:
                 self.device = self.is_device(self.library["movie_titles"] + self.library["show_titles"], separator)
             if self.device:
                 split = self.command.split(separator)
-                media = self.command.replace(separator + split[-1], "")
+                self.command = self.command.replace(separator + split[-1], "")
                 self.device = split[-1]
-        self.media = media or self.command
+        self.find_replace("shows")
+        self.find_replace("movies")
+        self.media = self.command
 
     def find_replace(self, item, replace=True, replacement=""):
         item = self.localize[item]
 
-        if isinstance(item, str) and item in self.command:
+        if isinstance(item, str):
             item = {"keywords": [item]}
-        elif isinstance(item, list) and any(keyword in self.command for keyword in item):
+        elif isinstance(item, list):
             item = {"keywords": item}
 
-        if not isinstance(item, dict) or all(keyword not in self.command for keyword in item["keywords"]):
+        if all(keyword not in self.command for keyword in item["keywords"]):
             return False
 
         if replace:
-            self.command = f" {self.command} "
             if replacement:
                 replacement = f" {replacement} "
 
             for keyword in item["keywords"]:
+                self.command = f" {self.command} "
                 for pre in item.get("pre", []):
                     self.command = self.command.replace(f"{pre} {keyword}", replacement)
                 for post in item.get("post", []):
                     self.command = self.command.replace(f"{keyword} {post}", replacement)
                 if keyword in self.command:
                     self.command = self.command.replace(f" {keyword} ", replacement)
+                self.command = self.command.strip()
             self.command = " ".join(self.command.split())
 
         return True

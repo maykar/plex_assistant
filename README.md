@@ -245,8 +245,10 @@ An example of a script that would start the Plex app on a Roku device:
 ```
 start_lr_plex:
   sequence:
-  - service: media_player.select_source
-    entity_id: media_player.lr_roku
-    data:
-      source: 'Plex'
+    - condition: template
+      value_template: "{{ state_attr('media_player.roku', 'source') != 'Plex - Stream for Free' }}"
+    - service: media_player.select_source
+      entity_id: media_player.roku
+      data:
+        source: Plex - Stream for Free
 ```

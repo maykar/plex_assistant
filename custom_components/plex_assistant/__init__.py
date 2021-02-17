@@ -13,6 +13,7 @@ from homeassistant.core import Config, HomeAssistant
 from homeassistant.components.plex.services import get_plex_server
 from homeassistant.components.zeroconf import async_get_instance
 from pychromecast.controllers.plex import PlexController
+from datetime import timedelta
 
 import os
 import json
@@ -72,7 +73,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             start_script = json.loads("{" + start_script + "}")
             if start_script:
                 for script in start_script.keys():
-                    _LOGGER.debug(f"Script {script}: {start_script[script][0]}, {start_script[script][1]}")
+                    _LOGGER.debug(f"Script {script}: {start_script[script]}")
         except:
             start_script = None
             _LOGGER.warning("Plex Assistant: There is a formatting issue with your client start script config.")
@@ -107,13 +108,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     entry.add_update_listener(async_reload_entry)
 
-    ha_plex_server = get_plex_server(hass, server_name)
-
     def handle_input(call):
         offset = None
         media = None
-
-        ha_plex_server._async_update_platforms()
 
         command = call.data.get("command").strip()
         _LOGGER.debug("Command: %s", command)
@@ -145,24 +142,43 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             pa.update_libraries()
 
         device = fuzzy(command["device"] or default_device, pa.device_names)
-        responding = device_responding(hass, pa, device[0]) if device[0] in start_script_keys else True
 
+        responding = True
         if device[0] in start_script_keys:
-            if device[0] not in pa.device_names or not responding:
-                timeout = 0
-                hass.services.call("script", start_script[device[0]].replace("script.", ""))
-
-                while timeout < 40 and not responding:
-                    if (timeout % 10) == 0:
-                        hass.services.call("plex", "scan_for_clients")
-                    responding = device_responding(hass, pa, device[0])
+            timeout = 0
+            started = False
+            responding = False
+            woken = False
+            start_time = time.time()
+            while timeout < 30 and device[0] not in pa.devices:
+                started = True
+                if timeout == 0:
+                    hass.services.call("script", start_script[device[0]].replace("script.", ""))
+                    time.sleep(5)
+                    hass.services.call("plex", "scan_for_clients")
+                else:
                     time.sleep(1)
-                    timeout += 1
+                if (timeout % 2) == 0 or timeout == 0:
+                    get_devices(hass, pa)
+                timeout += 1
 
-                if responding:
-                    time.sleep(3)
+            if started:
+                hass.services.async_call("plex", "scan_for_clients")
+                get_devices(hass, pa)
 
-                device = fuzzy(command["device"] or default_device, list(pa.devices.keys()))
+            if device[0] in pa.devices:
+                stop = False
+                while not responding and not stop:
+                    if not started:
+                        hass.services.call("script", start_script[device[0]].replace("script.", ""))
+                    responding = device_responding(hass, pa, device[0])
+                    stop = True
+            total_time = timedelta(seconds=time.time()) - timedelta(seconds=start_time)
+
+            if responding and not started and total_time > timedelta(seconds=1):
+                time.sleep(5)
+
+            device = fuzzy(command["device"] or default_device, list(pa.devices.keys()))
 
         _LOGGER.debug("PA Devices: %s", pa.devices)
 

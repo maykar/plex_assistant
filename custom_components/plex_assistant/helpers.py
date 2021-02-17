@@ -30,7 +30,7 @@ async def get_server(hass, config, server_name):
 def get_devices(hass, pa):
     for entity in list(hass.data["media_player"].entities):
         info = str(entity.device_info.get("identifiers", "")) if entity.device_info else ""
-        dev_type = "plex" if "plex" in info else "cast" if "cast" in info else "sonos" if "sonos" in info else None
+        dev_type = [x for x in ["cast", "sonos", "plex", ""] if x in info][0]
         if not dev_type:
             continue
         try:
@@ -243,36 +243,19 @@ def find_media(selected, media, lib):
             roman_test = roman_numeral_test(media, lib[section])
             result = result[0] if result[1] > roman_test[1] else roman_test[0]
     elif media:
-        show_test = fuzzy(media, lib["show_titles"], fuzz.WRatio)
-        roman_show_test = roman_numeral_test(media, lib["show_titles"])
-        show_test = show_test if show_test[1] > roman_show_test[1] else roman_show_test
-        movie_test = fuzzy(media, lib["movie_titles"], fuzz.WRatio)
-        roman_movie_test = roman_numeral_test(media, lib["movie_titles"])
-        movie_test = movie_test if movie_test[1] > roman_movie_test[1] else roman_movie_test
-        album_test = fuzzy(media, lib["album_titles"], fuzz.WRatio)
-        roman_album_test = roman_numeral_test(media, lib["album_titles"])
-        album_test = album_test if album_test[1] > roman_album_test[1] else roman_album_test
-        artist_test = fuzzy(media, lib["artist_titles"], fuzz.WRatio)
-        roman_artist_test = roman_numeral_test(media, lib["artist_titles"])
-        artist_test = artist_test if artist_test[1] > roman_artist_test[1] else roman_artist_test
-        track_test = fuzzy(media, lib["track_titles"], fuzz.WRatio)
-        roman_track_test = roman_numeral_test(media, lib["track_titles"])
-        track_test = track_test if track_test[1] > roman_track_test[1] else roman_track_test
+        item = {}
+        score = {}
+        for category in ["show", "movie", "album", "artist", "track"]:
+            lib_titles = lib[f"{category}_titles"]
+            standard = fuzzy(media, lib_titles, fuzz.WRatio) if lib_titles else ["", 0]
+            roman = roman_numeral_test(media, lib_titles) if lib_titles else ["", 0]
 
-        if show_test[1] > movie_test[1] and show_test[1] > album_test[1] and show_test[1] > artist_test[1] and show_test[1] > track_test[1]:
-            result = show_test[0]
-            library = lib["shows"]
-        elif movie_test[1] > show_test[1] and movie_test[1] > album_test[1] and movie_test[1] > artist_test[1] and movie_test[1] > track_test[1]:
-            result = movie_test[0]
-            library = lib["movies"]
-        elif album_test[1] > show_test[1] and album_test[1] > movie_test[1] and album_test[1] > artist_test[1] and album_test[1] > track_test[1]:
-            result = album_test[0]
-            library = lib["albums"]
-        elif artist_test[1] > show_test[1] and artist_test[1] > movie_test[1] and artist_test[1] > album_test[1] and artist_test[1] > track_test[1]:
-            result = artist_test[0]
-            library = lib["artists"]
-        elif track_test[1] > show_test[1] and track_test[1] > movie_test[1] and track_test[1] > artist_test[1] and track_test[1] > album_test[1]:
-            result = track_test[0]
-            library = lib["tracks"]
+            winner = standard if standard[1] > roman[1] else roman
+            item[category] = winner[0]
+            score[category] = winner[1]
+
+        winning_category = max(score, key=score.get)
+        result = item[winning_category]
+        library = lib[f"{winning_category}s"]
 
     return {"media": result, "library": library}

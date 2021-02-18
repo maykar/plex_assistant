@@ -206,8 +206,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             return
 
         try:
-            result = find_media(command, command["media"], pa.media)
-            media = filter_media(pa, command, result["media"], result["library"])
+            media, library = find_media(command, command["media"], pa.media)
+            media = filter_media(pa, command, media, library)
         except:
             error = media_error(command, localize)
             if tts_errors:

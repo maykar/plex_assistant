@@ -258,4 +258,4 @@ def find_media(selected, media, lib):
         result = item[winning_category]
         library = lib[f"{winning_category}s"]
 
-    return {"media": result, "library": library}
+    return [result, library]

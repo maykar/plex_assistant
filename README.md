@@ -240,7 +240,7 @@ This option will trigger a script to start a Plex client if it is currently unav
 ```
 "LivingRoom TV":"script.start_lr_plex", "Bedroom TV":"script.open_br_plex"
 ```
-The script would be different for every device and some devices might not have the ability to do this.<br>
+The script would be different for every device and some devices might not have the ability to do this.<br><br>
 The example below would start the Plex app on a Roku device (note the comments in the code). The script checks that both the app is open on the device and the app reports as available. 
 
 ```

@@ -112,10 +112,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             pa.update_libraries()
 
         device = fuzzy(command["device"] or default_device, pa.device_names)
-        device, responding = run_start_script(hass, pa, command, start_script, device)
+        device = run_start_script(hass, pa, command, start_script, device)
 
         _LOGGER.debug("PA Devices: %s", pa.devices)
-        if device[1] < 60 or not responding:
+        if device[1] < 60:
             no_device_error(localize, command["device"])
             return
         _LOGGER.debug("Device: %s", device[0])

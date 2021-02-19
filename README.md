@@ -267,11 +267,11 @@ roku_plex:
               value_template: >-
                 {{ (state_attr('media_player.roku','source') != 'Plex - Stream for Free' or
                    is_state('media_player.plex_plex_for_roku_roku', 'unavailable')) and
-                   repeat.index <= 10 }}
+                   repeat.index <= 20 }}
           sequence:
-            #### Scan every couple of seconds to update device status
+            #### Scan to update device status
             - service: plex.scan_for_clients
             - delay:
-                seconds: 2
+                seconds: 1
   mode: single
 ```

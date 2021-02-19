@@ -9,6 +9,7 @@ from fuzzywuzzy import process as fw
 from datetime import timedelta
 from gtts import gTTS
 from homeassistant.components.plex.services import get_plex_server
+from homeassistant.core import Context
 from pychromecast.controllers.plex import PlexController
 
 from .const import DOMAIN, _LOGGER
@@ -76,46 +77,11 @@ def device_responding(hass, pa, device):
 
 def run_start_script(hass, pa, command, start_script, device):
     if device[0] in start_script.keys():
-        timeout = 0
-        started = False
-        responding = False
-        woken = False
-        start_time = time.time()
-
-        while timeout < 10 and device[0] not in pa.devices:
-            if timeout == 0:
-                started = True
-                hass.services.call("script", start_script[device[0]].replace("script.", ""))
-                time.sleep(5)
-            else:
-                time.sleep(2)
-            get_devices(hass, pa)
-            hass.services.call(
-                "plex",
-                "scan_for_clients",
-                blocking=True,
-                limit=30
-            )
-            time.sleep(2)
-            get_devices(hass, pa)
-            timeout += 1
-
-        if device[0] in pa.devices:
-            stop = False
-            while not responding and not stop:
-                if not started:
-                    hass.services.call("script", start_script[device[0]].replace("script.", ""))
-                responding = device_responding(hass, pa, device[0])
-                stop = True
-        total_time = timedelta(seconds=time.time()) - timedelta(seconds=start_time)
-
-        if responding and not started and total_time > timedelta(seconds=1):
-            time.sleep(3)
-
+        start = hass.data["script"].get_entity(start_script[device[0]])
+        start.script.run(context=Context())
         get_devices(hass, pa)
-
-        return [fuzzy(command["device"] or default_device, list(pa.devices.keys())), responding]
-    return [device, True]
+        return fuzzy(command["device"] or default_device, list(pa.devices.keys()))
+    return device
 
 
 async def listeners(hass):

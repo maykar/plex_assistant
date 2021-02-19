@@ -241,14 +241,38 @@ This option will trigger a script to start a Plex client if it is currently unav
 "LivingRoom TV":"script.start_lr_plex", "Bedroom TV":"script.open_br_plex"
 ```
 The script would be different for every device and some devices might not have the ability to do this.<br>
-An example of a script that would start the Plex app on a Roku device:
+Find an example of a script that would start the Plex app on a Roku device below (note the comments in the code).<br>
+
 ```
-start_lr_plex:
+roku_plex:
   sequence:
-    - condition: template
-      value_template: "{{ state_attr('media_player.roku', 'source') != 'Plex - Stream for Free' }}"
-    - service: media_player.select_source
-      entity_id: media_player.roku
-      data:
-        source: Plex - Stream for Free
+    #### Update plex device status at the start of the script
+    - service: plex.scan_for_clients
+    - delay:
+        seconds: 2
+    - choose:
+        - conditions:
+            #### If Plex is already open on the device, do nothing
+            - condition: template
+              value_template: >-
+                {{ state_attr('media_player.roku','source') == 'Plex - Stream for Free' }}
+          sequence: []
+      default:
+      #### If Plex isn't open on the device, open it
+      - service: media_player.select_source
+        entity_id: 'media_player.roku'
+        data:
+          source: 'Plex - Stream for Free'
+      - repeat:
+          #### Wait until the Plex App/Client is available
+          while:
+            - condition: state
+              entity_id: media_player.plex_plex_for_roku_roku
+              state: unavailable
+          sequence:
+            #### Scan every couple of seconds to update device status
+            - service: plex.scan_for_clients
+            - delay:
+                seconds: 2
+  mode: single
 ```

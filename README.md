@@ -251,8 +251,8 @@ roku_plex:
     - delay:
         seconds: 2
     - choose:
+        #### If Plex is already open on the device, do nothing
         - conditions:
-            #### If Plex is already open on the device, do nothing
             - condition: template
               value_template: >-
                 {{ state_attr('media_player.roku','source') == 'Plex - Stream for Free' }}

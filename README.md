@@ -267,6 +267,7 @@ roku_plex:
           #### Wait until the Plex App/Client is available
           while:
             - condition: template
+              #### Loop until Plex App/Client is available and stop after 10 tries
               value_template: >-
                 {{ state_attr('media_player.roku','source') != 'Plex - Stream for Free' and
                    is_state('media_player.plex_plex_for_roku_roku', 'unavailable') and

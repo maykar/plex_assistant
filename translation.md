@@ -6,11 +6,19 @@ Translations are located in the [localize.py](https://github.com/maykar/plex_ass
 
 Translations are held in a dictionary with the language code as the key (in this case "en"):
 
+Any item can accept either a single word like `"play": "play",` or a list of words/phrases like:
+
 ```
-    "en": {
-        # Generic Terms
-        "play": "play",
-        ...
+            "next_track": [
+                "go to next track",
+                "go to next",
+                "skip to next track",
+                "skip to next",
+                "skip forward",
+                "next",
+                "next track",
+                "skip",
+            ],
 ```
 
 ### Generic Terms
@@ -23,7 +31,10 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
 ```
         # Generic Terms
         "play": "play",
-        "random": "random",
+        "random": [
+            "random",
+            "shuffle",
+        ],
         "movies": [
             "movie",
             "film",
@@ -44,10 +55,31 @@ These are the media player controls.
             "play": "play",
             "pause": "pause",
             "stop": "stop",
-            "next_track": "next",
-            "previous_track": "previous", 
-            "jump_forward": "jump forward",
-            "jump_back": "jump back",
+            "next_track": [
+                "go to next track",
+                "go to next",
+                "skip to next track",
+                "skip to next",
+                "skip forward",
+                "next",
+                "next track",
+                "skip",
+            ],
+            "previous_track":  [
+                "go to previous track",
+                "go back",
+                "back one track",
+                "back",
+            ],
+            "jump_forward": [
+                "jump forward",
+                "fast forward",
+                "forward",
+            ],
+            "jump_back": [
+                "jump back",
+                "rewind",
+            ],
         },
 ```
 

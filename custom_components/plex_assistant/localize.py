@@ -198,7 +198,6 @@ translations = {
                 "on deck",
                 "ondeck",
             ],
-            "pre": [],
             "post": [
                 "movies",
                 "movie",
@@ -1013,7 +1012,11 @@ translations = {
     },
     "de": {
         "play": "spiele",
-        "random": "zufällige",
+        "random": [
+                "zufällige",
+                "zufälliges",
+                "zufälligen",
+        ],
         "movies": [
             "film",
         ],
@@ -1026,8 +1029,16 @@ translations = {
             "play": "spiele",
             "pause": "pausiere",
             "stop": "stoppe",
-            "next_track": "nächstes",
-            "previous_track": "vorheriges",
+            "next_track": [
+                "nächstes",
+                "nächste",
+                "nächsten",
+            ],
+            "previous_track": [
+                "vorheriges",
+                "vorherige",
+                "vorherigen",
+            ],
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
         },

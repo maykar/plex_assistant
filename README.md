@@ -255,6 +255,7 @@ roku_plex:
           sequence: []
       default:
       #### If Plex isn't open on the device, open it
+      #### You could also add a service to turn your TV on here
       - service: media_player.select_source
         entity_id: 'media_player.roku'
         data:

@@ -86,6 +86,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     entry.add_update_listener(async_reload_entry)
 
     def handle_input(call):
+        hass.services.async_call("plex", "scan_for_clients", blocking=False, limit=30)
         command = call.data.get("command").strip()
         media = None
 

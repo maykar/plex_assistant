@@ -266,9 +266,10 @@ roku_plex:
       - repeat:
           #### Wait until the Plex App/Client is available
           while:
-            - condition: state
-              entity_id: media_player.plex_plex_for_roku_roku
-              state: unavailable
+            - condition: template
+              value_template: >-
+                {{ state_attr('media_player.roku','source') != 'Plex - Stream for Free' and
+                   is_state('media_player.plex_plex_for_roku_roku', 'unavailable')}}
           sequence:
             #### Scan every couple of seconds to update device status
             - service: plex.scan_for_clients

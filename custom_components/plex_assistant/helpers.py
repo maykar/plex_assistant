@@ -1,14 +1,38 @@
 import re
 import time
 import uuid
+import json
 import pychromecast
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process as fw
+from datetime import timedelta
 from gtts import gTTS
 from homeassistant.components.plex.services import get_plex_server
+from homeassistant.core import Context
+from pychromecast.controllers.plex import PlexController
 
 from .const import DOMAIN, _LOGGER
+
+
+def fuzzy(media, lib, scorer=fuzz.QRatio):
+    if isinstance(lib, list) and len(lib) > 0:
+        return fw.extractOne(media, lib, scorer=scorer)
+    return ["", 0]
+
+
+def process_config_item(options, item_type):
+    item = options.get(item_type)
+    if item:
+        try:
+            item = json.loads("{" + item + "}")
+            for i in item.keys():
+                _LOGGER.debug(f"{item_type} {i}: {item[i]}")
+        except:
+            item = {}
+        return item
+    else:
+        return {}
 
 
 async def get_server(hass, config, server_name):
@@ -45,11 +69,19 @@ def device_responding(hass, pa, device):
                     "media_player",
                     "media_play",
                     {"entity_id": pa.devices[device]["entity_id"]},
-                    blocking = True,
+                    blocking=True,
                     limit=30
                  )
     return responding
 
+
+def run_start_script(hass, pa, command, start_script, device):
+    if device[0] in start_script.keys():
+        start = hass.data["script"].get_entity(start_script[device[0]])
+        start.script.run(context=Context())
+        get_devices(hass, pa)
+        return fuzzy(command["device"] or default_device, list(pa.devices.keys()))
+    return device
 
 
 async def listeners(hass):
@@ -101,6 +133,41 @@ def cast_next_prev(hass, zeroconf, plex_c, device, direction):
         plex_c.previous()
 
 
+def remote_control(hass, zeroconf, control, device):
+    plex_c = PlexController()
+
+    if control == "jump_forward":
+        jump(hass, device, jump_amount[0])
+    elif control == "jump_back":
+        jump(hass, device, -jump_amount[1])
+    elif control == "next_track" and device["device_type"] == "cast":
+        cast_next_prev(hass, zeroconf, plex_c, device, "next")
+    elif control == "previous_track" and device["device_type"] == "cast":
+        cast_next_prev(hass, zeroconf, plex_c, device, "previous")
+    else:
+        media_service(hass, device["entity_id"], f"media_{control}")
+
+
+def seek_to_offset(hass, offset, entity):
+    if offset > 0:
+        timeout = 0
+        while not hass.states.is_state(entity, "playing") and timeout < 100:
+            time.sleep(0.10)
+            timeout += 1
+
+        timeout = 0
+        if hass.states.is_state(entity, "playing"):
+            media_service(hass, entity, "media_pause")
+            while not hass.states.is_state(entity, "paused") and timeout < 100:
+                time.sleep(0.10)
+                timeout += 1
+
+        if hass.states.is_state(entity, "paused"):
+            if hass.states.get(entity).attributes.get("media_position", 0) < 9:
+                media_service(hass, entity, "media_seek", offset)
+            media_service(hass, entity, "media_play")
+
+
 def no_device_error(localize, device=None):
     device = f': "{device.title()}".' if device else "."
     _LOGGER.warning(
@@ -138,12 +205,6 @@ def play_tts_error(hass, tts_dir, device, error, lang):
             "media_content_id": "/local/plex_assist_tts/error.mp3",
         },
     )
-
-
-def fuzzy(media, lib, scorer=fuzz.QRatio):
-    if isinstance(lib, list) and len(lib) > 0:
-        return fw.extractOne(media, lib, scorer=scorer)
-    return ["", 0]
 
 
 def get_title(item, deep=False):
@@ -257,4 +318,4 @@ def find_media(selected, media, lib):
             result = movie_test[0]
             library = lib["movies"]
 
-    return {"media": result, "library": library}
+    return [result, library]

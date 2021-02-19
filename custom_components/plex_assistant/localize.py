@@ -60,8 +60,8 @@ translations = {
                 "skip to next track",
                 "skip to next",
                 "skip forward",
-                "next",
                 "next track",
+                "next",
                 "skip",
             ],
             "previous_track":  [

@@ -187,12 +187,12 @@ If no season/episode is specified for a TV show Plex Assistant will play the fir
 * `"play the first season second episode of Taskmaster on the Theater System"`
 
 ### Filter Keywords:
-* `"season"`
-* `"episode"`
-* `"latest, recent, new"`
-* `"unwatched, next"`
-* `"ondeck"`
-* `"random"`
+* `season`
+* `episode`
+* `latest, recent, new`
+* `unwatched, next`
+* `ondeck`
+* `random, shuffle, randomized, shuffled`
 
 Filter keywords can be combined. For example `"play random unwatched movies"` will start playing a list of all unwatched movies in random order.
 
@@ -200,10 +200,10 @@ Filter keywords can be combined. For example `"play random unwatched movies"` wi
 * `play`
 * `pause`
 * `stop`
-* `next`
-* `previous`
-* `jump forward`
-* `jump back`
+* `next, skip, next track, skip forward`
+* `previous, back, go back`
+* `jump forward, fast forward, forward`
+* `jump back, rewind`
 
 Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"` or `"previous on the livingroom tv"`.
 

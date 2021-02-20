@@ -223,9 +223,9 @@ This option could be used for a few different purposes. The formatting is the wo
 
 Here's an example to add to the commands "next" and "previous" with alternatives:
 ```
-"skip forward":"next", "skip back":"previous"
+"full speed ahead":"next", "reverse full power":"previous"
 ```
-Using this config would allow you to say "skip forward" or "next" to go to the next track and "skip back" or "previous" to go to the previous.
+Using this config would allow you to say "full speed ahead" to go to the next track and "reverse full power" to go to the previous. You can still use the default commands as well.
 
 Another use example would be if you have multiple Star Trek series, but want a specific one to play when you just say "Star Trek":
 ```

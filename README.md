@@ -275,5 +275,9 @@ roku_plex:
             - service: plex.scan_for_clients
             - delay:
                 seconds: 1
+      #### Optional delay after device is found. Uncomment the 2 lines for delay below
+      #### if your device needs a few seconds to respond to commands. Increase delay as needed.
+      # - delay:
+      #     seconds: 3
   mode: single
 ```

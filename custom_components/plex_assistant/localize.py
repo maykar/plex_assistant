@@ -3,7 +3,10 @@ translations = {
     "en": {
         # Generic Terms
         "play": "play",
-        "random": "random",
+        "random": [
+            "random",
+            "shuffle",
+        ],
         "movies": [
             "movies",
             "films",
@@ -18,10 +21,14 @@ translations = {
             "show",
         ],
         "tracks": [
+            "tracks",
             "track",
+            "songs",
             "song",
+            "albums",
             "album",
-            "record"
+            "records",
+            "record",
         ],
         "albums": [
             "album",
@@ -30,6 +37,7 @@ translations = {
             "vinyl"
         ],
         "artists": [
+            "band",
             "artist",
             "singer",
             "composer",
@@ -38,6 +46,7 @@ translations = {
         ],
         "playlists": [
             "playlist",
+            "list",
         ],
         
         # Controls
@@ -45,10 +54,31 @@ translations = {
             "play": "play",
             "pause": "pause",
             "stop": "stop",
-            "next_track": "next",
-            "previous_track": "previous",
-            "jump_forward": "jump forward",
-            "jump_back": "jump back",
+            "next_track": [
+                "go to next track",
+                "go to next",
+                "skip to next track",
+                "skip to next",
+                "skip forward",
+                "next track",
+                "next",
+                "skip",
+            ],
+            "previous_track":  [
+                "go to previous track",
+                "go back",
+                "back one track",
+                "back",
+            ],
+            "jump_forward": [
+                "jump forward",
+                "fast forward",
+                "forward",
+            ],
+            "jump_back": [
+                "jump back",
+                "rewind",
+            ],
         },
 
         # Text for errors
@@ -983,7 +1013,11 @@ translations = {
     },
     "de": {
         "play": "spiele",
-        "random": "zufällige",
+        "random": [
+                "zufällige",
+                "zufälliges",
+                "zufälligen",
+        ],
         "movies": [
             "film",
         ],
@@ -996,8 +1030,16 @@ translations = {
             "play": "spiele",
             "pause": "pausiere",
             "stop": "stoppe",
-            "next_track": "nächstes",
-            "previous_track": "vorheriges",
+            "next_track": [
+                "nächstes",
+                "nächste",
+                "nächsten",
+            ],
+            "previous_track": [
+                "vorheriges",
+                "vorherige",
+                "vorherigen",
+            ],
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
         },

@@ -241,14 +241,39 @@ This option will trigger a script to start a Plex client if it is currently unav
 "LivingRoom TV":"script.start_lr_plex", "Bedroom TV":"script.open_br_plex"
 ```
 The script would be different for every device and some devices might not have the ability to do this.<br>
-An example of a script that would start the Plex app on a Roku device:
+Plex Assistant will wait for the start script to finish before continuing, so having a check for device availability is advisable. That way the script can both wait for the device to be available or quickly end if it already is.<br><br>
+The example below would start the Plex app on a Roku device.<br>The script waits until the app is open on the device and the app reports as available (take note of the comments in the code). 
+
 ```
-start_lr_plex:
+roku_plex:
   sequence:
-    - condition: template
-      value_template: "{{ state_attr('media_player.roku', 'source') != 'Plex - Stream for Free' }}"
-    - service: media_player.select_source
-      entity_id: media_player.roku
-      data:
-        source: Plex - Stream for Free
+    - choose:
+        #### If Plex is already open on the device, do nothing
+        - conditions:
+            - condition: template
+              value_template: >-
+                {{ state_attr('media_player.roku','source') == 'Plex - Stream for Free' }}
+          sequence: []
+      default:
+      #### If Plex isn't open on the device, open it
+      #### You could even add a service to turn your TV on here
+      - service: media_player.select_source
+        entity_id: 'media_player.roku'
+        data:
+          source: 'Plex - Stream for Free'
+      - repeat:
+          #### Wait until the Plex App/Client is available
+          while:
+            - condition: template
+              #### Loop until Plex App or client report as available and stop after 20 tries
+              value_template: >-
+                {{ (state_attr('media_player.roku','source') != 'Plex - Stream for Free' or
+                   is_state('media_player.plex_plex_for_roku_roku', 'unavailable')) and
+                   repeat.index <= 20 }}
+          sequence:
+            #### Scan to update device status
+            - service: plex.scan_for_clients
+            - delay:
+                seconds: 1
+  mode: single
 ```

@@ -4,7 +4,9 @@ translations = {
         # Generic Terms
         "play": "play",
         "random": [
+            "randomized",
             "random",
+            "shuffled",
             "shuffle",
         ],
         "movies": [
@@ -59,6 +61,7 @@ translations = {
                 "go to next",
                 "skip to next track",
                 "skip to next",
+                "skip next",
                 "skip forward",
                 "next track",
                 "next",
@@ -66,8 +69,9 @@ translations = {
             ],
             "previous_track":  [
                 "go to previous track",
-                "go back",
+                "go back one track",
                 "back one track",
+                "go back",
                 "back",
             ],
             "jump_forward": [
@@ -213,13 +217,16 @@ translations = {
         "music_album": {
             "keywords": [
                 "album",
+                "record",
             ],
             "pre": [],
             "post": [],
         },
         "music_artist": {
             "keywords": [
+                "artists",
                 "artist",
+                "band",
             ],
             "pre": [],
             "post": [],
@@ -227,6 +234,7 @@ translations = {
         "music_track": {
             "keywords": [
                 "track",
+                "song",
             ],
             "pre": [],
             "post": [],

@@ -40,19 +40,23 @@ class ProcessSpeech:
         controls = self.localize["controls"]
         pre_command = self.command
         for control in controls:
-            if self.command.startswith(controls[control]):
-                control_check = self.command.replace(controls[control], "").strip()
-                if control_check == "":
-                    self.control = control
-                    return
-                device = fuzzy(control_check, self.pa.device_names)
-                self.find_replace("separator")
-                if device[0] in ["watched", "deck", "on watched", "on deck"]:
-                    continue
-                elif device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == controls[control]:
-                    self.device = device[0]
-                    self.control = control
-                    return
+            ctrl = controls[control]
+            if isinstance(ctrl, str):
+                ctrl = [ctrl]
+            for c in ctrl:
+                if self.command.startswith(c):
+                    control_check = self.command.replace(c, "").strip()
+                    if control_check == "":
+                        self.control = control
+                        return
+                    device = fuzzy(control_check, self.pa.device_names)
+                    self.find_replace("separator")
+                    if device[0] in ["watched", "deck", "on watched", "on deck"]:
+                        continue
+                    elif device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == c:
+                        self.device = device[0]
+                        self.control = control
+                        return
         self.command = pre_command
 
         self.library_section = self.get_library()

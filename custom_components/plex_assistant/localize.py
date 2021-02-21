@@ -46,6 +46,9 @@ translations = {
             "player",
             "guitarist"
         ],
+        "music": [
+            "music",
+        ],
         "playlists": [
             "playlist",
             "list",
@@ -279,6 +282,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -420,6 +424,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -576,6 +581,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -744,6 +750,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -986,6 +993,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -1158,6 +1166,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -1327,6 +1336,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -1529,6 +1539,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -1686,6 +1697,7 @@ translations = {
         "tracks": [],
         "albums": [],
         "artists": [],
+        "music": [],
         "playlists": [],
 
         "controls": {
@@ -1881,6 +1893,7 @@ translations = {
     #     "tracks": [],
     #     "albums": [],
     #     "artists": [],
+    #     "music": [],
     #     "playlists": [],
 
     #     # Controls

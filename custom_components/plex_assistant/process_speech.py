@@ -40,9 +40,7 @@ class ProcessSpeech:
         controls = self.localize["controls"]
         pre_command = self.command
         for control in controls:
-            ctrl = controls[control]
-            if isinstance(ctrl, str):
-                ctrl = [ctrl]
+            ctrl = [controls[control]] if isinstance(controls[control], str) else controls[control]
             for c in ctrl:
                 if self.command.startswith(c):
                     control_check = self.command.replace(c, "").strip()
@@ -61,26 +59,18 @@ class ProcessSpeech:
 
         self.library_section = self.get_library()
         self.find_replace("play_start")
-        self.random = self.find_replace("random")
-        self.latest = self.find_replace("latest")
-        self.unwatched = self.find_replace("unwatched")
-        self.ondeck = self.find_replace("ondeck")
 
-        if self.find_replace("season", False):
-            self.library_section = self.library["shows"]
-            self.season = self.get_season_episode_num(self.localize["season"])
-        if self.find_replace("episode", False):
-            self.library_section = self.library["shows"]
-            self.episode = self.get_season_episode_num(self.localize["episode"])
+        for item in ["random", "latest", "unwatched", "ondeck"]:
+            setattr(self, item, self.find_replace(item))
 
-        if self.find_replace("music_album"):
-            self.library_section = self.library["albums"]
-        if self.find_replace("music_artist"):
-            self.library_section = self.library["artists"]
-        if self.find_replace("music_track"):
-            self.library_section = self.library["tracks"]
-        if self.find_replace("music_playlist"):
-            self.library_section = self.library["playlists"]
+        for item in ["season", "episode"]:
+            if self.find_replace(item, False):
+                self.library_section = self.library["shows"]
+                setattr(self, item, self.get_season_episode_num(self.localize[item]))
+
+        for item in ["artist", "album", "track", "playlist"]:
+            if self.find_replace(f"music_{item}"):
+                self.library_section = self.library[f"{item}s"]
 
         self.get_media_and_device()
 
@@ -89,18 +79,13 @@ class ProcessSpeech:
         for device in self.pa.device_names:
             if device.lower() in cmd:
                 cmd = cmd.replace(device.lower(), "")
+
         if any(word in cmd for word in self.tv_keys):
             return self.library["shows"]
-        elif any(word in cmd for word in self.localize["artists"]):
-            return self.library["artists"]
-        elif any(word in cmd for word in self.localize["albums"]):
-            return self.library["albums"]
-        elif any(word in cmd for word in self.localize["tracks"]):
-            return self.library["tracks"]
-        elif any(word in cmd for word in self.localize["playlists"]):
-            return self.library["playlists"]
-        elif any(word in self.command for word in self.localize["movies"]):
-            return self.library["movies"]
+
+        for item in ["movies", "artists", "albums", "tracks", "playlists"]:
+            if any(word in cmd for word in self.localize[item]):
+                return self.library[item]
 
     def is_device(self, media_list, separator):
         split = self.command.split(separator)
@@ -117,26 +102,20 @@ class ProcessSpeech:
         if self.command.strip().startswith(separator + " "):
             self.device = self.command.replace(separator, "").strip()
             return
+
         separator = f" {separator} "
         if separator in self.command:
-            if self.library_section == self.library["shows"]:
-                self.device = self.is_device(self.library["show_titles"], separator)
-            elif self.library_section == self.library["movies"]:
-                self.device = self.is_device(self.library["movie_titles"], separator)
-            elif self.library_section == self.library["artists"]:
-                self.device = self.is_device(self.library["artist_titles"], separator)
-            elif self.library_section == self.library["albums"]:
-                self.device = self.is_device(self.library["album_titles"], separator)
-            elif self.library_section == self.library["tracks"]:
-                self.device = self.is_device(self.library["track_titles"], separator)
-            elif self.library_section == self.library["playlists"]:
-                self.device = self.is_device(self.library["playlist_titles"], separator)
-            else:
-                self.device = self.is_device(self.library["movie_titles"] + self.library["show_titles"], separator)
+            for item in ["show", "movie", "artist", "album", "track", "playlist", "all"]:
+                if self.library_section == self.library[f"{item}s"] and item != "all":
+                    self.device = self.is_device(self.library[f"{item}_titles"], separator)
+                else:
+                    self.device = self.is_device(self.library["all_titles"], separator)
+
             if self.device:
                 split = self.command.split(separator)
                 self.command = self.command.replace(separator + split[-1], "")
                 self.device = split[-1]
+
         self.find_replace("shows")
         self.find_replace("movies")
         self.media = self.command

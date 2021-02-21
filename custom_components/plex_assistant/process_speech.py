@@ -7,34 +7,16 @@ class ProcessSpeech:
         self.pa = pa
         self.command = command
         self.localize = localize
-        self.library = pa.media
         self.device = default_cast
-        self.library_section = None
-        self.media = None
-        self.control = None
-        self.season = None
-        self.episode = None
-        self.latest = False
-        self.unwatched = False
-        self.random = False
-        self.ondeck = False
         self.tv_keys = localize["shows"] + localize["season"]["keywords"] + localize["episode"]["keywords"]
         self.process_command()
 
     @property
     def results(self):
-        return {
-            "media": self.media,
-            "device": self.device,
-            "season": self.season,
-            "episode": self.episode,
-            "latest": self.latest,
-            "unwatched": self.unwatched,
-            "random": self.random,
-            "library": self.library_section,
-            "ondeck": self.ondeck,
-            "control": self.control,
-        }
+        results = {}
+        for x in ["media", "device", "season", "episode", "latest", "unwatched", "random", "ondeck", "control", "library"]:
+            results[x] = getattr(self, x, None)
+        return results
 
     def process_command(self):
         controls = self.localize["controls"]
@@ -57,7 +39,7 @@ class ProcessSpeech:
                         return
         self.command = pre_command
 
-        self.library_section = self.get_library()
+        self.library = self.get_library()
         self.find_replace("play_start")
 
         for item in ["random", "latest", "unwatched", "ondeck"]:
@@ -65,12 +47,13 @@ class ProcessSpeech:
 
         for item in ["season", "episode"]:
             if self.find_replace(item, False):
-                self.library_section = self.library["shows"]
+                self.library = self.pa.media["shows"]
                 setattr(self, item, self.get_season_episode_num(self.localize[item]))
+                self.find_replace(item)
 
         for item in ["artist", "album", "track", "playlist"]:
             if self.find_replace(f"music_{item}"):
-                self.library_section = self.library[f"{item}s"]
+                self.library = self.pa.media[f"{item}s"]
 
         self.get_media_and_device()
 
@@ -81,11 +64,11 @@ class ProcessSpeech:
                 cmd = cmd.replace(device.lower(), "")
 
         if any(word in cmd for word in self.tv_keys):
-            return self.library["shows"]
+            return self.pa.media["shows"]
 
         for item in ["movies", "artists", "albums", "tracks", "playlists"]:
             if any(word in cmd for word in self.localize[item]):
-                return self.library[item]
+                return self.pa.media[item]
 
     def is_device(self, media_list, separator):
         split = self.command.split(separator)
@@ -106,10 +89,10 @@ class ProcessSpeech:
         separator = f" {separator} "
         if separator in self.command:
             for item in ["show", "movie", "artist", "album", "track", "playlist", "all"]:
-                if self.library_section == self.library[f"{item}s"] and item != "all":
-                    self.device = self.is_device(self.library[f"{item}_titles"], separator)
+                if item != "all" and self.library == self.pa.media[f"{item}s"]:
+                    self.device = self.is_device(self.pa.media[f"{item}_titles"], separator)
                 else:
-                    self.device = self.is_device(self.library["all_titles"], separator)
+                    self.device = self.is_device(self.pa.media["all_titles"], separator)
 
             if self.device:
                 split = self.command.split(separator)
@@ -155,8 +138,8 @@ class ProcessSpeech:
         for word in item["keywords"]:
             for ordinal in ordinals.keys():
                 if ordinal not in ("pre", "post") and ordinal in self.command:
-                    match_before = re.search(r"(" + ordinal + r")\s*(" + word + r")", self.command)
-                    match_after = re.search(r"(" + word + r")\s*(" + ordinal + r")", self.command)
+                    match_before = re.search(fr"({ordinal})\s*({word})", self.command)
+                    match_after = re.search(fr"({word})\s*({ordinal})", self.command)
                     if match_before:
                         match = match_before
                         matched = match.group(1)
@@ -167,11 +150,11 @@ class ProcessSpeech:
                         replacement = match.group(0).replace(matched, ordinals[matched])
                         self.command = self.command.replace(match.group(0), replacement)
                         for pre in ordinals["pre"]:
-                            if "%s %s" % (pre, match.group(0)) in self.command:
-                                self.command = self.command.replace("%s %s" % (match.group(0), pre), replacement)
+                            if f"{pre} {match.group(0)}" in self.command:
+                                self.command = self.command.replace(f"{pre} {match.group(0)}", replacement)
                         for post in ordinals["post"]:
-                            if "%s %s" % (match.group(0), post) in self.command:
-                                self.command = self.command.replace("%s %s" % (match.group(0), post), replacement)
+                            if f"{match.group(0)} {post}" in self.command:
+                                self.command = self.command.replace(f"{match.group(0)} {post}", replacement)
         return self.command.strip()
 
     def get_season_episode_num(self, item):
@@ -183,37 +166,37 @@ class ProcessSpeech:
                 phrase = keyword
                 for pre in item["pre"]:
                     if pre in self.command:
-                        regex = r"(\d+\s+)(" + pre + r"\s+)(" + phrase + r"\s+)"
+                        regex = fr"(\d+\s+)({pre}\s+)({phrase}\s+)"
                         if re.search(regex, self.command):
-                            self.command = re.sub(regex, "%s %s " % (phrase, r"\1"), self.command)
+                            self.command = re.sub(regex, fr"{phrase} \1 ", self.command)
                         else:
                             self.command = re.sub(
-                                r"(" + pre + r"\s+)(" + phrase + r"\s+)(\d+\s+)",
-                                "%s %s" % (phrase, r"\3"),
+                                fr"({pre}\s+)({phrase}\s+)(\d+\s+)",
+                                fr"{phrase} \3",
                                 self.command,
                             )
                             self.command = re.sub(
-                                r"(" + phrase + r"\s+)(\d+\s+)(" + pre + r"\s+)",
-                                "%s %s" % (phrase, r"\2"),
+                                fr"({phrase}\s+)(\d+\s+)({pre}\s+)",
+                                fr"{phrase} \2",
                                 self.command,
                             )
                 for post in item["post"]:
                     if post in self.command:
-                        regex = r"(" + phrase + r"\s+)(" + post + r"\s+)(\d+\s+)"
+                        regex = fr"({phrase}\s+)({post}\s+)(\d+\s+)"
                         if re.search(regex, self.command):
-                            self.command = re.sub(regex, "%s %s" % (phrase, r"\3"), self.command)
+                            self.command = re.sub(regex, fr"{phrase} \3", self.command)
                         else:
                             self.command = re.sub(
-                                r"(\d+\s+)(" + phrase + r"\s+)(" + post + r"\s+)",
-                                "%s %s" % (phrase, r"\1"),
+                                fr"(\d+\s+)({phrase}\s+)({post}\s+)",
+                                fr"{phrase} \1",
                                 self.command,
                             )
                             self.command = re.sub(
-                                r"(" + phrase + r"\s+)(\d+\s+)(" + post + r"\s+)",
-                                "%s %s" % (phrase, r"\2"),
+                                fr"({phrase}\s+)(\d+\s+)({post}\s+)",
+                                fr" {phrase} \2",
                                 self.command,
                             )
-        match = re.search(r"(\d+)\s*(" + phrase + r"|^)|(" + phrase + r"|^)\s*(\d+)", self.command)
+        match = re.search(fr"(\d+)\s*({phrase}|^)|({phrase}|^)\s*(\d+)", self.command)
         if match:
             number = match.group(1) or match.group(4)
             self.command = self.command.replace(match.group(0), "").strip()

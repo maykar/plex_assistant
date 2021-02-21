@@ -1,4 +1,5 @@
 import re
+
 from .helpers import fuzzy
 
 
@@ -9,6 +10,7 @@ class ProcessSpeech:
         self.localize = localize
         self.device = default_cast
         self.tv_keys = localize["shows"] + localize["season"]["keywords"] + localize["episode"]["keywords"]
+        self.music_keys = localize["music"] + localize["artists"] + localize["albums"] + localize["tracks"]
         self.process_command()
 
     @property
@@ -66,6 +68,9 @@ class ProcessSpeech:
         if any(word in cmd for word in self.tv_keys):
             return self.pa.media["shows"]
 
+        if any(word in cmd for word in self.music_keys):
+            return self.pa.media["tracks"]
+
         for item in ["movies", "artists", "albums", "tracks", "playlists"]:
             if any(word in cmd for word in self.localize[item]):
                 return self.pa.media[item]
@@ -101,6 +106,11 @@ class ProcessSpeech:
 
         self.find_replace("shows")
         self.find_replace("movies")
+
+        for key in self.music_keys:
+            if not self.command.replace(key, ""):
+                self.command = self.command.replace(key, "")
+
         self.media = self.command
 
     def find_replace(self, item, replace=True, replacement=""):

@@ -6,7 +6,7 @@ Translations are located in the [localize.py](https://github.com/maykar/plex_ass
 
 Translations are held in a dictionary with the language code as the key (in this case "en"):
 
-Any item can accept either a single word like `"play": "play",` or a list of words/phrases like:
+Any item can accept a list of words/phrases like the example below. The only exceptions are oridnal numbers and error messages, they only accept on word/phrase:
 
 ```
             "next_track": [

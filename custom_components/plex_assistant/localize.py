@@ -287,7 +287,6 @@ translations = {
         },
     },
     "hu": {
-        # Generic Terms
         "play": [
             "lejátszás",
             "indít",
@@ -351,7 +350,6 @@ translations = {
             "lista",
         ],
         
-        # Controls
         "controls": {
             "play": [
                 "lejátszás",
@@ -394,12 +392,10 @@ translations = {
             ],
         },
 
-        # Text for errors
         "not_found": "nem található",
         "cast_device": "küldés eszközre",
         "no_call": "Nem érkezett parancs.",
 
-        # Invoke Command
         "play_start": [
             "játszd le a filmet",
             "film lejátszása",
@@ -417,9 +413,7 @@ translations = {
             "indítsd el",
         ],
 
-        # Ordinal Numbers to Integers
         "ordinals": {
-            # Edit the keys for translation, not the integers.
             "első": "1",
             "második": "2",
             "harmadik": "3",
@@ -430,14 +424,12 @@ translations = {
             "nyolcadik": "8",
             "kilencedik": "9",
             "tizedik": "10",
-            # Do not edit the keys of pre and post
             "pre": [
                 "a",
             ],
             "post": [],
         },
 
-        # Keywords, Pre, and Post
         "season": {
             "keywords": [
                 "évad",
@@ -568,9 +560,6 @@ translations = {
             "pre": [],
             "post": [],
         },
-        # This is the separator word used at the end of the command
-        # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "separator": {
             "keywords": [
                 "itt",
@@ -581,9 +570,6 @@ translations = {
                 "az",
             ],
         },
-        # This is the separator word used in a command for music
-        # that narrows down a search by using the artists name.
-        # Examples:  "Play album by artist" or "Play track by the artist"
         "music_separator": {
             "keywords": [
                 "tőle",

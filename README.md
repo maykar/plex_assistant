@@ -232,7 +232,7 @@ Another use example would be if you have multiple Star Trek series, but want a s
 "star trek":"star trek the next generation"
 ```
 
-And yet another use would be to improve translations, for example: If there are feminine and masculine variations for your language you can now add those variations.
+And yet another use would be to improve translations, for example: If there are unsupported feminine and masculine variations for your language you can add them yourself. I would also encourage you to create an issue or [help improve translations](translation.md) if you run into a situation like this.
 
 ## Start Scripts
 

@@ -84,60 +84,62 @@ class ProcessSpeech:
 
     def get_media_and_device(self):
         media = None
-        separator = self.localize["separator"]["keywords"][0]
-        self.find_replace("separator", True, separator)
+        for separator in self.localize["separator"]["keywords"]:
+            if separator in self.command:
+                self.find_replace("separator", True, separator)
 
-        if self.command.strip().startswith(separator + " "):
-            self.device = self.command.replace(separator, "").strip()
-            return
+                if self.command.strip().startswith(separator + " "):
+                    self.device = self.command.replace(separator, "").strip()
+                    return
 
-        separator = f" {separator} "
-        if separator in self.command:
-            for item in ["show", "movie", "artist", "album", "track", "playlist", "all"]:
-                if item == "all" or self.library == self.pa.media[f"{item}s"]:
-                    self.device = self.is_device(self.pa.media[f"{item}_titles"], separator)
+                separator = f" {separator} "
+                if separator in self.command:
+                    for item in ["show", "movie", "artist", "album", "track", "playlist", "all"]:
+                        if item == "all" or self.library == self.pa.media[f"{item}s"]:
+                            self.device = self.is_device(self.pa.media[f"{item}_titles"], separator)
 
-            if self.device:
-                split = self.command.split(separator)
-                self.command = self.command.replace(separator + split[-1], "")
-                self.device = split[-1]
+                    if self.device:
+                        split = self.command.split(separator)
+                        self.command = self.command.replace(separator + split[-1], "")
+                        self.device = split[-1]
 
-        self.find_replace("shows")
-        self.find_replace("movies")
+                self.find_replace("shows")
+                self.find_replace("movies")
 
-        for key in self.music_keys:
-            if not self.command.replace(key, ""):
-                self.command = self.command.replace(key, "")
+                for key in self.music_keys:
+                    if not self.command.replace(key, ""):
+                        self.command = self.command.replace(key, "")
 
-        lib = None if not getattr(self, "library", None) else getattr(self, "library")[0]
-        if self.find_replace("music_seperator", False) and getattr(lib, "type", None) in ["artist", "album", "track", None]:
-            self.media = self.media_by_artist(lib) or self.command
-        else:
-            self.media = self.command
+                lib = None if not getattr(self, "library", None) else getattr(self, "library")[0]
+                if self.find_replace("music_separator", False) and getattr(lib, "type", None) in ["artist", "album", "track", None]:
+                    self.media = self.media_by_artist(lib) or self.command
+                else:
+                    self.media = self.command
 
     def media_by_artist(self, lib):
         artist_media = None
-        separator = self.localize["music_seperator"]["keywords"][0]
-        self.find_replace("music_seperator", True, separator)
-        split = self.command.split(f" {separator} ")
-        artist = fuzzy(split[-1], self.pa.media["artist_titles"])
-        if artist[1] > 60:
-            artist_albums = self.pa.server.search(artist[0], "album")
-            artist_album_titles = [x.title for x in artist_albums]
-            artist_tracks = self.pa.server.search(artist[0], "track")
-            artist_track_tracks = [x.title for x in artist_tracks]
-            if not lib:
-                artist_media = fuzzy(split[0], artist_album_titles + artist_track_tracks)
-                if artist_media[1] > 60:
-                    return next((x for x in artist_albums + artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
-            elif lib.type == "album":
-                artist_media = fuzzy(split[0], artist_album_titles)
-                if artist_media[1] > 60:
-                    return next((x for x in artist_albums if artist_media[0] in getattr(x, "title", "")), None)
-            elif lib.type == "track":
-                artist_media = fuzzy(split[0], artist_track_tracks)
-                if artist_media[1] > 60:
-                    return next((x for x in artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
+        for separator in self.localize["music_separator"]["keywords"]:
+            if separator in self.command:
+                self.find_replace("music_separator", True, separator)
+                split = self.command.split(f" {separator} ")
+                artist = fuzzy(split[-1], self.pa.media["artist_titles"])
+                if artist[1] > 60:
+                    artist_albums = self.pa.server.search(artist[0], "album")
+                    artist_album_titles = [x.title for x in artist_albums]
+                    artist_tracks = self.pa.server.search(artist[0], "track")
+                    artist_track_tracks = [x.title for x in artist_tracks]
+                    if not lib:
+                        artist_media = fuzzy(split[0], artist_album_titles + artist_track_tracks)
+                        if artist_media[1] > 60:
+                            return next((x for x in artist_albums + artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
+                    elif lib.type == "album":
+                        artist_media = fuzzy(split[0], artist_album_titles)
+                        if artist_media[1] > 60:
+                            return next((x for x in artist_albums if artist_media[0] in getattr(x, "title", "")), None)
+                    elif lib.type == "track":
+                        artist_media = fuzzy(split[0], artist_track_tracks)
+                        if artist_media[1] > 60:
+                            return next((x for x in artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
         return self.command
 
     def find_replace(self, item, replace=True, replacement=""):

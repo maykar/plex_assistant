@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "❱ Plex Assistant Beállítás",
+        "description": "[Dokumentáció](https://github.com/maykar/plex_assistant)  |  [Fórumok](https://community.home-assistant.io/t/plex-assistant/)  |  [Hibakeresés](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)  |  [Fejlesztés Támogatása](https://github.com/sponsors/maykar)",
+        "data": {
+          "server_name": "Kérem válasszon Plex szervert",
+          "language": "Nyelv",
+          "default_cast": "Alapértelmezett cast eszköz",
+          "tts_errors": "TTS (beszédszintézis) problémák a cast eszközön"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Csak egy példány engedélyezett.",
+      "no_plex_server": "Nem található Plex szerver, ellenőrizze, hogy a Home Assistant Plex integrációja engedélyezve van és működik.",
+      "ha_ver_unsupported": "Ezen Plex Assistant verzió futtatásához Home Assistant 2021.2.0 vagy magasabb verzió szükséges."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "❱ Plex Assistant Haladó Beállítások",
+        "description": "[Dokumentáció](https://github.com/maykar/plex_assistant)  |  [Fórumok](https://community.home-assistant.io/t/plex-assistant/)  |  [Hibakeresés](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)  |  [Fejlesztés Támogatása](https://github.com/sponsors/maykar)\n\n**Read the [Advanced Config Docs](https://github.com/maykar/plex_assistant/tree/master#advanced-configuration) for how to format of the next 2 options.**",
+        "data": {
+          "start_script": "Szkript futtatása egy elérhetetlen Plex kliens indításához",
+          "keyword_replace": "Cseréld le a kulcsszavakat a sajátjaidra",
+          "jump_f": "Alapértelmezett előretekerés másodpercben.",
+          "jump_b": "Alapértelmezett visszatekerés másodpercben."
+        }
+      }
+    }
+  }
+}

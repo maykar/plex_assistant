@@ -262,6 +262,19 @@ translations = {
                 "the",
             ],
         },
+        # This is the separator word used in a command for music
+        # that narrows down a search by using the artists name.
+        # Examples:  "Play album by artist" or "Play track by the artist"
+        "music_seperator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "by",
+            ],
+            "pre": [],
+            "post": [
+                "the",
+            ],
+        },
     },
     "sv": {
         "play": "spela",
@@ -408,6 +421,11 @@ translations = {
             "keywords": [
                 "på",
             ],
+            "pre": [],
+            "post": [],
+        },
+        "music_separator": {
+            "keywords": [],
             "pre": [],
             "post": [],
         },
@@ -565,6 +583,11 @@ translations = {
             "post": [
                 "de",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "it": {
@@ -726,6 +749,11 @@ translations = {
             "post": [
                 "il",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "fr": {
@@ -977,6 +1005,11 @@ translations = {
                 "la",
             ],
         },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
     },
     "pt": {
         "play": "ver",
@@ -1144,6 +1177,11 @@ translations = {
             "keywords": [
                 "na",
             ],
+            "pre": [],
+            "post": [],
+        },
+        "music_separator": {
+            "keywords": [],
             "pre": [],
             "post": [],
         },
@@ -1319,6 +1357,11 @@ translations = {
             "post": [
                 "dem",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "da": {
@@ -1521,6 +1564,11 @@ translations = {
             "pre": [],
             "post": [],
         },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
     },
     "nb": {
         "play": "spille",
@@ -1669,6 +1717,11 @@ translations = {
             "keywords": [
                 "på",
             ],
+            "pre": [],
+            "post": [],
+        },
+        "music_separator": {
+            "keywords": [],
             "pre": [],
             "post": [],
         },
@@ -1883,6 +1936,11 @@ translations = {
                 "la"
             ],
         },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
     },
     # "template": {
     #     # Generic Terms
@@ -1985,6 +2043,15 @@ translations = {
     #     # to let us know it is a cast device.
     #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
     #     "separator": {
+    #         # Only use one keyword for this one.
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     # This is the separator word used in a command for music
+    #     # that narrows down a search by using the artists name.
+    #     # Examples:  "Play album by artist" or "Play track by the artist"
+    #     "music_separator": {
     #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],

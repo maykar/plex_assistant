@@ -1,6 +1,6 @@
 # ❱ Plex Assistant
 
-Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients.
+Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google and Sonos devices, as well as Plex clients.
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 

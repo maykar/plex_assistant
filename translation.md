@@ -220,4 +220,4 @@ This is the word that seperates the media from cast device. In English it is "on
 
 There is a commented out template at the end of the file that you may copy and paste from.
 
-Please, also consider translating `custom_components/plex_assistant/en.json` to a new file with the language code replaced in the file name. Example: `custom_components/plex_assistant/nl.json`. This is for the setup and options on HA's integration page.
+Please, also consider translating `custom_components/plex_assistant/translations/en.json` to a new file with the language code replaced in the file name. Example: `custom_components/plex_assistant/translations/nl.json`. This is for the setup and options on HA's integration page.

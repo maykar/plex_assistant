@@ -46,7 +46,7 @@ Your Plex server is automatically retrieved from Home Assistant's Plex integrati
 After setup you can click "Options" on Plex Assistant's card for more config options including: jump forward/back amount and [Advanced Config Options](#advanced-configuration).
 
 ## Cast Devices
-This component automatically detects compatible media_player entities from Home Assistant (Google Cast devices and Plex Clients). It uses the friendly name from the entities for commands.
+This component automatically detects compatible media_player entities from Home Assistant (Google Cast devices, Sonos devices, and Plex clients). It uses the friendly name from the entities for commands.
 
 ## Google Assistant Setup
 

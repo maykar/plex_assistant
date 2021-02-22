@@ -15,8 +15,8 @@ Any item can accept a list of words/phrases like the example below. The only exc
                 "skip to next track",
                 "skip to next",
                 "skip forward",
-                "next",
                 "next track",
+                "next",
                 "skip",
             ],
 ```

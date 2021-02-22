@@ -3,7 +3,12 @@ translations = {
     "en": {
         # Generic Terms
         "play": "play",
-        "random": "random",
+        "random": [
+            "randomized",
+            "random",
+            "shuffled",
+            "shuffle",
+        ],
         "movies": [
             "movies",
             "films",
@@ -17,16 +22,70 @@ translations = {
             "tv",
             "show",
         ],
-
+        "tracks": [
+            "tracks",
+            "track",
+            "songs",
+            "song",
+            "albums",
+            "album",
+            "records",
+            "record",
+        ],
+        "albums": [
+            "album",
+            "record",
+            "cd",
+            "vinyl"
+        ],
+        "artists": [
+            "band",
+            "artist",
+            "singer",
+            "composer",
+            "player",
+            "guitarist"
+        ],
+        "music": [
+            "music",
+        ],
+        "playlists": [
+            "playlist",
+            "list",
+        ],
+        
         # Controls
         "controls": {
             "play": "play",
             "pause": "pause",
             "stop": "stop",
-            "next_track": "next",
-            "previous_track": "previous",
-            "jump_forward": "jump forward",
-            "jump_back": "jump back",
+            "next_track": [
+                "go to next track",
+                "go to next",
+                "skip to next track",
+                "skip to next",
+                "skip next",
+                "skip forward",
+                "next track",
+                "next",
+                "skip",
+            ],
+            "previous_track":  [
+                "go to previous track",
+                "go back one track",
+                "back one track",
+                "go back",
+                "back",
+            ],
+            "jump_forward": [
+                "jump forward",
+                "fast forward",
+                "forward",
+            ],
+            "jump_back": [
+                "jump back",
+                "rewind",
+            ],
         },
 
         # Text for errors
@@ -158,6 +217,38 @@ translations = {
                 "of",
             ],
         },
+        "music_album": {
+            "keywords": [
+                "album",
+                "record",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [
+                "artists",
+                "artist",
+                "band",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [
+                "track",
+                "song",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [
+                "playlist",
+            ],
+            "pre": [],
+            "post": [],
+        },
         # This is the separator word used at the end of the command
         # To let us know it is a cast device.
         # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
@@ -168,6 +259,23 @@ translations = {
             ],
             "pre": [],
             "post": [
+                "the",
+            ],
+        },
+        # This is the separator word used in a command for music
+        # that narrows down a search by using the artists name.
+        # Examples:  "Play album by artist" or "Play track by the artist"
+        "music_seperator": {
+            # Only use one keyword for this one.
+            "keywords": [
+                "by",
+            ],
+            "pre": [],
+            "post": [
+                "the band",
+                "the artists",
+                "the artist",
+                "the group",
                 "the",
             ],
         },
@@ -188,6 +296,11 @@ translations = {
             "serien",
             "serie",
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "spela",
@@ -288,10 +401,35 @@ translations = {
                 "tv",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "på",
             ],
+            "pre": [],
+            "post": [],
+        },
+        "music_separator": {
+            "keywords": [],
             "pre": [],
             "post": [],
         },
@@ -305,6 +443,11 @@ translations = {
         "shows": [
             "aflevering"
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "speel",
@@ -416,6 +559,26 @@ translations = {
                 "aflevering",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "op",
@@ -424,6 +587,11 @@ translations = {
             "post": [
                 "de",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "it": {
@@ -437,6 +605,11 @@ translations = {
             "telefilm",
             "serie tv"
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "riproduci",
@@ -552,6 +725,26 @@ translations = {
                 "di",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "su",
@@ -560,6 +753,11 @@ translations = {
             "post": [
                 "il",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "fr": {
@@ -581,6 +779,12 @@ translations = {
             "show",
             "série"
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
+
         "controls": {
             "play":  "joue",
             "pause": "pause",
@@ -775,6 +979,26 @@ translations = {
                 "de",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "sur",
@@ -784,6 +1008,11 @@ translations = {
                 "le",
                 "la",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "pt": {
@@ -798,6 +1027,11 @@ translations = {
             "serie",
             "series"
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "play",
@@ -923,6 +1157,26 @@ translations = {
                 "de",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "na",
@@ -930,10 +1184,19 @@ translations = {
             "pre": [],
             "post": [],
         },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
     },
     "de": {
         "play": "spiele",
-        "random": "zufällige",
+        "random": [
+                "zufällige",
+                "zufälliges",
+                "zufälligen",
+        ],
         "movies": [
             "film",
         ],
@@ -942,12 +1205,26 @@ translations = {
             "episode",
             "show",
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
+
         "controls": {
             "play": "spiele",
             "pause": "pausiere",
             "stop": "stoppe",
-            "next_track": "nächstes",
-            "previous_track": "vorheriges",
+            "next_track": [
+                "nächstes",
+                "nächste",
+                "nächsten",
+            ],
+            "previous_track": [
+                "vorheriges",
+                "vorherige",
+                "vorherigen",
+            ],
             "jump_forward": "springe vor",
             "jump_back": "springe zurück",
         },
@@ -1055,6 +1332,26 @@ translations = {
                 "von",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
 
         "separator": {
             "keywords": [
@@ -1064,6 +1361,11 @@ translations = {
             "post": [
                 "dem",
             ],
+        },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
         },
     },
     "da": {
@@ -1078,6 +1380,11 @@ translations = {
             "tv",
             "program"
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "afspil",
@@ -1232,12 +1539,37 @@ translations = {
                 "af",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "på",
                 "via",
                 "med",
             ],
+            "pre": [],
+            "post": [],
+        },
+        "music_separator": {
+            "keywords": [],
             "pre": [],
             "post": [],
         },
@@ -1256,6 +1588,11 @@ translations = {
             "serien",
             "serie",
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "spille",
@@ -1360,10 +1697,35 @@ translations = {
                 "tv",
             ],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
         "separator": {
             "keywords": [
                 "på",
             ],
+            "pre": [],
+            "post": [],
+        },
+        "music_separator": {
+            "keywords": [],
             "pre": [],
             "post": [],
         },
@@ -1389,6 +1751,11 @@ translations = {
             "serie de televisión",
             "series de televisión"
         ],
+        "tracks": [],
+        "albums": [],
+        "artists": [],
+        "music": [],
+        "playlists": [],
 
         "controls": {
             "play": "reproducir",
@@ -1543,6 +1910,26 @@ translations = {
             ],
             "post": [],
         },
+        "music_album": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
 
         "separator": {
             "keywords": [
@@ -1553,6 +1940,11 @@ translations = {
                 "la"
             ],
         },
+        "music_separator": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
     },
     # "template": {
     #     # Generic Terms
@@ -1560,6 +1952,11 @@ translations = {
     #     "random": "",
     #     "movies": [],
     #     "shows": [],
+    #     "tracks": [],
+    #     "albums": [],
+    #     "artists": [],
+    #     "music": [],
+    #     "playlists": [],
 
     #     # Controls
     #     "controls": {
@@ -1625,10 +2022,40 @@ translations = {
     #         "pre": [],
     #         "post": [],
     #     },
+    #     "music_album": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "music_artist": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "music_track": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     "music_playlist": {
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+
     #     # This is the separator word used at the end of the command
     #     # to let us know it is a cast device.
     #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
     #     "separator": {
+    #         # Only use one keyword for this one.
+    #         "keywords": [],
+    #         "pre": [],
+    #         "post": [],
+    #     },
+    #     # This is the separator word used in a command for music
+    #     # that narrows down a search by using the artists name.
+    #     # Examples:  "Play album by artist" or "Play track by the artist"
+    #     "music_separator": {
     #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],

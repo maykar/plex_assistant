@@ -17,13 +17,14 @@ class PlexAssistant:
 
     def update_libraries(self):
         self.library.reload()
-        movies = self.library.search(libtype="movie", sort="addedAt:desc")
-        shows = self.library.search(libtype="show", sort="addedAt:desc")
+        self.media["all_titles"] = []
 
-        self.media = {
-            "movies": movies,
-            "movie_titles": [movie.title for movie in movies],
-            "shows": shows,
-            "show_titles": [show.title for show in shows],
-            "updated": datetime.now(),
-        }
+        for item in ["show", "movie", "artist", "album", "track"]:
+            self.media[f"{item}s"] = self.library.search(libtype=item, sort="addedAt:desc")
+            self.media[f"{item}_titles"] = [x.title for x in self.media[f"{item}s"]]
+            self.media["all_titles"] += self.media[f"{item}_titles"]
+
+        self.media["playlists"] = self.server.playlists()
+        self.media["playlist_titles"] = [playlist.title for playlist in self.media["playlists"]]
+
+        self.media["updated"] = datetime.now()

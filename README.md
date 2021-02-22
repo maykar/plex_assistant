@@ -5,13 +5,11 @@
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Commands](#commands)<br>
 [Google Assistant Setup](#google-assistant-setup) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Advanced Config](#advanced-configuration)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well.
+Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google and Sonos devices, as well as Plex clients. You could use this component with anything that can make a service call to HA as well.
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
 You can use the component's service (`plex_assistant.command`) to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
-
-***Music and audio aren't built in yet, only shows and movies at the moment.***
 
 ## [Troubleshooting and Issues](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)
 
@@ -141,18 +139,18 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 </details>
 
 ### Currently Supported Languages:
-| Language |  Code  |        IFTTT         |         DialogFlow         |
-|:----------|:------:|:--------------------:|:--------------------------:|
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DK%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Danish**  | `"da"` |         :x:          |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NL%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Dutch**    | `"nl"` |         :x:          |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/GB%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**English**  | `"en"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/ES%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Spanish**  | `"es"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/FR%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**French**   | `"fr"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DE%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**German**  | `"de"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/IT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Italian**  | `"it"` |  :heavy_check_mark:  |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NO%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Norwegian**  | `"nb"` |         :x:          |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/PT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Portuguese**  | `"pt"` |         :x:          |      :heavy_check_mark:    |
-| <img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/SV%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Swedish**  | `"sv"` |         :x:          |      :heavy_check_mark:    |
+| Language |  Code  |        IFTTT         |         DialogFlow         |       Music Support        |
+|:---------|:------:|:--------------------:|:--------------------------:|:--------------------------:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DK%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Danish**|`"da"`|:x:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NL%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Dutch**|`"nl"`|:x:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/GB%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**English**|`"en"`|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/ES%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Spanish**|`"es"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/FR%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**French**|`"fr"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DE%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**German**|`"de"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/IT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Italian**|`"it"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NO%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Norwegian**|`"nb"`|:x:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/PT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Portuguese**|`"pt"`|:x:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/SV%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Swedish**|`"sv"`|:x:|:heavy_check_mark:|:x:|
 
 #### [Help add or improve support for more languages.](translation.md)<hr>
 
@@ -180,19 +178,21 @@ If no season/episode is specified for a TV show Plex Assistant will play the fir
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`
 * `"play Breaking Bad"`
-* `"play Pets 2 on the Kitchen Chromecast"`
+* `"play Add it Up by the Violent Femmes"`
+* `"play the track Time to Pretend"`
+* `"play the album Time to Pretend by MGMT"`
 * `"play ondeck"`
 * `"play random unwatched TV"`
 * `"play season 1 episode 3 of The Simpsons"`
 * `"play the first season second episode of Taskmaster on the Theater System"`
 
 ### Filter Keywords:
-* `"season"`
-* `"episode"`
-* `"latest, recent, new"`
-* `"unwatched, next"`
-* `"ondeck"`
-* `"random"`
+* `season, episode, movie, show`
+* `artist, album, track, playlist`
+* `latest, recent, new`
+* `unwatched, next`
+* `ondeck`
+* `random, shuffle, randomized, shuffled`
 
 Filter keywords can be combined. For example `"play random unwatched movies"` will start playing a list of all unwatched movies in random order.
 
@@ -200,10 +200,10 @@ Filter keywords can be combined. For example `"play random unwatched movies"` wi
 * `play`
 * `pause`
 * `stop`
-* `next`
-* `previous`
-* `jump forward`
-* `jump back`
+* `next, skip, next track, skip forward`
+* `previous, back, go back`
+* `jump forward, fast forward, forward`
+* `jump back, rewind`
 
 Be sure to add the name of the device to control commands if it is not the default device. `"stop downstairs tv"` or `"previous on the livingroom tv"`.
 
@@ -223,9 +223,9 @@ This option could be used for a few different purposes. The formatting is the wo
 
 Here's an example to add to the commands "next" and "previous" with alternatives:
 ```
-"skip forward":"next", "skip back":"previous"
+"full speed ahead":"next", "reverse full power":"previous"
 ```
-Using this config would allow you to say "skip forward" or "next" to go to the next track and "skip back" or "previous" to go to the previous.
+Using this config would allow you to say "full speed ahead" to go to the next track and "reverse full power" to go to the previous. You can still use the default commands as well.
 
 Another use example would be if you have multiple Star Trek series, but want a specific one to play when you just say "Star Trek":
 ```

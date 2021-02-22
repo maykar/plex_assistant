@@ -142,6 +142,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             episodes = media.show().episodes()
             episodes = episodes[episodes.index(media):]
             media = pa.server.createPlayQueue(episodes, shuffle=shuffle)
+        elif getattr(media, "TYPE", None) in ["artist", "album"]:
+            tracks = media.tracks()
+            media = pa.server.createPlayQueue(tracks, shuffle=shuffle)
+        elif getattr(media, "TYPE", None) == "track":
+            tracks = media.album().tracks()
+            tracks = tracks[tracks.index(media):]
+            media = pa.server.createPlayQueue(tracks, shuffle=shuffle)
         elif not getattr(media, "TYPE", None) == "playqueue":
             media = pa.server.createPlayQueue(media, shuffle=shuffle)
 

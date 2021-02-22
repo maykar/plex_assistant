@@ -1,4 +1,5 @@
 import re
+
 from .helpers import fuzzy
 
 
@@ -7,67 +8,54 @@ class ProcessSpeech:
         self.pa = pa
         self.command = command
         self.localize = localize
-        self.library = pa.media
         self.device = default_cast
-        self.library_section = None
-        self.media = None
-        self.control = None
-        self.season = None
-        self.episode = None
-        self.latest = False
-        self.unwatched = False
-        self.random = False
-        self.ondeck = False
         self.tv_keys = localize["shows"] + localize["season"]["keywords"] + localize["episode"]["keywords"]
+        self.music_keys = localize["music"] + localize["artists"] + localize["albums"] + localize["tracks"]
         self.process_command()
 
     @property
     def results(self):
-        return {
-            "media": self.media,
-            "device": self.device,
-            "season": self.season,
-            "episode": self.episode,
-            "latest": self.latest,
-            "unwatched": self.unwatched,
-            "random": self.random,
-            "library": self.library_section,
-            "ondeck": self.ondeck,
-            "control": self.control,
-        }
+        results = {}
+        for x in ["media", "device", "season", "episode", "latest", "unwatched", "random", "ondeck", "control", "library"]:
+            results[x] = getattr(self, x, None)
+        return results
 
     def process_command(self):
         controls = self.localize["controls"]
         pre_command = self.command
         for control in controls:
-            if self.command.startswith(controls[control]):
-                control_check = self.command.replace(controls[control], "").strip()
-                if control_check == "":
-                    self.control = control
-                    return
-                device = fuzzy(control_check, self.pa.device_names)
-                self.find_replace("separator")
-                if device[0] in ["watched", "deck", "on watched", "on deck"]:
-                    continue
-                elif device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == controls[control]:
-                    self.device = device[0]
-                    self.control = control
-                    return
+            ctrl = [controls[control]] if isinstance(controls[control], str) else controls[control]
+            for c in ctrl:
+                if self.command.startswith(c):
+                    control_check = self.command.replace(c, "").strip()
+                    if control_check == "":
+                        self.control = control
+                        return
+                    device = fuzzy(control_check, self.pa.device_names)
+                    self.find_replace("separator")
+                    if device[0] in ["watched", "deck", "on watched", "on deck"]:
+                        continue
+                    elif device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == c:
+                        self.device = device[0]
+                        self.control = control
+                        return
         self.command = pre_command
 
-        self.library_section = self.get_library()
+        self.library = self.get_library()
         self.find_replace("play_start")
-        self.random = self.find_replace("random")
-        self.latest = self.find_replace("latest")
-        self.unwatched = self.find_replace("unwatched")
-        self.ondeck = self.find_replace("ondeck")
 
-        if self.find_replace("season", False):
-            self.library_section = self.library["shows"]
-            self.season = self.get_season_episode_num(self.localize["season"])
-        if self.find_replace("episode", False):
-            self.library_section = self.library["shows"]
-            self.episode = self.get_season_episode_num(self.localize["episode"])
+        for item in ["random", "latest", "unwatched", "ondeck"]:
+            setattr(self, item, self.find_replace(item))
+
+        for item in ["season", "episode"]:
+            if self.find_replace(item, False):
+                self.library = self.pa.media["shows"]
+                setattr(self, item, self.get_season_episode_num(self.localize[item]))
+                self.find_replace(item)
+
+        for item in ["artist", "album", "track", "playlist"]:
+            if self.find_replace(f"music_{item}"):
+                self.library = self.pa.media[f"{item}s"]
 
         self.get_media_and_device()
 
@@ -76,10 +64,16 @@ class ProcessSpeech:
         for device in self.pa.device_names:
             if device.lower() in cmd:
                 cmd = cmd.replace(device.lower(), "")
+
         if any(word in cmd for word in self.tv_keys):
-            return self.library["shows"]
-        elif any(word in self.command for word in self.localize["movies"]):
-            return self.library["movies"]
+            return self.pa.media["shows"]
+
+        if any(word in cmd for word in self.music_keys):
+            return self.pa.media["tracks"]
+
+        for item in ["movies", "artists", "albums", "tracks", "playlists"]:
+            if any(word in cmd for word in self.localize[item]):
+                return self.pa.media[item]
 
     def is_device(self, media_list, separator):
         split = self.command.split(separator)
@@ -96,21 +90,55 @@ class ProcessSpeech:
         if self.command.strip().startswith(separator + " "):
             self.device = self.command.replace(separator, "").strip()
             return
+
         separator = f" {separator} "
         if separator in self.command:
-            if self.library_section == self.library["shows"]:
-                self.device = self.is_device(self.library["show_titles"], separator)
-            elif self.library_section == self.library["movies"]:
-                self.device = self.is_device(self.library["movie_titles"], separator)
-            else:
-                self.device = self.is_device(self.library["movie_titles"] + self.library["show_titles"], separator)
+            for item in ["show", "movie", "artist", "album", "track", "playlist", "all"]:
+                if item == "all" or self.library == self.pa.media[f"{item}s"]:
+                    self.device = self.is_device(self.pa.media[f"{item}_titles"], separator)
+
             if self.device:
                 split = self.command.split(separator)
                 self.command = self.command.replace(separator + split[-1], "")
                 self.device = split[-1]
+
         self.find_replace("shows")
         self.find_replace("movies")
-        self.media = self.command
+
+        for key in self.music_keys:
+            if not self.command.replace(key, ""):
+                self.command = self.command.replace(key, "")
+
+        lib = None if not getattr(self, "library", None) else getattr(self, "library")[0]
+        if self.find_replace("music_seperator", False) and getattr(lib, "type", None) in ["artist", "album", "track", None]:
+            self.media = self.media_by_artist(lib) or self.command
+        else:
+            self.media = self.command
+
+    def media_by_artist(self, lib):
+        artist_media = None
+        separator = self.localize["music_seperator"]["keywords"][0]
+        self.find_replace("music_seperator", True, separator)
+        split = self.command.split(f" {separator} ")
+        artist = fuzzy(split[-1], self.pa.media["artist_titles"])
+        if artist[1] > 60:
+            artist_albums = self.pa.server.search(artist[0], "album")
+            artist_album_titles = [x.title for x in artist_albums]
+            artist_tracks = self.pa.server.search(artist[0], "track")
+            artist_track_tracks = [x.title for x in artist_tracks]
+            if not lib:
+                artist_media = fuzzy(split[0], artist_album_titles + artist_track_tracks)
+                if artist_media[1] > 60:
+                    return next((x for x in artist_albums + artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
+            elif lib.type == "album":
+                artist_media = fuzzy(split[0], artist_album_titles)
+                if artist_media[1] > 60:
+                    return next((x for x in artist_albums if artist_media[0] in getattr(x, "title", "")), None)
+            elif lib.type == "track":
+                artist_media = fuzzy(split[0], artist_track_tracks)
+                if artist_media[1] > 60:
+                    return next((x for x in artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
+        return self.command
 
     def find_replace(self, item, replace=True, replacement=""):
         item = self.localize[item]
@@ -147,8 +175,8 @@ class ProcessSpeech:
         for word in item["keywords"]:
             for ordinal in ordinals.keys():
                 if ordinal not in ("pre", "post") and ordinal in self.command:
-                    match_before = re.search(r"(" + ordinal + r")\s*(" + word + r")", self.command)
-                    match_after = re.search(r"(" + word + r")\s*(" + ordinal + r")", self.command)
+                    match_before = re.search(fr"({ordinal})\s*({word})", self.command)
+                    match_after = re.search(fr"({word})\s*({ordinal})", self.command)
                     if match_before:
                         match = match_before
                         matched = match.group(1)
@@ -159,11 +187,11 @@ class ProcessSpeech:
                         replacement = match.group(0).replace(matched, ordinals[matched])
                         self.command = self.command.replace(match.group(0), replacement)
                         for pre in ordinals["pre"]:
-                            if "%s %s" % (pre, match.group(0)) in self.command:
-                                self.command = self.command.replace("%s %s" % (match.group(0), pre), replacement)
+                            if f"{pre} {match.group(0)}" in self.command:
+                                self.command = self.command.replace(f"{pre} {match.group(0)}", replacement)
                         for post in ordinals["post"]:
-                            if "%s %s" % (match.group(0), post) in self.command:
-                                self.command = self.command.replace("%s %s" % (match.group(0), post), replacement)
+                            if f"{match.group(0)} {post}" in self.command:
+                                self.command = self.command.replace(f"{match.group(0)} {post}", replacement)
         return self.command.strip()
 
     def get_season_episode_num(self, item):
@@ -175,37 +203,37 @@ class ProcessSpeech:
                 phrase = keyword
                 for pre in item["pre"]:
                     if pre in self.command:
-                        regex = r"(\d+\s+)(" + pre + r"\s+)(" + phrase + r"\s+)"
+                        regex = fr"(\d+\s+)({pre}\s+)({phrase}\s+)"
                         if re.search(regex, self.command):
-                            self.command = re.sub(regex, "%s %s " % (phrase, r"\1"), self.command)
+                            self.command = re.sub(regex, fr"{phrase} \1 ", self.command)
                         else:
                             self.command = re.sub(
-                                r"(" + pre + r"\s+)(" + phrase + r"\s+)(\d+\s+)",
-                                "%s %s" % (phrase, r"\3"),
+                                fr"({pre}\s+)({phrase}\s+)(\d+\s+)",
+                                fr"{phrase} \3",
                                 self.command,
                             )
                             self.command = re.sub(
-                                r"(" + phrase + r"\s+)(\d+\s+)(" + pre + r"\s+)",
-                                "%s %s" % (phrase, r"\2"),
+                                fr"({phrase}\s+)(\d+\s+)({pre}\s+)",
+                                fr"{phrase} \2",
                                 self.command,
                             )
                 for post in item["post"]:
                     if post in self.command:
-                        regex = r"(" + phrase + r"\s+)(" + post + r"\s+)(\d+\s+)"
+                        regex = fr"({phrase}\s+)({post}\s+)(\d+\s+)"
                         if re.search(regex, self.command):
-                            self.command = re.sub(regex, "%s %s" % (phrase, r"\3"), self.command)
+                            self.command = re.sub(regex, fr"{phrase} \3", self.command)
                         else:
                             self.command = re.sub(
-                                r"(\d+\s+)(" + phrase + r"\s+)(" + post + r"\s+)",
-                                "%s %s" % (phrase, r"\1"),
+                                fr"(\d+\s+)({phrase}\s+)({post}\s+)",
+                                fr"{phrase} \1",
                                 self.command,
                             )
                             self.command = re.sub(
-                                r"(" + phrase + r"\s+)(\d+\s+)(" + post + r"\s+)",
-                                "%s %s" % (phrase, r"\2"),
+                                fr"({phrase}\s+)(\d+\s+)({post}\s+)",
+                                fr" {phrase} \2",
                                 self.command,
                             )
-        match = re.search(r"(\d+)\s*(" + phrase + r"|^)|(" + phrase + r"|^)\s*(\d+)", self.command)
+        match = re.search(fr"(\d+)\s*({phrase}|^)|({phrase}|^)\s*(\d+)", self.command)
         if match:
             number = match.group(1) or match.group(4)
             self.command = self.command.replace(match.group(0), "").strip()

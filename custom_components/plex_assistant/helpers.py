@@ -185,7 +185,7 @@ def media_error(command, localize):
         if command[keyword]:
             error += localize[keyword]["keywords"][0] + " "
     if command["media"]:
-        error += "%s " % command["media"].capitalize()
+        error += "%s " % str(command["media"]).capitalize()
     for keyword in ["season", "episode"]:
         if command[keyword]:
             error += "%s %s " % (localize[keyword]["keywords"][0], command[keyword])
@@ -216,7 +216,9 @@ def get_title(item, deep=False):
 
 
 def filter_media(pa, option, media, lib):
-    if media and lib:
+    if getattr(media, "type", None) in ["artist", "album", "track"]:
+        return media
+    elif media and lib:
         media = next(m for m in lib if m.title == media)
     elif lib:
         media = lib
@@ -296,7 +298,9 @@ def roman_numeral_test(media, lib):
 def find_media(selected, media, lib):
     result = ""
     library = ""
-    if selected["library"]:
+    if getattr(media, "type", None) in ["artist", "album", "track"]:
+        return [media, lib[f"{media.type}s"]]
+    elif selected["library"]:
         library = selected["library"]
         section = f"{library[0].type}_titles"
         if media:

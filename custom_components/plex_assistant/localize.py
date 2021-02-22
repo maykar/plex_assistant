@@ -38,7 +38,7 @@ translations = {
             "album",
             "record",
             "cd",
-            "vinyl"
+            "vinyl",
         ],
         "artists": [
             "band",
@@ -46,7 +46,7 @@ translations = {
             "singer",
             "composer",
             "player",
-            "guitarist"
+            "guitarist",
         ],
         "music": [
             "music",
@@ -111,7 +111,7 @@ translations = {
             "play tv",
             "play show",
             "play the",
-            "play an"
+            "play an",
             "play a",
             "play",
         ],
@@ -259,7 +259,7 @@ translations = {
         },
         # This is the separator word used at the end of the command
         # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV",
         "separator": {
             "keywords": [
                 "on",
@@ -271,7 +271,7 @@ translations = {
         },
         # This is the separator word used in a command for music
         # that narrows down a search by using the artists name.
-        # Examples:  "Play album by artist" or "Play track by the artist"
+        # Examples:  "Play album by artist" or "Play track by the artist",
         "music_separator": {
             "keywords": [
                 "by",
@@ -283,6 +283,322 @@ translations = {
                 "the artist",
                 "the group",
                 "the",
+            ],
+        },
+    },
+    "hu": {
+        # Generic Terms
+        "play": [
+            "lejátszás",
+            "indít",
+        ],
+        "random": [
+            "véletlenszerű",
+            "random",
+            "véletlen szerű",
+            "véletlen",
+        ],
+        "movies": [
+            "filmek",
+            "mozifilmek",
+            "film",
+            "mozifilm",
+        ],
+        "shows": [
+            "epizódok",
+            "részek",
+            "rész",
+            "sorozatok",
+            "epizód",
+            "tévé",
+            "tv",
+            "sorozat",
+        ],
+        "tracks": [
+            "számok",
+            "szám",
+            "zenék",
+            "zene",
+            "zeneszámok",
+            "zeneszám",
+            "albumok",
+            "album",
+            "lemezek",
+            "lemez",
+            "dalok",
+            "dal",
+        ],
+        "albums": [
+            "albumok",
+            "album",
+            "cédé",
+            "cd",
+            "lemez",
+        ],
+        "artists": [
+            "együttes",
+            "előadó",
+            "énekes",
+            "író",
+            "zenész",
+            "gitáros",
+        ],
+        "music": [
+            "zene",
+        ],
+        "playlists": [
+            "lejátszási lista",
+            "lista",
+        ],
+        
+        # Controls
+        "controls": {
+            "play": [
+                "lejátszás",
+                "indítás",
+            ],
+            "pause": [
+                "pillanat állj",
+            ],
+            "stop": [
+                "állj",
+                "stop",
+            ],
+            "next_track": [
+                "következő szám",
+                "következő",
+                "ugrás",
+                "ugrás a következőre",
+                "ugrás a következő számra",
+                "következő zene",
+            ],
+            "previous_track":  [
+                "előző szám",
+                "előző",
+                "visszalépés",
+                "ugrás vissza",
+                "vissza ugrás",
+                "ugrás az előzőre",
+                "ugrás az előző számra",
+                "előző zene",
+
+            ],
+            "jump_forward": [
+                "előre tekerés",
+                "előre",
+                "tekerés",
+            ],
+            "jump_back": [
+                "vissza tekerés",
+                "vissza",
+            ],
+        },
+
+        # Text for errors
+        "not_found": "nem található",
+        "cast_device": "küldés eszközre",
+        "no_call": "Nem érkezett parancs.",
+
+        # Invoke Command
+        "play_start": [
+            "játszd le a filmet",
+            "film lejátszása",
+            "film indítása",
+            "indítsd a filmet",
+            "játszd le a sorozatot",
+            "sorozat lejátszása",
+            "sorozat indítása",
+            "indítsd a sorozatot",
+            "játszd le a sorozatot",
+            "lejátszás",
+            "indítsd",
+            "indítás",
+            "játszd le",
+            "indítsd el",
+        ],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "első": "1",
+            "második": "2",
+            "harmadik": "3",
+            "negyedik": "4",
+            "ötödik": "5",
+            "hatodik": "6",
+            "hetedik": "7",
+            "nyolcadik": "8",
+            "kilencedik": "9",
+            "tizedik": "10",
+            # Do not edit the keys of pre and post
+            "pre": [
+                "a",
+            ],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [
+                "évad",
+                "év",
+            ],
+            "pre": [
+                '.',
+                'a',
+                'az',
+            ],
+            "post": [
+                "számú",
+            ],
+        },
+        "episode": {
+            "keywords": [
+                "epizódok",
+                "epizód",
+                "részek",
+                "rész",
+            ],
+            "pre": [
+                '.',
+                'a',
+                'az',
+            ],
+            "post": [
+                "számú",
+            ],
+        },
+        "latest": {
+            "keywords": [
+                "legfrissebb",
+                "utolsó",
+                "legutolsó",
+                "új",
+                "legújabb",
+            ],
+            "pre": [
+                "a",
+                "az",
+            ],
+            "post": [
+                "filmek",
+                "film",
+                "epizódok",
+                "epizód",
+                "részek",
+                "rész",
+                "tv",
+                "tévé",
+                "sorozatok",
+                "sorozat",
+            ],
+        },
+        "unwatched": {
+            "keywords": [
+                "nem nézett",
+                "meg nem nézett",
+                "nem játszott",
+            ],
+            "pre": [],
+            "post": [
+                "filmek",
+                "film",
+                "epizódok",
+                "epizód",
+                "részek",
+                "rész",
+                "tv",
+                "tévé",
+                "sorozatok",
+                "sorozat",
+            ],
+        },
+        "ondeck": {
+            "keywords": [
+                "lejátszás folytatása",
+                "folytatás",
+            ],
+            "pre": [],
+            "post": [
+                "filmek",
+                "film",
+                "epizódok",
+                "epizód",
+                "részek",
+                "rész",
+                "tv",
+                "tévé",
+                "sorozatok",
+                "sorozat",
+            ],
+        },
+        "music_album": {
+            "keywords": [
+                "album",
+                "albumok",
+                "zenei album",
+                "zenei albumok",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_artist": {
+            "keywords": [
+                "előadó",
+                "együttes",
+                "csapat",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_track": {
+            "keywords": [
+                "zene",
+                "szám",
+                "zeneszám",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        "music_playlist": {
+            "keywords": [
+                "lista",
+                "lejátszási lista",
+            ],
+            "pre": [],
+            "post": [],
+        },
+        # This is the separator word used at the end of the command
+        # To let us know it is a cast device.
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV",
+        "separator": {
+            "keywords": [
+                "itt",
+            ],
+            "pre": [],
+            "post": [
+                "a",
+                "az",
+            ],
+        },
+        # This is the separator word used in a command for music
+        # that narrows down a search by using the artists name.
+        # Examples:  "Play album by artist" or "Play track by the artist",
+        "music_separator": {
+            "keywords": [
+                "tőle",
+                "tőlük",
+                "ettől",
+                "ezektől",
+            ],
+            "pre": [],
+            "post": [
+                "az együttestől",
+                "az előadótól",
+                "az énekestől",
+                "a bandától",
+                "a",
+                "az",
             ],
         },
     },
@@ -332,7 +648,7 @@ translations = {
                 "hoppa framåt",
             ],
             "jump_back": [
-                "hoppa tillbaka"
+                "hoppa tillbaka",
             ],
         },
         "no_call": "Inget kommando mottogs.",
@@ -466,10 +782,10 @@ translations = {
             "willekeurige",
         ],
         "movies": [
-            "film"
+            "film",
         ],
         "shows": [
-            "aflevering"
+            "aflevering",
         ],
         "tracks": [],
         "albums": [],
@@ -649,7 +965,7 @@ translations = {
         "shows": [
             "episodio",
             "telefilm",
-            "serie tv"
+            "serie tv",
         ],
         "tracks": [],
         "albums": [],
@@ -830,7 +1146,7 @@ translations = {
         "movies": [
             "vidéo",
             "film",
-            "films"
+            "films",
         ],
         "shows": [
             "épisode",
@@ -841,7 +1157,7 @@ translations = {
             "série télévisée",
             "série tv",
             "show",
-            "série"
+            "série",
         ],
         "tracks": [],
         "albums": [],
@@ -909,7 +1225,7 @@ translations = {
             "lis série",
             "lire show",
             "lire the",
-            "lire"
+            "lire",
         ],
 
         "ordinals": {
@@ -1001,7 +1317,7 @@ translations = {
             ],
             "post": [
                 "film",
-                "vidéo"
+                "vidéo",
                 "épisodes",
                 "épisode",
                 "films",
@@ -1108,7 +1424,7 @@ translations = {
             "episódio",
             "episódios",
             "serie",
-            "series"
+            "series",
         ],
         "tracks": [
             "músicas",
@@ -1490,13 +1806,13 @@ translations = {
                 "aktuelle",
             ],
             "pre": [
-                "die"
+                "die",
             ],
             "post": [
                 "episode",
                 "folge",
                 "staffel",
-                "von"
+                "von",
             ],
         },
         "unwatched": {
@@ -1519,7 +1835,7 @@ translations = {
         "ondeck": {
             "keywords": [
                 "startseite",
-                "hauptseite"
+                "hauptseite",
             ],
             "pre": [
                 "die",
@@ -1578,7 +1894,7 @@ translations = {
             "episode",
             "afsnit",
             "tv",
-            "program"
+            "program",
         ],
         "tracks": [],
         "albums": [],
@@ -1624,7 +1940,7 @@ translations = {
             "afspil afsnittet",
             "afspil tvprogram",
             "afspil afsnit",
-            "afspil"
+            "afspil",
         ],
 
         "ordinals": {
@@ -1737,7 +2053,7 @@ translations = {
                 "igangværende",
                 "fortsat",
                 "on deck",
-                "ondeck"
+                "ondeck",
             ],
             "pre": [
                 "fortsat",
@@ -1975,17 +2291,17 @@ translations = {
             "video",
             "videos",
             "vídeo",
-            "vídeos"
+            "vídeos",
         ],
         "shows": [
             "programa",
-            "programas"
+            "programas",
             "episodio",
             "episodios",
             "serie",
             "series",
             "serie de televisión",
-            "series de televisión"
+            "series de televisión",
         ],
         "tracks": [],
         "albums": [],
@@ -2044,11 +2360,11 @@ translations = {
             "comienza el vídeo",
             "inicia el vídeo",
             "comienza",
-            "comienze"
+            "comienze",
             "empieza",
             "empiece",
             "inicia",
-            "inicie"
+            "inicie",
         ],
 
         "ordinals": {
@@ -2064,35 +2380,35 @@ translations = {
             "décimo": "10",
             "pre": [
                 "el",
-                "la"
+                "la",
             ],
             "post": [],
         },
 
         "season": {
             "keywords": [
-                "temporada"
+                "temporada",
             ],
             "pre": [
-                "la"
+                "la",
             ],
             "post": [
                 "numero",
-                "de"
+                "de",
             ],
         },
         "episode": {
             "keywords": [
                 "episodio",
-                "episodios"
+                "episodios",
             ],
             "pre": [
                 "el",
-                "los"
+                "los",
             ],
             "post": [
                 "número",
-                "de"
+                "de",
             ],
         },
         "latest": {
@@ -2105,32 +2421,32 @@ translations = {
                 "nuevo",
                 "nueva",
                 "nuevos",
-                "nuevas"
+                "nuevas",
             ],
             "pre": [
                 "el",
-                "los"
+                "los",
                 "la",
-                "las"
+                "las",
             ],
             "post": [
                 "película",
-                "películas"
+                "películas",
                 "episodio",
-                "episodios"
+                "episodios",
                 "serie",
-                "series"
+                "series",
                 "video",
                 "vídeo",
-                "videos"
-                "vídeos"
+                "videos",
+                "vídeos",
             ],
         },
         "unwatched": {
             "keywords": [
                 "no visto",
                 "siguiente",
-                "aún no visto"
+                "aún no visto",
             ],
             "pre": [
                 "película",
@@ -2140,13 +2456,13 @@ translations = {
                 "video",
                 "vídeo",
                 "episodio",
-                "episodios"
+                "episodios",
             ],
             "post": [],
         },
         "ondeck": {
             "keywords": [
-                "en progreso"
+                "en progreso",
             ],
             "pre": [
                 "película",
@@ -2156,7 +2472,7 @@ translations = {
                 "video",
                 "vídeo",
                 "episodio",
-                "episodios"
+                "episodios",
             ],
             "post": [],
         },
@@ -2183,11 +2499,11 @@ translations = {
 
         "separator": {
             "keywords": [
-                "en"
+                "en",
             ],
             "pre": [],
             "post": [
-                "la"
+                "la",
             ],
         },
         "music_separator": {
@@ -2295,7 +2611,7 @@ translations = {
 
     #     # This is the separator word used at the end of the command
     #     # to let us know it is a cast device.
-    #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
+    #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV",
     #     "separator": {
     #         "keywords": [],
     #         "pre": [],
@@ -2303,7 +2619,7 @@ translations = {
     #     },
     #     # This is the separator word used in a command for music
     #     # that narrows down a search by using the artists name.
-    #     # Examples:  "Play album by artist" or "Play track by the artist"
+    #     # Examples:  "Play album by artist" or "Play track by the artist",
     #     "music_separator": {
     #         "keywords": [],
     #         "pre": [],

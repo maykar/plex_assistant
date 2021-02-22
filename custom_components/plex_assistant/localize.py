@@ -272,6 +272,10 @@ translations = {
             ],
             "pre": [],
             "post": [
+                "the band",
+                "the artists",
+                "the artist",
+                "the group",
                 "the",
             ],
         },

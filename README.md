@@ -172,9 +172,9 @@ conversation:
 ## Commands
 
 #### Fuzzy Matching
-A show or movie's title and the device used in your phrase are processed using a fuzzy search. Meaning it will select the closest match using your Plex media titles and available cast device names. `"play walk in deed on the dawn tee"` would become `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches. `play Pets 2` will match `The Secret Life of Pets 2`.
+A media item's title and the device used in your phrase are processed using a fuzzy search. Meaning it will select the closest match using your Plex media titles and available cast device names. `"play walk in deed on the dawn tee"` would become `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches. `play Pets 2` will match `The Secret Life of Pets 2`.
 
-If no season/episode is specified for a TV show Plex Assistant will play the first unwatched or first in progress episode by default.
+If no season/episode is specified for a TV show Plex Assistant will play the first unwatched or first in progress episode by default. If an artist, album, or track share the same name it will assume artist first, then album, then track. You can always specify by saying "Play album `album name`", "Play artist...", "Play track...", or even combine those with an artists name: "Play Never Gonna Give You Up **by** Rick Astley" or "Play the **album** Whenever You Need Somebody **by** Rick Astley". This can help with artists having a self titled album or track as well as multiple artist having items named the same.
 
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`

@@ -2,7 +2,9 @@
 translations = {
     "en": {
         # Generic Terms
-        "play": "play",
+        "play": [
+            "play",
+        ],
         "random": [
             "randomized",
             "random",
@@ -56,9 +58,15 @@ translations = {
         
         # Controls
         "controls": {
-            "play": "play",
-            "pause": "pause",
-            "stop": "stop",
+            "play": [
+                "play",
+            ],
+            "pause": [
+                "pause",
+            ],
+            "stop": [
+                "stop",
+            ],
             "next_track": [
                 "go to next track",
                 "go to next",
@@ -253,7 +261,6 @@ translations = {
         # To let us know it is a cast device.
         # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "separator": {
-            # Only use one keyword for this one.
             "keywords": [
                 "on",
             ],
@@ -265,8 +272,7 @@ translations = {
         # This is the separator word used in a command for music
         # that narrows down a search by using the artists name.
         # Examples:  "Play album by artist" or "Play track by the artist"
-        "music_seperator": {
-            # Only use one keyword for this one.
+        "music_separator": {
             "keywords": [
                 "by",
             ],
@@ -281,8 +287,12 @@ translations = {
         },
     },
     "sv": {
-        "play": "spela",
-        "random": "slumpmässigt",
+        "play": [
+            "spela",
+        ],
+        "random": [
+            "slumpmässigt",
+        ],
         "not_found": "finns ej",
         "cast_device": "cast enhet",
         "movies": [
@@ -303,13 +313,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "spela",
-            "pause": "paus",
-            "stop": "sluta",
-            "next_track": "nästa",
-            "previous_track": "föregående",
-            "jump_forward": "hoppa framåt",
-            "jump_back": "hoppa tillbaka",
+            "play": [
+                "spela",
+            ],
+            "pause": [
+                "paus",
+            ],
+            "stop": [
+                "sluta",
+            ],
+            "next_track": [
+                "nästa",
+            ],
+            "previous_track": [
+                "föregående",
+            ],
+            "jump_forward": [
+                "hoppa framåt",
+            ],
+            "jump_back": [
+                "hoppa tillbaka"
+            ],
         },
         "no_call": "Inget kommando mottogs.",
 
@@ -435,8 +459,12 @@ translations = {
         },
     },
     "nl": {
-        "play": "speel",
-        "random": "willekeurige",
+        "play": [
+            "speel",
+        ],
+        "random": [
+            "willekeurige",
+        ],
         "movies": [
             "film"
         ],
@@ -450,13 +478,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "speel",
-            "pause": "pauzeer",
-            "stop": "stop",
-            "next_track": "volgende",
-            "previous_track": "vorig",
-            "jump_forward": "spring naar voren",
-            "jump_back": "spring naar achter",
+            "play": [
+                "speel",
+            ],
+            "pause": [
+                "pauzeer",
+            ],
+            "stop": [
+                "stop",
+            ],
+            "next_track": [
+                "volgende",
+            ],
+            "previous_track": [
+                "vorig",
+            ],
+            "jump_forward": [
+                "spring naar voren",
+            ],
+            "jump_back": [
+                "spring naar achter",
+            ],
         },
 
         "not_found": "niet gevonden",
@@ -595,8 +637,12 @@ translations = {
         },
     },
     "it": {
-        "play": "riproduci",
-        "random": "casuale",
+        "play": [
+            "riproduci",
+        ],
+        "random": [
+            "casuale",
+        ],
         "movies": [
             "film",
         ],
@@ -612,13 +658,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "riproduci",
-            "pause": "metti in pasa",
-            "stop": "interrompi",
-            "next_track": "successivo",
-            "previous_track": "precedente",
-            "jump_forward": "vai avanti",
-            "jump_back": "vai indietro",
+            "play": [
+                "riproduci",
+            ],
+            "pause": [
+                "metti in pasa",
+            ],
+            "stop": [
+                "interrompi",
+            ],
+            "next_track": [
+                "successivo",
+            ],
+            "previous_track": [
+                "precedente",
+            ],
+            "jump_forward": [
+                "vai avanti",
+            ],
+            "jump_back": [
+                "vai indietro",
+            ],
         },
 
         "not_found": "non trovato",
@@ -761,8 +821,12 @@ translations = {
         },
     },
     "fr": {
-        "play": "joue",
-        "random": "aléatoire",
+        "play": [
+            "joue",
+        ],
+        "random": [
+            "aléatoire",
+        ],
         "movies": [
             "vidéo",
             "film",
@@ -786,13 +850,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play":  "joue",
-            "pause": "pause",
-            "stop": "arrête",
-            "next_track": "suivante",
-            "previous_track": "précédente",
-            "jump_forward": "avance",
-            "jump_back": "recule",
+            "play":  [
+                "joue",
+            ],
+            "pause": [
+                "pause",
+            ],
+            "stop": [
+                "arrête",
+            ],
+            "next_track": [
+                "suivante",
+            ],
+            "previous_track": [
+                "précédente",
+            ],
+            "jump_forward": [
+                "avance",
+            ],
+            "jump_back": [
+                "recule",
+            ],
         },
         "not_found": "je n'ai pas trouvé",
         "cast_device": "sur",
@@ -1016,8 +1094,13 @@ translations = {
         },
     },
     "pt": {
-        "play": "ver",
-        "random": "aleatório",
+        "play": [
+            "ver",
+            "play",
+        ],
+        "random": [
+            "aleatório",
+        ],
         "movies": [
             "filmes",
         ],
@@ -1027,20 +1110,44 @@ translations = {
             "serie",
             "series"
         ],
-        "tracks": [],
-        "albums": [],
-        "artists": [],
-        "music": [],
-        "playlists": [],
+        "tracks": [
+            "músicas",
+        ],
+        "albums": [
+            "albuns",
+        ],
+        "artists": [
+            "artistas",
+        ],
+        "music": [
+            "música",
+        ],
+        "playlists": [
+            "playlists",
+        ],
 
         "controls": {
-            "play": "play",
-            "pause": "pausa",
-            "stop": "stop",
-            "next_track": "próximo",
-            "previous_track": "anterior",
-            "jump_forward": "para a frente",
-            "jump_back": "para trás",
+            "play": [
+                "play",
+            ],
+            "pause": [
+                "pausa",
+            ],
+            "stop": [
+                "stop",
+            ],
+            "next_track": [
+                "próximo",
+            ],
+            "previous_track": [
+                "anterior",
+            ],
+            "jump_forward": [
+                "para a frente",
+            ],
+            "jump_back": [
+                "para trás",
+            ],
         },
 
         "not_found": "não encontrado",
@@ -1082,7 +1189,11 @@ translations = {
             "keywords": [
                 "temporada",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "de",
                 "da",
@@ -1094,7 +1205,11 @@ translations = {
                 "episódio",
                 "episódios",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "número",
                 "de",
@@ -1128,7 +1243,11 @@ translations = {
                 "não vistos",
                 "próximo",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "filmes",
                 "filme",
@@ -1145,7 +1264,11 @@ translations = {
                 "ao vivo",
                 "live",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "filmes",
                 "filme",
@@ -1158,40 +1281,103 @@ translations = {
             ],
         },
         "music_album": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "album",
+                "disco",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_artist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "artista",
+                "artistas",
+                "banda",
+                "bandas",
+                "músico",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_track": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "música",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "playlist",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "separator": {
             "keywords": [
                 "na",
             ],
-            "pre": [],
-            "post": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+                ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_separator": {
-            "keywords": [],
+            "keywords": [
+                "pelo",
+                "pela",
+            ],
             "pre": [],
-            "post": [],
+            "post": [
+                "a banda",
+                "o músico",
+                "o artista",
+                "a artista",
+            ],
         },
     },
     "de": {
-        "play": "spiele",
+        "play": [
+            "spiele",
+        ],
         "random": [
                 "zufällige",
                 "zufälliges",
@@ -1212,9 +1398,15 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "spiele",
-            "pause": "pausiere",
-            "stop": "stoppe",
+            "play": [
+                "spiele",
+            ],
+            "pause": [
+                "pausiere",
+            ],
+            "stop": [
+                "stoppe",
+            ],
             "next_track": [
                 "nächstes",
                 "nächste",
@@ -1225,8 +1417,12 @@ translations = {
                 "vorherige",
                 "vorherigen",
             ],
-            "jump_forward": "springe vor",
-            "jump_back": "springe zurück",
+            "jump_forward": [
+                "springe vor",
+            ],
+            "jump_back": [
+                "springe zurück",
+            ],
         },
         "not_found": "nicht gefunden",
         "cast_device": "cast gerät",
@@ -1369,8 +1565,12 @@ translations = {
         },
     },
     "da": {
-        "play": "afspil",
-        "random": "tilfældig",
+        "play": [
+            "afspil",
+        ],
+        "random": [
+            "tilfældig",
+        ],
         "movies": [
             "film",
         ],
@@ -1387,13 +1587,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "afspil",
-            "pause": "pause",
-            "stop": "stop",
-            "next_track": "næste",
-            "previous_track": "forrige",
-            "jump_forward": "hop fremad",
-            "jump_back": "hop tilbage",
+            "play": [
+                "afspil",
+            ],
+            "pause": [
+                "pause",
+            ],
+            "stop": [
+                "stop",
+            ],
+            "next_track": [
+                "næste",
+            ],
+            "previous_track": [
+                "forrige",
+            ],
+            "jump_forward": [
+                "hop fremad",
+            ],
+            "jump_back": [
+                "hop tilbage",
+            ],
         },
 
         "not_found": "ikke fundet",
@@ -1575,8 +1789,12 @@ translations = {
         },
     },
     "nb": {
-        "play": "spille",
-        "random": "tilfeldig",
+        "play": [
+            "spille",
+        ],
+        "random": [
+            "tilfeldig",
+        ],
         "movies": [
             "filmer",
             "film",
@@ -1595,13 +1813,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "spille",
-            "pause": "pause",
-            "stop": "stopp",
-            "next_track": "neste",
-            "previous_track": "forrige",
-            "jump_forward": "hopp fremover",
-            "jump_back": "hopp tilbake",
+            "play": [
+                "spille",
+            ],
+            "pause": [
+                "pause",
+            ],
+            "stop": [
+                "stopp",
+            ],
+            "next_track": [
+                "neste",
+            ],
+            "previous_track": [
+                "forrige",
+            ],
+            "jump_forward": [
+                "hopp fremover",
+            ],
+            "jump_back": [
+                "hopp tilbake",
+            ],
         },
 
         "not_found": "finnes ikke",
@@ -1731,8 +1963,12 @@ translations = {
         },
     },
     "es": {
-        "play": "reproducir",
-        "random": "aleatorio",
+        "play": [
+            "reproducir",
+        ],
+        "random": [
+            "aleatorio",
+        ],
         "movies": [
             "película",
             "películas",
@@ -1758,13 +1994,27 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play": "reproducir",
-            "pause": "pausa",
-            "stop": "detener",
-            "next_track": "siguiente",
-            "previous_track": "anterior",
-            "jump_forward": "avanzar",
-            "jump_back": "retroceder",
+            "play": [
+                "reproducir",
+            ],
+            "pause": [
+                "pausa",
+            ],
+            "stop": [
+                "detener",
+            ],
+            "next_track": [
+                "siguiente",
+            ],
+            "previous_track": [
+                "anterior",
+            ],
+            "jump_forward": [
+                "avanzar",
+            ],
+            "jump_back": [
+                "retroceder",
+            ],
         },
 
         "not_found": "no encontrado",
@@ -1948,8 +2198,8 @@ translations = {
     },
     # "template": {
     #     # Generic Terms
-    #     "play": "",
-    #     "random": "",
+    #     "play": [],
+    #     "random": [],
     #     "movies": [],
     #     "shows": [],
     #     "tracks": [],
@@ -1960,13 +2210,13 @@ translations = {
 
     #     # Controls
     #     "controls": {
-    #         "play": "",
-    #         "pause": "",
-    #         "stop": "",
-    #         "next_track": "",
-    #         "previous_track": "",
-    #         "jump_forward": "",
-    #         "jump_back": "",
+    #         "play": [],
+    #         "pause": [],
+    #         "stop": [],
+    #         "next_track": [],
+    #         "previous_track": [],
+    #         "jump_forward": [],
+    #         "jump_back": [],
     #     },
 
     #     # Text for errors
@@ -2047,7 +2297,6 @@ translations = {
     #     # to let us know it is a cast device.
     #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
     #     "separator": {
-    #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],
     #         "post": [],
@@ -2056,7 +2305,6 @@ translations = {
     #     # that narrows down a search by using the artists name.
     #     # Examples:  "Play album by artist" or "Play track by the artist"
     #     "music_separator": {
-    #         # Only use one keyword for this one.
     #         "keywords": [],
     #         "pre": [],
     #         "post": [],

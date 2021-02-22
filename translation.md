@@ -30,7 +30,9 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
 
 ```
         # Generic Terms
-        "play": "play",
+        "play": [
+            "play",
+        ],
         "random": [
             "random",
             "shuffle",
@@ -51,24 +53,33 @@ The keys "movies" and "shows" contain a list of keywords that would inform us of
 These are the media player controls.
 
 ```
+        # Controls
         "controls": {
-            "play": "play",
-            "pause": "pause",
-            "stop": "stop",
+            "play": [
+                "play",
+            ],
+            "pause": [
+                "pause",
+            ],
+            "stop": [
+                "stop",
+            ],
             "next_track": [
                 "go to next track",
                 "go to next",
                 "skip to next track",
                 "skip to next",
+                "skip next",
                 "skip forward",
-                "next",
                 "next track",
+                "next",
                 "skip",
             ],
             "previous_track":  [
                 "go to previous track",
-                "go back",
+                "go back one track",
                 "back one track",
+                "go back",
                 "back",
             ],
             "jump_forward": [
@@ -85,7 +96,7 @@ These are the media player controls.
 
 ### Errors
 
-Text for errors.
+Text for errors, use only single items/strings for the translation like in the example below.
 
 ```
         "not_found": "not found",
@@ -190,7 +201,7 @@ Ordinal numbers between 1 and 10 (first and tenth) are often represented as word
 
 ### Seperator
 
-This is the word that seperates the media from cast device. In English it is "on". It operates like the keywords above with a post and pre, but may only contain one keyword:
+This is the word that seperates the media from cast device. In English it is "on". It operates like the keywords above with a post and pre. The "music_separator" works the same way, but for phrases like `"Play album by artist"`.:
 
 ```
         "separator": {
@@ -209,4 +220,4 @@ This is the word that seperates the media from cast device. In English it is "on
 
 There is a commented out template at the end of the file that you may copy and paste from.
 
-Please, also consider translating `custom_components/plex_assistant/en.json` to a new file with the language code replaced in the file name. Example: `custom_components/plex_assistant/nl.json`.
+Please, also consider translating `custom_components/plex_assistant/en.json` to a new file with the language code replaced in the file name. Example: `custom_components/plex_assistant/nl.json`. This is for the setup and options on HA's integration page.

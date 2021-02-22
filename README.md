@@ -5,13 +5,11 @@
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Commands](#commands)<br>
 [Google Assistant Setup](#google-assistant-setup) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Advanced Config](#advanced-configuration)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google devices and Plex clients. You could use this component with anything that can make a service call to HA as well.
+Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google and Sonos devices, as well as Plex clients. You could use this component with anything that can make a service call to HA as well.
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 
 You can use the component's service (`plex_assistant.command`) to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
-
-***Music and audio aren't built in yet, only shows and movies at the moment.***
 
 ## [Troubleshooting and Issues](https://github.com/maykar/plex_assistant/blob/master/troubleshooting.md)
 
@@ -180,15 +178,17 @@ If no season/episode is specified for a TV show Plex Assistant will play the fir
 #### You can say things like:
 * `"play the latest episode of Breaking Bad on the Living Room TV"`
 * `"play Breaking Bad"`
-* `"play Pets 2 on the Kitchen Chromecast"`
+* `"play Add it Up by the Violent Femmes"`
+* `"play the track Time to Pretend"`
+* `"play the album Time to Pretend by MGMT"`
 * `"play ondeck"`
 * `"play random unwatched TV"`
 * `"play season 1 episode 3 of The Simpsons"`
 * `"play the first season second episode of Taskmaster on the Theater System"`
 
 ### Filter Keywords:
-* `season`
-* `episode`
+* `season, episode, movie, show`
+* `artist, album, track, playlist`
 * `latest, recent, new`
 * `unwatched, next`
 * `ondeck`
@@ -275,5 +275,9 @@ roku_plex:
             - service: plex.scan_for_clients
             - delay:
                 seconds: 1
+      #### Optional delay after device is found. Uncomment the 2 lines for delay below
+      #### if your device needs a few seconds to respond to commands. Increase delay as needed.
+      # - delay:
+      #     seconds: 3
   mode: single
 ```

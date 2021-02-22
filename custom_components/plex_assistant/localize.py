@@ -1016,7 +1016,7 @@ translations = {
         },
     },
     "pt": {
-        "play": "ver",
+        "play": "play",
         "random": "aleatório",
         "movies": [
             "filmes",
@@ -1027,11 +1027,21 @@ translations = {
             "serie",
             "series"
         ],
-        "tracks": [],
-        "albums": [],
-        "artists": [],
-        "music": [],
-        "playlists": [],
+        "tracks": [
+            "músicas",
+        ],
+        "albums": [
+            "albuns",
+        ],
+        "artists": [
+            "artistas",
+        ],
+        "music": [
+            "música",
+        ],
+        "playlists": [
+            "playlists",
+        ],
 
         "controls": {
             "play": "play",
@@ -1082,7 +1092,11 @@ translations = {
             "keywords": [
                 "temporada",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "de",
                 "da",
@@ -1094,7 +1108,11 @@ translations = {
                 "episódio",
                 "episódios",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "número",
                 "de",
@@ -1128,7 +1146,11 @@ translations = {
                 "não vistos",
                 "próximo",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "filmes",
                 "filme",
@@ -1145,7 +1167,11 @@ translations = {
                 "ao vivo",
                 "live",
             ],
-            "pre": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
             "post": [
                 "filmes",
                 "filme",
@@ -1158,36 +1184,97 @@ translations = {
             ],
         },
         "music_album": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "album",
+                "disco",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_artist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "artista",
+                "artistas",
+                "banda",
+                "bandas",
+                "músico",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_track": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "música",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "playlist",
+            ],
+            "pre": [
+                "de",
+                "da",
+                "do",
+            ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "separator": {
             "keywords": [
                 "na",
             ],
-            "pre": [],
-            "post": [],
+            "pre": [
+                "de",
+                "da",
+                "do",
+                ],
+            "post": [
+                "de",
+                "da",
+                "do",
+            ],
         },
         "music_separator": {
-            "keywords": [],
+            "keywords": [
+                "pelo",
+                "pela",
+            ],
             "pre": [],
-            "post": [],
+            "post": [
+                "a banda",
+                "o músico",
+                "o artista",
+                "a artista",
+            ],
         },
     },
     "de": {

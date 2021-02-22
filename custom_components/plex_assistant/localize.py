@@ -259,7 +259,7 @@ translations = {
         },
         # This is the separator word used at the end of the command
         # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV",
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "separator": {
             "keywords": [
                 "on",
@@ -271,7 +271,7 @@ translations = {
         },
         # This is the separator word used in a command for music
         # that narrows down a search by using the artists name.
-        # Examples:  "Play album by artist" or "Play track by the artist",
+        # Examples:  "Play album by artist" or "Play track by the artist"
         "music_separator": {
             "keywords": [
                 "by",
@@ -570,7 +570,7 @@ translations = {
         },
         # This is the separator word used at the end of the command
         # To let us know it is a cast device.
-        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV",
+        # Examples:  "Play Coco on Samsung TV" or "Play Coco on the Samsung TV"
         "separator": {
             "keywords": [
                 "itt",
@@ -583,7 +583,7 @@ translations = {
         },
         # This is the separator word used in a command for music
         # that narrows down a search by using the artists name.
-        # Examples:  "Play album by artist" or "Play track by the artist",
+        # Examples:  "Play album by artist" or "Play track by the artist"
         "music_separator": {
             "keywords": [
                 "tőle",
@@ -2611,7 +2611,7 @@ translations = {
 
     #     # This is the separator word used at the end of the command
     #     # to let us know it is a cast device.
-    #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV",
+    #     # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
     #     "separator": {
     #         "keywords": [],
     #         "pre": [],
@@ -2619,7 +2619,7 @@ translations = {
     #     },
     #     # This is the separator word used in a command for music
     #     # that narrows down a search by using the artists name.
-    #     # Examples:  "Play album by artist" or "Play track by the artist",
+    #     # Examples:  "Play album by artist" or "Play track by the artist"
     #     "music_separator": {
     #         "keywords": [],
     #         "pre": [],

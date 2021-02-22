@@ -5,7 +5,7 @@
 [Installation](#installation) ｜ [Configuration](#configuration) ｜ [Cast Devices](#cast-devices) ｜ [Commands](#commands)<br>
 [Google Assistant Setup](#google-assistant-setup) ｜ [HA Conversation Setup](#home-assistant-conversation-setup) ｜ [Advanced Config](#advanced-configuration)<br><hr>
 
-Plex Assistant is a Home Assistant component to allow Google Assistant, Home Assistant's conversation integration, and more to cast Plex media to Google and Sonos devices, as well as Plex clients. You could use this component with anything that can make a service call to HA as well.
+Plex Assistant is a Home Assistant integration for casting Plex media to Google devices, Sonos devices, and Plex clients with Google Assistant, HA's conversation integration, and more. You can use this component with anything that can make a service call to HA as well.
 
 Example: `"Hey Google, tell Plex to play The Walking Dead on the Downstairs TV."`
 

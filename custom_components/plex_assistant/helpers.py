@@ -64,18 +64,7 @@ def get_devices(hass, pa):
         pa.devices[name] = {"entity_id": entity.entity_id, "device_type": dev_type}
 
 
-def device_responding(hass, pa, device):
-    responding = hass.services.call(
-                    "media_player",
-                    "media_play",
-                    {"entity_id": pa.devices[device]["entity_id"]},
-                    blocking=True,
-                    limit=30
-                 )
-    return responding
-
-
-def run_start_script(hass, pa, command, start_script, device):
+def run_start_script(hass, pa, command, start_script, device, default_device):
     if device[0] in start_script.keys():
         start = hass.data["script"].get_entity(start_script[device[0]])
         start.script.run(context=Context())
@@ -133,7 +122,7 @@ def cast_next_prev(hass, zeroconf, plex_c, device, direction):
         plex_c.previous()
 
 
-def remote_control(hass, zeroconf, control, device):
+def remote_control(hass, zeroconf, control, device, jump_amount):
     plex_c = PlexController()
 
     if control == "jump_forward":

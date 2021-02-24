@@ -56,11 +56,11 @@ class PlexAssistantFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
         if self._async_current_entries():
             return self.async_abort(reason="single_instance_allowed")
-        elif not HA_VER_SUPPORTED:
+        if not HA_VER_SUPPORTED:
             return self.async_abort(reason="ha_ver_unsupported")
-        elif len(self.servers) < 1:
+        if len(self.servers) < 1:
             return self.async_abort(reason="no_plex_server")
-        elif user_input is not None:
+        if user_input is not None:
             server = user_input["server_name"] if "server_name" in user_input else self.servers[0]
             return self.async_create_entry(title=server, data=user_input)
 

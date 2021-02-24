@@ -35,7 +35,7 @@ class ProcessSpeech:
                     self.find_replace("separator")
                     if device[0] in ["watched", "deck", "on watched", "on deck"]:
                         continue
-                    elif device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == c:
+                    if device[1] > 60 and self.command.replace(device[0].lower(), "").strip() == c:
                         self.device = device[0]
                         self.control = control
                         return
@@ -83,7 +83,6 @@ class ProcessSpeech:
         return full_score < split_score or full_score < cast_score
 
     def get_media_and_device(self):
-        media = None
         for separator in self.localize["separator"]["keywords"]:
             if separator in self.command:
                 self.find_replace("separator", True, separator)

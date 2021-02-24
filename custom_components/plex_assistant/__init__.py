@@ -10,7 +10,6 @@ https://github.com/maykar/plex_assistant
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import Config, HomeAssistant
-from homeassistant.components.plex.services import get_plex_server
 from homeassistant.components.zeroconf import async_get_instance
 
 import os
@@ -112,7 +111,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             pa.update_libraries()
 
         device = fuzzy(command["device"] or default_device, pa.device_names)
-        device = run_start_script(hass, pa, command, start_script, device)
+        device = run_start_script(hass, pa, command, start_script, device, default_device)
 
         _LOGGER.debug("PA Devices: %s", pa.devices)
         if device[1] < 60:
@@ -123,7 +122,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         device = pa.devices[device[0]]
 
         if command["control"]:
-            remote_control(hass, zeroconf, command["control"], device)
+            remote_control(hass, zeroconf, command["control"], device, jump_amount)
             return
 
         try:
@@ -140,7 +139,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
         if getattr(media, "TYPE", None) == "episode":
             episodes = media.show().episodes()
-            episodes = episodes[episodes.index(media):]
+            episodes = episodes[episodes.index(media):episodes.index(media) + 20]
             media = pa.server.createPlayQueue(episodes, shuffle=shuffle)
         elif getattr(media, "TYPE", None) in ["artist", "album"]:
             tracks = media.tracks()
@@ -150,6 +149,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             tracks = tracks[tracks.index(media):]
             media = pa.server.createPlayQueue(tracks, shuffle=shuffle)
         elif not getattr(media, "TYPE", None) == "playqueue":
+            if isinstance(media, list):
+                media = media[:20]
             media = pa.server.createPlayQueue(media, shuffle=shuffle)
 
         payload = '%s{"playqueue_id": %s, "type": "%s"}' % (

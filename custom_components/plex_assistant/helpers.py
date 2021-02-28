@@ -230,7 +230,7 @@ def filter_media(pa, command, media, library):
             media = media.unwatched()[:200]
 
     if command["latest"] and not command["unwatched"]:
-        if library and not media:
+        if library and not media and pa.section_id[library]:
             media = pa.library.sectionByID(pa.section_id[library]).recentlyAdded()[:200]
         elif not media:
             media = pa.library.sectionByID(pa.tv_id).recentlyAdded()

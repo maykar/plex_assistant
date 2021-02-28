@@ -1,9 +1,8 @@
 import logging
 
-from homeassistant.const import __version__ as HAVERSION
+from homeassistant.const import __version__
 from awesomeversion import AwesomeVersion
 
 DOMAIN = "plex_assistant"
-MINIMUM_HA_VERSION = "2021.2.0"
-HA_VER_SUPPORTED = AwesomeVersion(HAVERSION) >= AwesomeVersion(MINIMUM_HA_VERSION)
+HA_VER_SUPPORTED = AwesomeVersion(__version__) >= AwesomeVersion("2021.2.0")
 _LOGGER = logging.getLogger(__name__)

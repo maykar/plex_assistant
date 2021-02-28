@@ -1,6 +1,7 @@
 {
   "domain": "plex_assistant",
   "name": "Plex Assistant",
+  "version": "1.1.4",
   "documentation": "https://github.com/maykar/plex_assistant",
   "dependencies": [],
   "config_flow": true,

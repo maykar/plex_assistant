@@ -40,4 +40,5 @@ class PlexAssistant:
         self.media["updated"] = datetime.now()
 
     def get_section_id(self, section):
-        return self.library.search(libtype=section, limit=1)[0].librarySectionID
+        section = self.library.search(libtype=section, limit=1)
+        return None if not section else section[0].librarySectionID

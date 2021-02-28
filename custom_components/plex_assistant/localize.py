@@ -55,7 +55,7 @@ translations = {
             "playlist",
             "list",
         ],
-        
+
         # Controls
         "controls": {
             "play": [
@@ -78,7 +78,7 @@ translations = {
                 "next",
                 "skip",
             ],
-            "previous_track":  [
+            "previous_track": [
                 "go to previous track",
                 "go back one track",
                 "back one track",
@@ -210,8 +210,8 @@ translations = {
         },
         "ondeck": {
             "keywords": [
-                "on deck",
                 "ondeck",
+                "on deck",
             ],
             "pre": [],
             "post": [
@@ -246,13 +246,6 @@ translations = {
             "keywords": [
                 "track",
                 "song",
-            ],
-            "pre": [],
-            "post": [],
-        },
-        "music_playlist": {
-            "keywords": [
-                "playlist",
             ],
             "pre": [],
             "post": [],
@@ -349,7 +342,7 @@ translations = {
             "lejátszási lista",
             "lista",
         ],
-        
+
         "controls": {
             "play": [
                 "lejátszás",
@@ -370,7 +363,7 @@ translations = {
                 "ugrás a következő számra",
                 "következő zene",
             ],
-            "previous_track":  [
+            "previous_track": [
                 "előző szám",
                 "előző",
                 "visszalépés",
@@ -548,14 +541,6 @@ translations = {
                 "zene",
                 "szám",
                 "zeneszám",
-            ],
-            "pre": [],
-            "post": [],
-        },
-        "music_playlist": {
-            "keywords": [
-                "lista",
-                "lejátszási lista",
             ],
             "pre": [],
             "post": [],
@@ -742,11 +727,7 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
+
         "separator": {
             "keywords": [
                 "på",
@@ -766,6 +747,7 @@ translations = {
         ],
         "random": [
             "willekeurige",
+            "willekeurig",
         ],
         "movies": [
             "film",
@@ -791,9 +773,10 @@ translations = {
             ],
             "next_track": [
                 "volgende",
+                "volgend",
             ],
             "previous_track": [
-                "vorig",
+                "vorige",
             ],
             "jump_forward": [
                 "spring naar voren",
@@ -918,11 +901,7 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
+
         "separator": {
             "keywords": [
                 "op",
@@ -1102,11 +1081,7 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
+
         "separator": {
             "keywords": [
                 "su",
@@ -1152,7 +1127,7 @@ translations = {
         "playlists": [],
 
         "controls": {
-            "play":  [
+            "play": [
                 "joue",
             ],
             "pause": [
@@ -1374,11 +1349,7 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
+
         "separator": {
             "keywords": [
                 "sur",
@@ -1632,21 +1603,7 @@ translations = {
                 "do",
             ],
         },
-        "music_playlist": {
-            "keywords": [
-                "playlist",
-            ],
-            "pre": [
-                "de",
-                "da",
-                "do",
-            ],
-            "post": [
-                "de",
-                "da",
-                "do",
-            ],
-        },
+
         "separator": {
             "keywords": [
                 "na",
@@ -1655,7 +1612,7 @@ translations = {
                 "de",
                 "da",
                 "do",
-                ],
+            ],
             "post": [
                 "de",
                 "da",
@@ -1681,9 +1638,9 @@ translations = {
             "spiele",
         ],
         "random": [
-                "zufällige",
-                "zufälliges",
-                "zufälligen",
+            "zufällige",
+            "zufälliges",
+            "zufälligen",
         ],
         "movies": [
             "film",
@@ -1841,11 +1798,6 @@ translations = {
             "post": [],
         },
         "music_track": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
-        "music_playlist": {
             "keywords": [],
             "pre": [],
             "post": [],
@@ -2070,11 +2022,7 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
+
         "separator": {
             "keywords": [
                 "på",
@@ -2246,11 +2194,7 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
+
         "separator": {
             "keywords": [
                 "på",
@@ -2477,11 +2421,6 @@ translations = {
             "pre": [],
             "post": [],
         },
-        "music_playlist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
-        },
 
         "separator": {
             "keywords": [
@@ -2585,11 +2524,6 @@ translations = {
     #         "post": [],
     #     },
     #     "music_track": {
-    #         "keywords": [],
-    #         "pre": [],
-    #         "post": [],
-    #     },
-    #     "music_playlist": {
     #         "keywords": [],
     #         "pre": [],
     #         "post": [],

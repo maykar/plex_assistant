@@ -39,7 +39,6 @@ def get_schema(_self):
 
 
 class PlexAssistantFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
@@ -75,6 +74,7 @@ class PlexAssistantFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
 class PlexAssistantOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, config_entry):
+        self.config_entry = config_entry
         self.options = dict(config_entry.options)
 
     async def async_step_init(self, user_input=None):
@@ -82,21 +82,22 @@ class PlexAssistantOptionsFlowHandler(config_entries.OptionsFlow):
             self.options.update(user_input)
             return await self._update_options()
 
-        if not self.options:
-            self.options = {
-                "start_script": "",
-                "keyword_replace": "",
-                "jump_f": 30,
-                "jump_b": 15,
-            }
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(
                 {
-                    vol.Optional("start_script", default=self.options.get("start_script")): str,
-                    vol.Optional("keyword_replace", default=self.options.get("keyword_replace")): str,
-                    vol.Optional("jump_f", default=self.options.get("jump_f")): int,
-                    vol.Optional("jump_b", default=self.options.get("jump_b")): int,
+                    vol.Optional(
+                        "start_script",
+                        description={"suggested_value": self.options.get("start_script", "")},
+                        default="",
+                    ): str,
+                    vol.Optional(
+                        "keyword_replace",
+                        description={"suggested_value": self.options.get("keyword_replace", "")},
+                        default="",
+                    ): str,
+                    vol.Required("jump_f", default=self.options.get("jump_f", 30)): int,
+                    vol.Required("jump_b", default=self.options.get("jump_b", 15)): int,
                 }
             ),
         )

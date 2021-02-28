@@ -5,8 +5,7 @@ import json
 import pychromecast
 
 from fuzzywuzzy import fuzz
-from fuzzywuzzy import process as fw
-from datetime import timedelta
+from fuzzywuzzy import process
 from gtts import gTTS
 from homeassistant.components.plex.services import get_plex_server
 from homeassistant.core import Context
@@ -17,7 +16,7 @@ from .const import DOMAIN, _LOGGER
 
 def fuzzy(media, lib, scorer=fuzz.QRatio):
     if isinstance(lib, list) and len(lib) > 0:
-        return fw.extractOne(media, lib, scorer=scorer)
+        return process.extractOne(media, lib, scorer=scorer)
     return ["", 0]
 
 
@@ -28,11 +27,10 @@ def process_config_item(options, item_type):
             item = json.loads("{" + item + "}")
             for i in item.keys():
                 _LOGGER.debug(f"{item_type} {i}: {item[i]}")
-        except:
+        except Exception:
             item = {}
         return item
-    else:
-        return {}
+    return {}
 
 
 async def get_server(hass, config, server_name):
@@ -43,7 +41,8 @@ async def get_server(hass, config, server_name):
         if ex.args[0] == "No Plex servers available":
             server_name_str = ", the server_name is correct," if server_name else ""
             _LOGGER.warning(
-                f"Plex Assistant: Plex server not found. Ensure that you've setup the HA Plex integration{server_name_str} and the server is reachable."
+                "Plex Assistant: Plex server not found. Ensure that you've setup the HA "
+                f"Plex integration{server_name_str} and the server is reachable. "
             )
         else:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
@@ -59,7 +58,7 @@ def get_devices(hass, pa):
             continue
         try:
             name = hass.states.get(entity.entity_id).attributes.get("friendly_name")
-        except:
+        except Exception:
             continue
         pa.devices[name] = {"entity_id": entity.entity_id, "device_type": dev_type}
 
@@ -80,12 +79,10 @@ async def listeners(hass):
             hass.services.call(DOMAIN, "command", {"command": event.data["command"]})
 
     listener = hass.bus.async_listen("ifttt_webhook_received", ifttt_webhook_callback)
-
     try:
         await hass.services.async_call("conversation", "process", {"text": "tell plex to initialize_plex_intent"})
-    except:
+    except Exception:
         pass
-
     return listener
 
 
@@ -112,7 +109,9 @@ def jump(hass, device, amount):
 
 def cast_next_prev(hass, zeroconf, plex_c, device, direction):
     entity = hass.data["media_player"].get_entity(device["entity_id"])
-    cast, browser = pychromecast.get_listed_chromecasts(uuids=[uuid.UUID(entity._cast_info.uuid)], zeroconf_instance=zeroconf)
+    cast, browser = pychromecast.get_listed_chromecasts(
+        uuids=[uuid.UUID(entity._cast_info.uuid)], zeroconf_instance=zeroconf
+    )
     pychromecast.discovery.stop_discovery(browser)
     cast[0].register_handler(plex_c)
     cast[0].wait()
@@ -124,7 +123,6 @@ def cast_next_prev(hass, zeroconf, plex_c, device, direction):
 
 def remote_control(hass, zeroconf, control, device, jump_amount):
     plex_c = PlexController()
-
     if control == "jump_forward":
         jump(hass, device, jump_amount[0])
     elif control == "jump_back":
@@ -138,47 +136,45 @@ def remote_control(hass, zeroconf, control, device, jump_amount):
 
 
 def seek_to_offset(hass, offset, entity):
-    if offset > 0:
-        timeout = 0
-        while not hass.states.is_state(entity, "playing") and timeout < 100:
+    if offset < 1:
+        return
+    timeout = 0
+    while not hass.states.is_state(entity, "playing") and timeout < 100:
+        time.sleep(0.10)
+        timeout += 1
+
+    timeout = 0
+    if hass.states.is_state(entity, "playing"):
+        media_service(hass, entity, "media_pause")
+        while not hass.states.is_state(entity, "paused") and timeout < 100:
             time.sleep(0.10)
             timeout += 1
 
-        timeout = 0
-        if hass.states.is_state(entity, "playing"):
-            media_service(hass, entity, "media_pause")
-            while not hass.states.is_state(entity, "paused") and timeout < 100:
-                time.sleep(0.10)
-                timeout += 1
-
-        if hass.states.is_state(entity, "paused"):
-            if hass.states.get(entity).attributes.get("media_position", 0) < 9:
-                media_service(hass, entity, "media_seek", offset)
-            media_service(hass, entity, "media_play")
+    if hass.states.is_state(entity, "paused"):
+        if hass.states.get(entity).attributes.get("media_position", 0) < 9:
+            media_service(hass, entity, "media_seek", offset)
+        media_service(hass, entity, "media_play")
 
 
 def no_device_error(localize, device=None):
     device = f': "{device.title()}".' if device else "."
-    _LOGGER.warning(
-        "{0} {1}{2}".format(
-            localize["cast_device"].capitalize(),
-            localize["not_found"],
-            device,
-        )
-    )
+    _LOGGER.warning(f"{localize['cast_device'].capitalize()} {localize['not_found']}{device}")
 
 
 def media_error(command, localize):
-    error = ""
-    for keyword in ["latest", "unwatched", "ondeck"]:
-        if command[keyword]:
-            error += localize[keyword]["keywords"][0] + " "
+    error = "".join(
+        f"{localize[keyword]['keywords'][0]} " for keyword in ["latest", "unwatched", "ondeck"] if command[keyword]
+    )
     if command["media"]:
-        error += "%s " % str(command["media"]).capitalize()
+        media = command["media"]
+        media = media if isinstance(media, str) else getattr(media, "title", str(media))
+        error += f"{media.capitalize()} "
+    elif command["library"]:
+        error += f"{localize[command['library']+'s'][0]} "
     for keyword in ["season", "episode"]:
         if command[keyword]:
-            error += "%s %s " % (localize[keyword]["keywords"][0], command[keyword])
-    error += localize["not_found"] + "."
+            error += f"{localize[keyword]['keywords'][0]} {command[keyword]} "
+    error += f"{localize['not_found']}."
     return error.capitalize()
 
 
@@ -196,71 +192,81 @@ def play_tts_error(hass, tts_dir, device, error, lang):
     )
 
 
-def get_title(item, deep=False):
-    if item.type == "movie":
-        return item.title
-    elif getattr(item, "show", None):
-        return item.show().title if deep else item.title
-    return None
+def filter_media(pa, command, media, library):
+    offset = 0
 
+    if library == "playlist":
+        media = pa.server.playlist(media) if media else pa.server.playlists()
+    elif media or library:
+        media = pa.library.search(title=media or None, libtype=library or None)
 
-def filter_media(pa, option, media, lib):
-    if getattr(media, "type", None) in ["artist", "album", "track"]:
-        return media
-    elif media and lib:
-        media = next(m for m in lib if m.title == media)
-    elif lib:
-        media = lib
+    if isinstance(media, list) and len(media) == 1:
+        media = media[0]
 
-    if option["season"] and option["episode"]:
-        return media.episode(season=int(option["season"]), episode=int(option["episode"]))
+    if command["episode"]:
+        media = media.episode(season=int(command["season"] or 1), episode=int(command["episode"]))
+    elif command["season"]:
+        media = media.season(season=int(command["season"]))
 
-    if option["season"]:
-        media = media.season(title=int(option["season"]))
-
-    if option["ondeck"]:
-        if option["media"]:
-            ondeck = pa.library.onDeck()
-            media = list(
-                filter(
-                    lambda x: (get_title(x) == media.title)
-                    or (get_title(media) == x.show().title)
-                    or (get_title(media, True) == x.show().title),
-                    ondeck,
-                )
-            )
-        elif option["library"]:
-            media = pa.library.sectionByID(option["library"][0].librarySectionID).onDeck()
+    if command["ondeck"]:
+        title, libtype = [command["media"], command["library"]]
+        if getattr(media, "onDeck", None):
+            media = media.onDeck()
+        elif title or libtype:
+            search_result = pa.library.search(title=title or None, libtype=libtype or None, limit=1)[0]
+            if getattr(search_result, "onDeck", None):
+                media = search_result.onDeck()
+            else:
+                media = pa.library.sectionByID(search_result.librarySectionID).onDeck()
         else:
-            media = pa.library.onDeck()
-    if option["unwatched"]:
-        if not media and not lib:
-            media = list(filter(lambda x: not x.isWatched, pa.library.recentlyAdded()))
-        elif isinstance(media, list):
-            media = list(filter(lambda x: not x.isWatched, media))
+            media = pa.library.sectionByID(pa.tv_id).onDeck() + pa.library.sectionByID(pa.movie_id).onDeck()
+            media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=False)
+
+    if command["unwatched"]:
+        if isinstance(media, list) or (not media and not library):
+            media = media[:200] if isinstance(media, list) else pa.library.recentlyAdded()
+            media = [x for x in media if getattr(x, "viewCount", 0) == 0]
         elif getattr(media, "unwatched", None):
-            media = media.unwatched()
-    if option["latest"]:
-        if not option["unwatched"]:
-            if not media:
-                if not lib:
-                    tv_id = pa.media["shows"][0].librarySectionID
-                    movie_id = pa.media["movies"][0].librarySectionID
-                    media = (
-                        pa.library.sectionByID(tv_id).recentlyAdded() + pa.library.sectionByID(movie_id).recentlyAdded()
-                    )
-                    media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
-                else:
-                    media = pa.library.sectionByID(option["library"][0].librarySectionID).recentlyAdded()
-        else:
-            if getattr(media, "type", None) in ["show", "season"]:
-                media = media.episodes()[-1]
-            elif isinstance(media, list):
-                media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
+            media = media.unwatched()[:200]
+
+    if command["latest"] and not command["unwatched"]:
+        if library and not media:
+            media = pa.library.sectionByID(pa.section_id[library]).recentlyAdded()[:200]
+        elif not media:
+            media = pa.library.sectionByID(pa.tv_id).recentlyAdded()
+            media += pa.library.sectionByID(pa.mov_id).recentlyAdded()
+            media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
+            media = media[:200]
+    elif command["latest"]:
+        if getattr(media, "type", None) in ["show", "season"]:
+            media = media.episodes()[-1]
+        elif isinstance(media, list):
+            media = media[:200]
+            media.sort(key=lambda x: getattr(x, "addedAt", None), reverse=True)
+
+    if not command["random"] and media:
+        pos = getattr(media[0], "viewOffset", 0) if isinstance(media, list) else getattr(media, "viewOffset", 0)
+        offset = (pos / 1000) - 5 if pos > 15 else 0
+
     if getattr(media, "TYPE", None) == "show":
-        unwatched = media.unwatched()
-        return unwatched if unwatched and not option["random"] else media.episodes()
-    return media
+        unwatched = media.unwatched()[:30]
+        media = unwatched if unwatched and not command["random"] else media.episodes()[:30]
+    elif getattr(media, "TYPE", None) == "episode":
+        episodes = media.show().episodes()
+        episodes = episodes[episodes.index(media):episodes.index(media) + 30]
+        media = pa.server.createPlayQueue(episodes, shuffle=int(command["random"]))
+    elif getattr(media, "TYPE", None) in ["artist", "album"]:
+        tracks = media.tracks()
+        media = pa.server.createPlayQueue(tracks, shuffle=int(command["random"]))
+    elif getattr(media, "TYPE", None) == "track":
+        tracks = media.album().tracks()
+        tracks = tracks[tracks.index(media):]
+        media = pa.server.createPlayQueue(tracks, shuffle=int(command["random"]))
+
+    if getattr(media, "TYPE", None) != "playqueue" and media:
+        media = pa.server.createPlayQueue(media, shuffle=int(command["random"]))
+
+    return [media, 0 if media and media.items[0].listType == "audio" else offset]
 
 
 def roman_numeral_test(media, lib):
@@ -284,25 +290,24 @@ def roman_numeral_test(media, lib):
     return ["", 0]
 
 
-def find_media(selected, media, lib):
+def find_media(pa, command):
     result = ""
-    library = ""
-    if getattr(media, "type", None) in ["artist", "album", "track"]:
-        return [media, lib[f"{media.type}s"]]
-    elif selected["library"]:
-        library = selected["library"]
-        section = f"{library[0].type}_titles"
-        if media:
-            result = fuzzy(media, lib[section], fuzz.WRatio)
-            roman_test = roman_numeral_test(media, lib[section])
+    lib = ""
+    if getattr(command["media"], "type", None) in ["artist", "album", "track"]:
+        return [command["media"], command["media"].type]
+    if command["library"]:
+        lib_titles = pa.media[f"{command['library']}_titles"]
+        if command["media"]:
+            result = fuzzy(command["media"], lib_titles, fuzz.WRatio)
+            roman_test = roman_numeral_test(command["media"], lib_titles)
             result = result[0] if result[1] > roman_test[1] else roman_test[0]
-    elif media:
+    elif command["media"]:
         item = {}
         score = {}
-        for category in ["show", "movie", "artist", "album", "track"]:
-            lib_titles = lib[f"{category}_titles"]
-            standard = fuzzy(media, lib_titles, fuzz.WRatio) if lib_titles else ["", 0]
-            roman = roman_numeral_test(media, lib_titles) if lib_titles else ["", 0]
+        for category in ["show", "movie", "artist", "album", "track", "playlist"]:
+            lib_titles = pa.media[f"{category}_titles"]
+            standard = fuzzy(command["media"], lib_titles, fuzz.WRatio) if lib_titles else ["", 0]
+            roman = roman_numeral_test(command["media"], lib_titles) if lib_titles else ["", 0]
 
             winner = standard if standard[1] > roman[1] else roman
             item[category] = winner[0]
@@ -310,6 +315,6 @@ def find_media(selected, media, lib):
 
         winning_category = max(score, key=score.get)
         result = item[winning_category]
-        library = lib[f"{winning_category}s"]
+        lib = winning_category
 
-    return [result, library]
+    return [result, lib or command["library"]]

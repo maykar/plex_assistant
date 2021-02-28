@@ -11,14 +11,27 @@ class ProcessSpeech:
         self.device = default_cast
         self.tv_keys = localize["shows"] + localize["season"]["keywords"] + localize["episode"]["keywords"]
         self.music_keys = localize["music"] + localize["artists"] + localize["albums"] + localize["tracks"]
+        self.random = False
+        self.control = None
+        self.library = None
+        self.media = None
         self.process_command()
 
     @property
     def results(self):
-        results = {}
-        for x in ["media", "device", "season", "episode", "latest", "unwatched", "random", "ondeck", "control", "library"]:
-            results[x] = getattr(self, x, None)
-        return results
+        options = [
+            "media",
+            "device",
+            "season",
+            "episode",
+            "latest",
+            "unwatched",
+            "random",
+            "ondeck",
+            "control",
+            "library",
+        ]
+        return {option: getattr(self, option, None) for option in options}
 
     def process_command(self):
         controls = self.localize["controls"]
@@ -49,13 +62,13 @@ class ProcessSpeech:
 
         for item in ["season", "episode"]:
             if self.find_replace(item, False):
-                self.library = self.pa.media["shows"]
+                self.library = "show"
                 setattr(self, item, self.get_season_episode_num(self.localize[item]))
                 self.find_replace(item)
 
-        for item in ["artist", "album", "track", "playlist"]:
+        for item in ["artist", "album", "track"]:
             if self.find_replace(f"music_{item}"):
-                self.library = self.pa.media[f"{item}s"]
+                self.library = item
 
         self.get_media_and_device()
 
@@ -65,15 +78,14 @@ class ProcessSpeech:
             if device.lower() in cmd:
                 cmd = cmd.replace(device.lower(), "")
 
-        if any(word in cmd for word in self.tv_keys):
-            return self.pa.media["shows"]
+        for item in ["shows", "movies", "artists", "albums", "tracks", "playlists"]:
+            if any(word in cmd for word in self.localize[item]):
+                return item[:-1]
 
         if any(word in cmd for word in self.music_keys):
-            return self.pa.media["tracks"]
-
-        for item in ["movies", "artists", "albums", "tracks", "playlists"]:
-            if any(word in cmd for word in self.localize[item]):
-                return self.pa.media[item]
+            return "track"
+        if any(word in cmd for word in self.tv_keys):
+            return "episode"
 
     def is_device(self, media_list, separator):
         split = self.command.split(separator)
@@ -81,6 +93,12 @@ class ProcessSpeech:
         split_score = fuzzy(self.command.replace(split[-1], "")[0], media_list)[1]
         cast_score = fuzzy(split[-1], self.pa.device_names)[1]
         return full_score < split_score or full_score < cast_score
+
+    def clear_generic(self):
+        self.find_replace("movies")
+        self.find_replace("playlists")
+        for key in self.music_keys + self.tv_keys:
+            self.command = self.command.replace(key, "")
 
     def get_media_and_device(self):
         for separator in self.localize["separator"]["keywords"]:
@@ -94,7 +112,7 @@ class ProcessSpeech:
                 separator = f" {separator} "
                 if separator in self.command:
                     for item in ["show", "movie", "artist", "album", "track", "playlist", "all"]:
-                        if item == "all" or self.library == self.pa.media[f"{item}s"]:
+                        if item == "all" or self.library == item:
                             self.device = self.is_device(self.pa.media[f"{item}_titles"], separator)
 
                     if self.device:
@@ -102,48 +120,47 @@ class ProcessSpeech:
                         self.command = self.command.replace(separator + split[-1], "")
                         self.device = split[-1]
 
-                self.find_replace("shows")
-                self.find_replace("movies")
+                self.clear_generic()
 
-                for key in self.music_keys:
-                    if not self.command.replace(key, ""):
-                        self.command = self.command.replace(key, "")
+                if self.find_replace("music_separator", False) and getattr(self, "library", None) in [
+                    "artist",
+                    "album",
+                    "track",
+                    None,
+                ]:
+                    self.media = self.media_by_artist() or self.command
 
-                lib = None if not getattr(self, "library", None) else getattr(self, "library")[0]
-                if self.find_replace("music_separator", False) and getattr(lib, "type", None) in ["artist", "album", "track", None]:
-                    self.media = self.media_by_artist(lib) or self.command
-                else:
-                    self.media = self.command
+        if not getattr(self, "media", None):
+            self.clear_generic()
+            self.media = self.command
 
-    def media_by_artist(self, lib):
-        artist_media = None
+    def media_by_artist(self):
         for separator in self.localize["music_separator"]["keywords"]:
             if separator in self.command:
                 self.find_replace("music_separator", True, separator)
                 split = self.command.split(f" {separator} ")
                 artist = fuzzy(split[-1], self.pa.media["artist_titles"])
                 if artist[1] > 60:
-                    artist_albums = self.pa.server.search(artist[0], "album")
-                    artist_album_titles = [x.title for x in artist_albums]
-                    artist_tracks = self.pa.server.search(artist[0], "track")
-                    artist_track_tracks = [x.title for x in artist_tracks]
-                    if not lib:
-                        artist_media = fuzzy(split[0], artist_album_titles + artist_track_tracks)
-                        if artist_media[1] > 60:
-                            return next((x for x in artist_albums + artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
-                    elif lib.type == "album":
-                        artist_media = fuzzy(split[0], artist_album_titles)
-                        if artist_media[1] > 60:
-                            return next((x for x in artist_albums if artist_media[0] in getattr(x, "title", "")), None)
-                    elif lib.type == "track":
-                        artist_media = fuzzy(split[0], artist_track_tracks)
-                        if artist_media[1] > 60:
-                            return next((x for x in artist_tracks if artist_media[0] in getattr(x, "title", "")), None)
+                    albums = self.pa.server.search(artist[0], "album")
+                    album_titles = [x.title for x in albums]
+                    tracks = self.pa.server.search(artist[0], "track")
+                    track_titles = [x.title for x in tracks]
+                    if not self.library:
+                        artist_item = fuzzy(split[0], album_titles + track_titles)
+                        if artist_item[1] > 60:
+                            return next((x for x in albums + tracks if artist_item[0] in getattr(x, "title", "")), None)
+                    elif self.library == "album":
+                        artist_item = fuzzy(split[0], album_titles)
+                        if artist_item[1] > 60:
+                            return next((x for x in albums if artist_item[0] in getattr(x, "title", "")), None)
+                    elif self.library == "track":
+                        artist_item = fuzzy(split[0], track_titles)
+                        if artist_item[1] > 60:
+                            return next((x for x in tracks if artist_item[0] in getattr(x, "title", "")), None)
         return self.command
 
     def find_replace(self, item, replace=True, replacement=""):
         item = self.localize[item]
-
         if isinstance(item, str):
             item = {"keywords": [item]}
         elif isinstance(item, list):
@@ -155,7 +172,6 @@ class ProcessSpeech:
         if replace:
             if replacement:
                 replacement = f" {replacement} "
-
             for keyword in item["keywords"]:
                 self.command = f" {self.command} "
                 for pre in item.get("pre", []):
@@ -166,7 +182,6 @@ class ProcessSpeech:
                     self.command = self.command.replace(f" {keyword} ", replacement)
                 self.command = self.command.strip()
             self.command = " ".join(self.command.split())
-
         return True
 
     def convert_ordinals(self, item):

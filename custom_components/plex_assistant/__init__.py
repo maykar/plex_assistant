@@ -39,8 +39,10 @@ from .helpers import (
 async def async_setup(hass: HomeAssistant, config: Config):
     if DOMAIN in config:
         changes_url = "https://github.com/maykar/plex_assistant/blob/master/ver_one_update.md"
-        message = "Configuration is now handled in the UI, please read the %s for how to migrate " \
-                  "to the new version and more info.%s "
+        message = (
+            "Configuration is now handled in the UI, please read the %s for how to migrate "
+            "to the new version and more info.%s "
+        )
         service_data = {
             "title": "Plex Assistant Breaking Changes",
             "message": message % (f"[change log]({changes_url})", "."),
@@ -71,17 +73,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     def pa_executor(_server, start_script_keys):
         _pa = PlexAssistant(_server, start_script_keys)
         get_devices(hass, _pa)
+        _LOGGER.debug(f"Media titles: {len(_pa.media['all_titles'])}")
         return _pa
 
     pa = await hass.async_add_executor_job(pa_executor, server, list(start_script.keys()))
-
-    ifttt_listener = await listeners(hass)
-    hass.data[DOMAIN][entry.entry_id] = {"remove_listener": ifttt_listener}
 
     tts_dir = hass.config.path() + "/www/plex_assist_tts/"
     if tts_errors and not os.path.exists(tts_dir):
         os.makedirs(tts_dir, mode=0o777)
 
+    ifttt_listener = await listeners(hass)
+    hass.data[DOMAIN][entry.entry_id] = {"remove_listener": ifttt_listener}
     entry.add_update_listener(async_reload_entry)
 
     def handle_input(call):
@@ -108,7 +110,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             return
 
         if pa.media["updated"] < pa.library.search(sort="addedAt:desc", limit=1)[0].addedAt:
-            pa.update_libraries()
+            type(pa).media.fget.cache_clear()
+            _LOGGER.debug(f"Updated Library: {pa.media['updated']}")
 
         device = fuzzy(command["device"] or default_device, pa.device_names)
         device = run_start_script(hass, pa, command, start_script, device, default_device)
@@ -135,12 +138,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                 play_tts_error(hass, tts_dir, device["entity_id"], error, lang)
             return
 
-        _LOGGER.debug("Media: %s", str(media))
+        _LOGGER.debug("Media: %s", str(media.items))
 
         payload = '%s{"playqueue_id": %s, "type": "%s"}' % (
             "plex://" if device["device_type"] in ["cast", "sonos"] else "",
             media.playQueueID,
-            media.playQueueType
+            media.playQueueType,
         )
 
         media_service(hass, device["entity_id"], "play_media", payload)

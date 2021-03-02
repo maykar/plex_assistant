@@ -1,4 +1,5 @@
 from datetime import datetime
+from functools import lru_cache
 
 
 class PlexAssistant:
@@ -6,9 +7,7 @@ class PlexAssistant:
         self.server = server
         self.library = self.server.library
         self.devices = {}
-        self.media = {}
         self.start_script_keys = start_script_keys
-        self.update_libraries()
         self.tv_id = self.get_section_id("show")
         self.movie_id = self.get_section_id("movie")
         self.music_id = self.get_section_id("artist")
@@ -30,14 +29,16 @@ class PlexAssistant:
             "track": self.music_id,
         }
 
-    def update_libraries(self):
-        self.library.reload()
-        self.media["all_titles"] = []
+    @property
+    @lru_cache()
+    def media(self):
+        media_items = {"all_titles": []}
         for item in ["show", "movie", "artist", "album", "track"]:
-            self.media[f"{item}_titles"] = [x.title for x in self.library.search(libtype=item, sort="addedAt:desc")]
-            self.media["all_titles"] += self.media[f"{item}_titles"]
-        self.media["playlist_titles"] = [x.title for x in self.server.playlists()]
-        self.media["updated"] = datetime.now()
+            media_items[f"{item}_titles"] = [x.title for x in self.library.search(libtype=item, sort="addedAt:desc")]
+            media_items["all_titles"] += media_items[f"{item}_titles"]
+        media_items["playlist_titles"] = [x.title for x in self.server.playlists()]
+        media_items["updated"] = datetime.now()
+        return media_items
 
     def get_section_id(self, section):
         section = self.library.search(libtype=section, limit=1)

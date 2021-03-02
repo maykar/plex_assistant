@@ -14,7 +14,7 @@ def get_devices(_self):
         if "plex" in info or "cast" in info:
             try:
                 devices.append(_self.hass.states.get(entity.entity_id).attributes.get("friendly_name"))
-            except:
+            except AttributeError:
                 continue
         else:
             continue
@@ -24,7 +24,7 @@ def get_devices(_self):
 def get_servers(_self):
     try:
         return [x.title for x in _self.hass.config_entries.async_entries("plex")]
-    except:
+    except (KeyError, AttributeError):
         return []
 
 

@@ -1,13 +1,13 @@
 import re
 import time
 import uuid
-import json
 import pychromecast
 
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
+from rapidfuzz import fuzz, process
 from gtts import gTTS
+from json import JSONDecodeError, loads
 from homeassistant.components.plex.services import get_plex_server
+from homeassistant.exceptions import HomeAssistantError, ServiceNotFound
 from homeassistant.core import Context
 from pychromecast.controllers.plex import PlexController
 
@@ -16,38 +16,34 @@ from .const import DOMAIN, _LOGGER
 
 def fuzzy(media, lib, scorer=fuzz.QRatio):
     if isinstance(lib, list) and len(lib) > 0:
-        return process.extractOne(media, lib, scorer=scorer)
+        return process.extractOne(media, lib, scorer=scorer) or ["", 0]
     return ["", 0]
 
 
-def process_config_item(options, item_type):
-    item = options.get(item_type)
-    if item:
-        try:
-            item = json.loads("{" + item + "}")
-            for i in item.keys():
-                _LOGGER.debug(f"{item_type} {i}: {item[i]}")
-        except Exception:
-            item = {}
-        return item
-    return {}
+def process_config_item(options, option_type):
+    option = options.get(option_type)
+    if not option:
+        return {}
+    try:
+        option = loads("{" + option + "}")
+        for i in option.keys():
+            _LOGGER.debug(f"{option_type} {i}: {option[i]}")
+    except (TypeError, AttributeError, KeyError, JSONDecodeError):
+        _LOGGER.warning(f"There is a formatting error in the {option_type.replace('_', ' ')} config.")
+        option = {}
+    return option
 
 
 async def get_server(hass, config, server_name):
     try:
         await hass.helpers.discovery.async_discover(None, None, "plex", config)
         return get_plex_server(hass, server_name)._plex_server
-    except Exception as ex:
-        if ex.args[0] == "No Plex servers available":
-            server_name_str = ", the server_name is correct," if server_name else ""
-            _LOGGER.warning(
-                "Plex Assistant: Plex server not found. Ensure that you've setup the HA "
-                f"Plex integration{server_name_str} and the server is reachable. "
-            )
-        else:
-            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-            message = template.format(type(ex).__name__, ex.args)
-            _LOGGER.warning(message)
+    except HomeAssistantError as error:
+        server_name_str = ", the server_name is correct," if server_name else ""
+        _LOGGER.warning(
+            f"Plex Assistant: {error.args[0]}. Ensure that you've setup the HA "
+            f"Plex integration{server_name_str} and the server is reachable. "
+        )
 
 
 def get_devices(hass, pa):
@@ -58,7 +54,7 @@ def get_devices(hass, pa):
             continue
         try:
             name = hass.states.get(entity.entity_id).attributes.get("friendly_name")
-        except Exception:
+        except AttributeError:
             continue
         pa.devices[name] = {"entity_id": entity.entity_id, "device_type": dev_type}
 
@@ -81,7 +77,7 @@ async def listeners(hass):
     listener = hass.bus.async_listen("ifttt_webhook_received", ifttt_webhook_callback)
     try:
         await hass.services.async_call("conversation", "process", {"text": "tell plex to initialize_plex_intent"})
-    except Exception:
+    except ServiceNotFound:
         pass
     return listener
 
@@ -253,14 +249,14 @@ def filter_media(pa, command, media, library):
         media = unwatched if unwatched and not command["random"] else media.episodes()[:30]
     elif getattr(media, "TYPE", None) == "episode":
         episodes = media.show().episodes()
-        episodes = episodes[episodes.index(media):episodes.index(media) + 30]
+        episodes = episodes[episodes.index(media) : episodes.index(media) + 30]
         media = pa.server.createPlayQueue(episodes, shuffle=int(command["random"]))
     elif getattr(media, "TYPE", None) in ["artist", "album"]:
         tracks = media.tracks()
         media = pa.server.createPlayQueue(tracks, shuffle=int(command["random"]))
     elif getattr(media, "TYPE", None) == "track":
         tracks = media.album().tracks()
-        tracks = tracks[tracks.index(media):]
+        tracks = tracks[tracks.index(media) :]
         media = pa.server.createPlayQueue(tracks, shuffle=int(command["random"]))
 
     if getattr(media, "TYPE", None) != "playqueue" and media:

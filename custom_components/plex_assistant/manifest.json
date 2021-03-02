@@ -9,7 +9,7 @@
   "requirements": [
     "gTTs>=2.2.1",
     "pychromecast>=8.0.0",
-    "fuzzywuzzy==0.18.0",
+    "rapidfuzz==1.1.1",
     "plexapi>=4.3.0",
     "awesomeversion>=21.2.2"
   ]

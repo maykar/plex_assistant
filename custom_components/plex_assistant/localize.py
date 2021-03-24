@@ -744,6 +744,7 @@ translations = {
     "nl": {
         "play": [
             "speel",
+            "afspelen",
         ],
         "random": [
             "willekeurige",
@@ -754,16 +755,38 @@ translations = {
         ],
         "shows": [
             "aflevering",
+            "serie",
+            "show",
         ],
-        "tracks": [],
-        "albums": [],
-        "artists": [],
-        "music": [],
-        "playlists": [],
+        "tracks": [
+            "lied",
+            "liedjes",
+            "nummer",
+            "nummers",
+            "muziek",
+        ],
+        "albums": [
+            "album",
+            "albums",
+        ],
+        "artists": [
+            "artiest",
+            "artiesten",
+        ],
+        "music": [
+            "muziek",
+        ],
+        "playlists": [
+            "playlist",
+            "playlists",
+            "afspeellijst",
+            "afspeellijsten",
+        ],
 
         "controls": {
             "play": [
                 "speel",
+                "afspelen",
             ],
             "pause": [
                 "pauzeer",
@@ -776,26 +799,28 @@ translations = {
                 "volgend",
             ],
             "previous_track": [
-                "vorige",
+                "vorige"
             ],
             "jump_forward": [
                 "spring naar voren",
+                "doorspoelen",
             ],
             "jump_back": [
                 "spring naar achter",
+                "terugspoelen",
             ],
         },
 
         "not_found": "niet gevonden",
-        "cast_device": "cast toestel",
+        "cast_device": "cast apparaat",
         "no_call": "Er is geen opdracht ontvangen.",
 
         "play_start": [
             "speel de film",
             "speel film",
+            "speelfilm",
             "speel de aflevering",
-            "speel aflevering",
-            "play the show",
+            "speel aflevering",            
             "speel de",
             "speel",
         ],
@@ -860,6 +885,7 @@ translations = {
         "unwatched": {
             "keywords": [
                 "niet bekeken",
+                "onbekeken"
             ],
             "pre": [],
             "post": [
@@ -887,24 +913,51 @@ translations = {
             ],
         },
         "music_album": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "album",
+            ],
+            "pre": [
+                "het",
+            ],
+            "post": [
+            "ste",
+            "de",
+            ],
         },
         "music_artist": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "artiest",
+                "band",
+                "groep",
+                "popgroep",
+                "rockband"
+            ],
+            "pre": [
+                "van",
+                "de",
+            ],
+            "post": [
+                "te",
+            ],
         },
         "music_track": {
-            "keywords": [],
-            "pre": [],
-            "post": [],
+            "keywords": [
+                "nummer",
+            ],
+            "pre": [
+                "de",
+                "het",
+            ],
+            "post": [
+                "ste",
+                "de",
+            ],
         },
 
         "separator": {
             "keywords": [
                 "op",
+                "via",
             ],
             "pre": [],
             "post": [
@@ -912,9 +965,19 @@ translations = {
             ],
         },
         "music_separator": {
-            "keywords": [],
+            "keywords": [
+                "van",
+                "door",
+            ],
             "pre": [],
-            "post": [],
+            "post": [
+                "de band",
+                "de artiest",
+                "de groep",
+                "door de band",
+                "door de artiest",
+                "door de groep",
+            ],
         },
     },
     "it": {

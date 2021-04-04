@@ -17,6 +17,7 @@ Add the following to your configuration.yaml file, restart, ask plex assistant t
 
 ```yaml
 logger:
+  default: warning
   logs:
     custom_components.plex_assistant: debug
 ```

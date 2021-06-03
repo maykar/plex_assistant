@@ -1130,17 +1130,27 @@ translations = {
             ],
         },
         "music_album": {
-            "keywords": [],
+            "keywords": [
+                "album",
+                "registrazione",                
+            ],
             "pre": [],
             "post": [],
         },
         "music_artist": {
-            "keywords": [],
+            "keywords": [
+                "artisti",
+                "artista",
+                "gruppo",
+            ],
             "pre": [],
             "post": [],
         },
         "music_track": {
-            "keywords": [],
+            "keywords": [
+                "traccia",
+                "canzone",
+            ],
             "pre": [],
             "post": [],
         },
@@ -1155,9 +1165,17 @@ translations = {
             ],
         },
         "music_separator": {
-            "keywords": [],
+            "keywords": [
+                "di",
+            ],
             "pre": [],
-            "post": [],
+            "post": [
+                "il gruppo",
+                "gli artisti",
+                "l'artista",
+                "il gruppo",
+                "il",
+            ],
         },
     },
     "fr": {

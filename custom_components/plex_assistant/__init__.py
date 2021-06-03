@@ -140,10 +140,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
         _LOGGER.debug("Media: %s", str(media.items))
 
-        payload = '%s{"playqueue_id": %s, "type": "%s"}' % (
+        payload = '%s{"playqueue_id": %s, "type": "%s", "plex_server": "%s"}' % (
             "plex://" if device["device_type"] in ["cast", "sonos"] else "",
             media.playQueueID,
             media.playQueueType,
+            server._server.friendlyName,
         )
 
         media_service(hass, device["entity_id"], "play_media", payload)

@@ -147,7 +147,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 |<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/FR%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**French**|`"fr"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
 |<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/DE%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**German**|`"de"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
 |<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/HU%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Hungarian**|`"hu"`|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/IT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Italian**|`"it"`|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/IT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Italian**|`"it"`|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
 |<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/NO%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Norwegian**|`"nb"`|:x:|:heavy_check_mark:|:x:|
 |<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/PT%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Portuguese**|`"pt"`|:x:|:heavy_check_mark:|:heavy_check_mark:|
 |<img src='https://raw.githubusercontent.com/yammadev/flag-icons/master/png/ES%402x.png?raw=true' height='12'>&nbsp;&nbsp;&nbsp;**Spanish**|`"es"`|:heavy_check_mark:|:heavy_check_mark:|:x:|

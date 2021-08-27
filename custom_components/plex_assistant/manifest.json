@@ -3,7 +3,7 @@
   "name": "Plex Assistant",
   "version": "1.1.4",
   "documentation": "https://github.com/maykar/plex_assistant",
-  "dependencies": [],
+  "dependencies": ["media_player"],
   "config_flow": true,
   "codeowners": ["@maykar"],
   "requirements": [

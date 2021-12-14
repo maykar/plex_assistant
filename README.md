@@ -134,6 +134,12 @@ If you would like to add a response for the assistant to say after your command:
 * In "Responses" write the desired result under "Text Response"
 * Hit "Save" in the top right.
 
+Next you need to publish a test version:
+  
+* Click "Integrations"
+* Click "Not ready yet? Continue with the _integration_" in the top panel.
+* You should see a dialog shown. Click the 'Test' button.
+  
 You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "Hey Google, ask plex to..."
 
 </details>
